@@ -1,6 +1,6 @@
-# example-gifted-chat
+# example-easy-chat
 
-Lots of people using `react-native-gifted-chat` might want to know that...
+Lots of people using `react-native-easy-chat` might want to know that...
 
 1. There are so many render props could use, but what should I pass?
 2. How could I customize each component, but leaving its functionality.

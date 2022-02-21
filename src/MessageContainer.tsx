@@ -217,14 +217,11 @@ export default class MessageContainer<
 
   renderRow = ({ item, index }: ListRenderItemInfo<TMessage>) => {
     if (!item._id && item._id !== 0) {
-      warning('GiftedChat: `_id` is missing for message', JSON.stringify(item))
+      warning('EasyChat: `_id` is missing for message', JSON.stringify(item))
     }
     if (!item.user) {
       if (!item.system) {
-        warning(
-          'GiftedChat: `user` is missing for message',
-          JSON.stringify(item),
-        )
+        warning('EasyChat: `user` is missing for message', JSON.stringify(item))
       }
       item.user = { _id: 0 }
     }

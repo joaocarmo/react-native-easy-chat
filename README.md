@@ -1,92 +1,18 @@
-<p align="center" >
-<p align="center" >
-   <a href="https://reactnative.gallery/FaridSafi/gifted-chat">
-    <img alt="react-native-gifted-chat" src="https://thumbs.gfycat.com/AbsoluteSadDobermanpinscher-size_restricted.gif" width="260" height="510" />
- </a>
-
-</p>
-
 <h3 align="center">
-  💬 Gifted Chat
+  💬 Easy Chat
 </h3>
 <p align="center">
-  The most complete chat UI for React Native & Web
-</p>
-<p align="center">
-  <a href="https://www.npmjs.com/package/react-native-gifted-chat">
-  <img alt="npm downloads" src="https://img.shields.io/npm/dm/react-native-gifted-chat.svg"/></a>
-  <a href="https://www.npmjs.com/package/react-native-gifted-chat"><img alt="npm version" src="https://badge.fury.io/js/react-native-gifted-chat.svg"/></a>
-   <a href="https://reactnative.gallery/FaridSafi/gifted-chat"><img src="https://img.shields.io/badge/reactnative.gallery-%F0%9F%8E%AC-green.svg"/></a>
-
-</p>
-<p align="center">
-  <a href="https://circleci.com/gh/FaridSafi/react-native-gifted-chat"><img src="https://circleci.com/gh/FaridSafi/react-native-gifted-chat.svg?style=shield" alt="build"></a>
-  <a href="https://travis-ci.org/FaridSafi/react-native-gifted-chat"><img src="https://api.travis-ci.org/FaridSafi/react-native-gifted-chat.svg" alt="deployed"></a>
-  <a title='License' href="https://github.com/FaridSafi/react-native-gifted-chat/blob/master/LICENSE" height="18">
-    <img src='https://img.shields.io/badge/license-MIT-blue.svg' />
-  </a>
-  <a href="#hire-an-expert"><img src="https://img.shields.io/badge/%F0%9F%92%AA-hire%20an%20expert-brightgreen"/></a>
+  The easiest chat UI for React Native & Web
 </p>
 
-<p align="center">
-  <a href="https://reverent-bardeen-47c862.netlify.com/" target="_blank">Demo Web 🖥</a>
-</p>
-<p align="center">
-  <a href="https://snack.expo.io/@xcarpentier/giftedchat-playground" target="_blank">Snack GiftedChat playground</a>
-  <img height="18" src="https://snack.expo.io/favicon.ico" />
-</p>
+## About
 
-## Sponsor
-
-<p align="center">
-  <br/>
-  <a href="https://www.lereacteur.io" target="_blank">
-    <img src="https://raw.githubusercontent.com/FaridSafi/react-native-gifted-chat/master/media/logo_sponsor.png">
-  </a>
-  <br>
-  <p align="center">
-    Coding Bootcamp in Paris co-founded by Farid Safi
-  </p>
-  <a href="https://www.lereacteur.io" target="_blank">
-    <p align="center">
-      Click to learn more
-    </p>
-  </a>
-</p>
-
-<p align="center">
-  <br/>
-  <a href="https://getstream.io/chat/?utm_source=Github&utm_medium=Github_Repo_Content_Ad&utm_content=Developer&utm_campaign=Github_Jan2022_Chat&utm_term=react-native-gifted-chat" target="_blank">
-    <img src="https://i.imgur.com/oU7XYkk.png">
-  </a>
-  <br>
-  <p align="center">
-    Scalable <a href="https://getstream.io/chat/?utm_source=Github&utm_medium=Github_Repo_Content_Ad&utm_content=Developer&utm_campaign=Github_Jan2022_Chat&utm_term=react-native-gifted-chat" target="_blank">chat API/Server</a> written in Go
-  </p>
-  <p align="center">
-    <a href="https://getstream.io/chat/get_started/?utm_source=Github&utm_medium=Github_Repo_Content_Ad&utm_content=Developer&utm_campaign=Github_Jan2022_Chat&utm_term=react-native-gifted-chat" target="_blank">API Tour</a> | <a href="https://dev.to/nickparsons/react-native-chat-with-chuck-norris-3h7m?utm_source=Github&utm_medium=Github_Repo_Content_Ad&utm_content=Developer&utm_campaign=Github_Jan2022_Chat&utm_term=react-native-gifted-chat" target="_blank">React Native Gifted tutorial</a>
-  </p>
-</p>
-
-<p align="center">
-  <br/>
-  <a href="https://www.docdok.health/?utm_source=github&utm_medium=react-native-gifted-chat&utm_campaign=sponsorship" target="_blank">
-    <img src="https://www.dropbox.com/s/g4dcq267aqbykpz/logo.png?dl=0&raw=1">
-  </a>
-  <br>
-  <p align="center">Delivering Personalized Healthcare</p>
-  <p align="center">
-    <a href="https://www.docdok.health/?utm_source=github&utm_medium=react-native-gifted-chat&utm_campaign=sponsorship" target="_blank">      Find out more</a>
-  </p>
-</p>
-
-## The future of GiftedChat 🎉 
-Please give us your advice: [Related PR](https://github.com/FaridSafi/react-native-gifted-chat/pull/1775)
-
-## Please vote
-
-**GiftedChat** depends on other packages and some needs a boost, please vote for PRs will improve it, thanks:
-- https://github.com/watadarkstar/react-native-typing-animation/issues/18
+This is a chat UI for React Native & Web. It started as a fork of
+[react-native-gifted-chat][react-native-gifted-chat] and then diverged into
+something different. It's a simple chat UI that is easy to use and integrate.
+The original project was something I came to rely on for my own projects, but
+I decided to make it my own after the author and the maintainers stopped
+actively supporting it. Feel free to fork and contribute!
 
 ## Features
 
@@ -114,26 +40,30 @@ Please give us your advice: [Related PR](https://github.com/FaridSafi/react-nati
 
 ## Installation
 
-- Using [npm](https://www.npmjs.com/#getting-started): `npm install react-native-gifted-chat --save`
-- Using [Yarn](https://yarnpkg.com/): `yarn add react-native-gifted-chat`
+```sh
+yarn add react-native-easy-chat
 
-### react-native-video and expo-av
+# or
 
-- Both dependencies are removed since `0.11.0`.
-- You still be able to provide a `video` but you need to provide `renderMessageVideo` prop.
+npm install react-native-easy-chat
+```
 
-## You have a question?
+### Video
 
-1. Please check this readme and may find a response
-1. Please ask on StackOverflow first: https://stackoverflow.com/questions/tagged/react-native-gifted-chat
-1. Find response on existing issues
-1. Try to keep issues for issues
+You can provide a `video` if you provide a `renderMessageVideo` prop.
+
+## FAQ
+
+1. Please check this document first
+1. Try asking on StackOverflow: <https://stackoverflow.com/questions/tagged/react-native-easy-chat>
+1. Find a solution on existing issues
+1. Try to keep issues for issues, not questions
 
 ## Example
 
 ```jsx
 import React, { useState, useCallback, useEffect } from 'react'
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat as EasyChat } from 'react-native-easy-chat'
 
 export function Example() {
   const [messages, setMessages] = useState([]);
@@ -154,11 +84,11 @@ export function Example() {
   }, [])
 
   const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    setMessages(previousMessages => EasyChat.append(previousMessages, messages))
   }, [])
 
   return (
-    <GiftedChat
+    <EasyChat
       messages={messages}
       onSend={messages => onSend(messages)}
       user={{
@@ -171,7 +101,7 @@ export function Example() {
 
 ## Advanced example
 
-See [`App.tsx`](https://github.com/FaridSafi/react-native-gifted-chat/blob/master/App.tsx) for a working demo!
+See [`App.tsx`](https://github.com/joaocarmo/react-native-easy-chat/blob/master/App.tsx) for a working demo!
 
 ## "Slack" example
 
@@ -371,7 +301,7 @@ interface QuickReplies {
 - **`parsePatterns`** _(Function)_ - Custom parse patterns for [react-native-parsed-text](https://github.com/taskrabbit/react-native-parsed-text) used to linking message content (like URLs and phone numbers), e.g.:
 
 ```js
- <GiftedChat
+ <EasyChat
    parsePatterns={(linkStyle) => [
      { type: 'phone', style: linkStyle, onPress: this.onPressPhoneNumber },
      { pattern: /#(\w+)/, style: { ...linkStyle, styles.hashtag }, onPress: this.onPressHashtag },
@@ -408,7 +338,7 @@ This is great for using a tool like Redux, but there's one extra step you'll nee
 simply implement `onInputTextChanged` to receive typing events and reset events (e.g. to clear the text `onSend`):
 
 ```js
-<GiftedChat
+<EasyChat
   text={customText}
   onInputTextChanged={text => this.setCustomText(text)}
   /* ... */
@@ -433,9 +363,9 @@ If you are using Create React Native App / Expo, no Android specific installatio
 
   - Append [`KeyboardAvoidingView`](https://facebook.github.io/react-native/docs/keyboardavoidingview) after GiftedChat. This should only be done for Android, as `KeyboardAvoidingView` may conflict with the iOS keyboard avoidance already built into GiftedChat, e.g.:
 
-```
+```js
 <View style={{ flex: 1 }}>
-   <GiftedChat />
+   <EasyChat />
    {
       Platform.OS === 'android' && <KeyboardAvoidingView behavior="padding" />
    }
@@ -453,7 +383,7 @@ If you use React Navigation, additional handling may be required to account for 
 ### Native
 
 1. Install `yarn global add expo-cli`
-2. Install dependencies`yarn install`
+2. Install dependencies `yarn install`
 3. `expo start`
 
 ### react-native-web
@@ -461,7 +391,7 @@ If you use React Navigation, additional handling may be required to account for 
 #### With expo
 
 1. Install `yarn global add expo-cli`
-2. Install dependencies`yarn install`
+2. Install dependencies `yarn install`
 3. `expo start -w`
 
 [Upgrade snack version](https://snackager.expo.io/bundle/react-native-gifted-chat@0.15.0?bypassCache=true)
@@ -475,7 +405,7 @@ If you use React Navigation, additional handling may be required to account for 
 module.exports = function override(config, env) {
   config.module.rules.push({
     test: /\.js$/,
-    exclude: /node_modules[/\\](?!react-native-gifted-chat|react-native-lightbox|react-native-parsed-text)/,
+    exclude: /node_modules[/\\](?!react-native-easy-chat|react-native-lightbox|react-native-parsed-text)/,
     use: {
       loader: 'babel-loader',
       options: {
@@ -495,7 +425,6 @@ module.exports = function override(config, env) {
 ```
 
 > You will find an example and a **web demo** here: [xcarpentier/gifted-chat-web-demo](https://github.com/xcarpentier/gifted-chat-web-demo)
-
 > Another example with **Gatsby** : [xcarpentier/clean-archi-boilerplate](https://github.com/xcarpentier/clean-archi-boilerplate/tree/develop/apps/web)
 
 ## Questions
@@ -514,18 +443,5 @@ module.exports = function override(config, env) {
 
 - [MIT](LICENSE)
 
-## Author
-
-Feel free to ask me questions on Twitter [@FaridSafi](https://www.twitter.com/FaridSafi)! or [@xcapetir](https://www.twitter.com/xcapetir)!
-
-## Contributors
-
-- Kevin Cooper [cooperka](https://github.com/cooperka)
-- Kfir Golan [kfiroo](https://github.com/kfiroo)
-- Bruno Cascio [brunocascio](https://github.com/brunocascio)
-- Xavier Carpentier [xcarpentier](https://github.com/xcarpentier)
-- [more](https://github.com/FaridSafi/react-native-gifted-chat/graphs/contributors)
-
-## Hire an expert!
-
-Looking for a ReactNative freelance expert with more than 14 years of experience? Contact Xavier from his [website](https://xaviercarpentier.com)!
+<!-- References -->
+[react-native-gifted-chat]: https://github.com/FaridSafi/react-native-gifted-chat

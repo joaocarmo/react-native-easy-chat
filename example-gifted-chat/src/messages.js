@@ -28,7 +28,7 @@ const messages = [
   },
   {
     _id: 4,
-    text: 'This is a quick reply. Do you love Gifted Chat? (radio) KEEP IT',
+    text: 'This is a quick reply. Do you love Easy Chat? (radio) KEEP IT',
     createdAt: new Date(Date.UTC(2016, 5, 14, 17, 20, 0)),
     user: {
       _id: 2,
@@ -56,7 +56,7 @@ const messages = [
   },
   {
     _id: 5,
-    text: 'This is a quick reply. Do you love Gifted Chat? (checkbox)',
+    text: 'This is a quick reply. Do you love Easy Chat? (checkbox)',
     createdAt: new Date(Date.UTC(2016, 5, 15, 17, 20, 0)),
     user: {
       _id: 2,

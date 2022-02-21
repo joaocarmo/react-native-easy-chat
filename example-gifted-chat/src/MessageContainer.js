@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Avatar, Bubble, SystemMessage, Message, MessageText } from 'react-native-gifted-chat';
+import { Avatar, Bubble, SystemMessage, Message, MessageText } from 'react-native-easy-chat';
 
 export const renderAvatar = (props) => (
   <Avatar

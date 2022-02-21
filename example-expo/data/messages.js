@@ -74,7 +74,7 @@ export default [
   },
   {
     _id: 2,
-    text: 'Yes, and I use #GiftedChat!',
+    text: 'Yes, and I use #EasyChat!',
     createdAt: new Date(),
     user: {
       _id: 2,
@@ -94,7 +94,7 @@ export default [
   },
   {
     _id: 10,
-    text: 'This is a quick reply. Do you love Gifted Chat? (radio) KEEP IT',
+    text: 'This is a quick reply. Do you love Easy Chat? (radio) KEEP IT',
     createdAt: new Date(),
     quickReplies: {
       type: 'radio', // or 'checkbox',
@@ -122,7 +122,7 @@ export default [
   },
   {
     _id: 20,
-    text: 'This is a quick reply. Do you love Gifted Chat? (checkbox)',
+    text: 'This is a quick reply. Do you love Easy Chat? (checkbox)',
     createdAt: new Date(),
     quickReplies: {
       type: 'checkbox', // or 'checkbox',

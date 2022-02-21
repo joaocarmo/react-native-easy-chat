@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Image } from 'react-native';
-import { InputToolbar, Actions, Composer, Send } from 'react-native-gifted-chat';
+import { InputToolbar, Actions, Composer, Send } from 'react-native-easy-chat';
 
 export const renderInputToolbar = (props) => (
   <InputToolbar

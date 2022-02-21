@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { AppLoading, Asset, Linking } from 'expo'
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, Platform } from 'react-native'
-import { Bubble, GiftedChat, SystemMessage, IMessage, Send } from './src'
+import { Bubble, GiftedChat as EasyChat, SystemMessage, IMessage, Send } from './src'
 
 import AccessoryBar from './example-expo/AccessoryBar'
 import CustomActions from './example-expo/CustomActions'
@@ -69,7 +69,7 @@ export default class App extends Component {
       if (this._isMounted === true) {
         this.setState((previousState: any) => {
           return {
-            messages: GiftedChat.prepend(
+            messages: EasyChat.prepend(
               previousState.messages,
               earlierMessages() as IMessage[],
               Platform.OS !== 'web',
@@ -87,7 +87,7 @@ export default class App extends Component {
     this.setState((previousState: any) => {
       const sentMessages = [{ ...messages[0], sent: true, received: true }]
       return {
-        messages: GiftedChat.append(
+        messages: EasyChat.append(
           previousState.messages,
           sentMessages,
           Platform.OS !== 'web',
@@ -106,7 +106,7 @@ export default class App extends Component {
       .find(findStep(step))
     if (newMessage) {
       this.setState((previousState: any) => ({
-        messages: GiftedChat.append(
+        messages: EasyChat.append(
           previousState.messages,
           [newMessage],
           Platform.OS !== 'web',
@@ -120,7 +120,7 @@ export default class App extends Component {
       {
         pattern: /#(\w+)/,
         style: { textDecorationLine: 'underline', color: 'darkorange' },
-        onPress: () => Linking.openURL('http://gifted.chat'),
+        onPress: () => Linking.openURL('http://example.com'),
       },
     ]
   }
@@ -132,7 +132,7 @@ export default class App extends Component {
   onReceive = (text: string) => {
     this.setState((previousState: any) => {
       return {
-        messages: GiftedChat.append(
+        messages: EasyChat.append(
           previousState.messages as any,
           [
             {
@@ -237,7 +237,7 @@ export default class App extends Component {
         testID='main'
       >
         <NavBar />
-        <GiftedChat
+        <EasyChat
           messages={this.state.messages}
           onSend={this.onSend}
           loadEarlier={this.state.loadEarlier}

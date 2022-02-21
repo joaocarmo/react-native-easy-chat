@@ -42,7 +42,7 @@ export function isSameUser(
 
 const styleString = (color: string) => `color: ${color}; font-weight: bold`
 
-const headerLog = '%c[react-native-gifted-chat]'
+const headerLog = '%c[react-native-easy-chat]'
 
 export const warning = (...args: any) =>
   console.log(headerLog, styleString('orange'), ...args)

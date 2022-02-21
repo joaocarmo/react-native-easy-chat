@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "gifted-chat-example",
-    "description": "Gifted Chat Expo Example",
+    "name": "easy-chat-example",
+    "description": "Easy Chat Expo Example",
     "slug": "example-expo",
     "privacy": "public",
     "platforms": [

@@ -17,7 +17,7 @@ import {
   MessageImage,
   Time,
   utils,
-} from 'react-native-gifted-chat'
+} from 'react-native-easy-chat'
 
 const { isSameUser, isSameDay } = utils
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat as EasyChat } from 'react-native-easy-chat';
 import initialMessages from './messages';
 import { renderInputToolbar, renderActions, renderComposer, renderSend } from './InputToolbar';
 import {
@@ -20,11 +20,11 @@ const Chats = () => {
   }, []);
 
   const onSend = (newMessages = []) => {
-    setMessages((prevMessages) => GiftedChat.append(prevMessages, newMessages));
+    setMessages((prevMessages) => EasyChat.append(prevMessages, newMessages));
   };
 
   return (
-    <GiftedChat
+    <EasyChat
       messages={messages}
       text={text}
       onInputTextChanged={setText}
