@@ -1,20 +1,26 @@
-#### Issue Description
+### Expected Behavior
 
-[FILL THIS OUT]
+<!-- {Please write here} -->
 
-#### Steps to Reproduce / Code Snippets
+### Actual Behavior
 
-[FILL THIS OUT]
+<!-- {Please write here} -->
 
-#### Expected Results
+### Steps to Reproduce
 
-[FILL THIS OUT]
+<!-- {Please write here, including precondition(s)} -->
 
-#### Additional Information
+### Screenshot(s)
 
-- Nodejs version: [FILL THIS OUT]
+<!-- {Please add here, if relevant} -->
+
+### Your Environment
+
+<!-- {Add all relevant specs} -->
+
+- Node version: [FILL THIS OUT]
 - React version: [FILL THIS OUT]
 - React Native version: [FILL THIS OUT]
 - react-native-easy-chat version: [FILL THIS OUT]
-- Platform(s) (iOS, Android, or both?): [FILL THIS OUT]
+- Platform(s) (iOS, Android, Web): [FILL THIS OUT]
 - TypeScript version: [FILL THIS OUT]
