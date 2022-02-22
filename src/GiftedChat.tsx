@@ -721,7 +721,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     if (!Array.isArray(messages)) {
       messages = [messages]
     }
-    const newMessages: TMessage[] = messages.map(message => {
+    const newMessages: TMessage[] = messages.map((message) => {
       return {
         ...message,
         user: this.props.user!,

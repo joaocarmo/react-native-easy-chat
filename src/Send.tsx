@@ -93,12 +93,12 @@ export default class Send<
     if (alwaysShowSend || (text && text.trim().length > 0)) {
       return (
         <TouchableOpacity
-          testID='send'
+          testID="send"
           accessible
-          accessibilityLabel='send'
+          accessibilityLabel="send"
           style={[styles.container, containerStyle]}
           onPress={this.handleOnPress}
-          accessibilityTraits='button'
+          accessibilityTraits="button"
           disabled={disabled}
           {...sendButtonProps}
         >

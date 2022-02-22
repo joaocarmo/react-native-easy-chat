@@ -130,7 +130,7 @@ export default class Composer extends React.Component<ComposerProps> {
         autoFocus={this.props.textInputAutoFocus}
         value={this.props.text}
         enablesReturnKeyAutomatically
-        underlineColorAndroid='transparent'
+        underlineColorAndroid="transparent"
         keyboardAppearance={this.props.keyboardAppearance}
         {...this.props.textInputProps}
       />

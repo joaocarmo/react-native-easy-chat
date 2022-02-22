@@ -122,7 +122,7 @@ export default class MessageText<
     if (WWW_URL_PATTERN.test(url)) {
       this.onUrlPress(`http://${url}`)
     } else {
-      Linking.canOpenURL(url).then(supported => {
+      Linking.canOpenURL(url).then((supported) => {
         if (!supported) {
           console.error('No handler for URL:', url)
         } else {
