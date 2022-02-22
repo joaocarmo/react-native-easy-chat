@@ -25,46 +25,42 @@
   },
   "homepage": "https://github.com/joaocarmo/react-native-easy-chat#readme",
   "scripts": {
+    "build": "rm -rf lib/ && tsc && cp flow-typedefs/*.js.flow lib/",
     "config:dev": "json -I -f package.json -e 'this.main=\"node_modules/expo/AppEntry.js\"'",
     "config:npm": "json -I -f package.json -e 'this.main=\"lib/index.js\"'",
+    "lint:fix": "tslint ./src/**/*.{ts,tsx} --fix",
     "lint": "tslint --project .",
-    "lint:fix": "./node_modules/.bin/tslint ./src/**/*.{ts,tsx} --fix",
-    "tsc": "node_modules/.bin/tsc --noEmit",
-    "start": "yarn config:dev && expo start",
-    "start:web": "yarn config:dev && expo start -w --dev",
-    "build": "rm -rf lib/ && node_modules/.bin/tsc && cp flow-typedefs/*.js.flow lib/",
-    "test": "TZ=Europe/Paris jest --no-watchman",
-    "test:watch": "TZ=Europe/Paris jest --watch",
-    "test:coverage": "TZ=Europe/Paris jest --coverage",
-    "prepublishOnly": "yarn lint && yarn build && yarn test && yarn config:npm",
     "postpublish": "yarn config:dev",
-    "prettier": "./node_modules/.bin/prettier --write \"src/**/*.{ts,tsx}\""
+    "prepublishOnly": "yarn lint && yarn build && yarn test && yarn config:npm",
+    "pretty:fix": "prettier --write .",
+    "pretty": "prettier --check .",
+    "start:web": "yarn config:dev && expo start -w --dev",
+    "start": "yarn config:dev && expo start",
+    "test:coverage": "TZ=Europe/Paris jest --coverage",
+    "test:watch": "TZ=Europe/Paris jest --watch",
+    "test": "TZ=Europe/Paris jest --no-watchman",
+    "tsc": "tsc --noEmit"
   },
-  "jest": {
-    "preset": "react-native",
-    "setupFiles": [
-      "./tests/setup.js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json",
-      "ts",
-      "tsx"
-    ],
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
-    },
-    "testMatch": [
-      "**/*.test.ts?(x)"
-    ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/example-expo",
-      "<rootDir>/example-slack-message"
-    ],
-    "coveragePathIgnorePatterns": [
-      "./src/__tests__/"
-    ]
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint && yarn pretty && yarn tsc"
+    }
+  },
+  "peerDependencies": {
+    "dayjs": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "dependencies": {
+    "@expo/react-native-action-sheet": "^3.6.0",
+    "dayjs": "^1.8.26",
+    "prop-types": "^15.7.2",
+    "react-native-communications": "^2.2.1",
+    "react-native-iphone-x-helper": "^1.3.1",
+    "react-native-lightbox": "^0.8.1",
+    "react-native-parsed-text": "0.0.22",
+    "react-native-typing-animation": "^0.1.7",
+    "uuid": "3.4.0"
   },
   "devDependencies": {
     "@babel/core": "7.9.6",
@@ -99,26 +95,5 @@
     "tslint": "6.1.2",
     "tslint-config-prettier": "1.18.0",
     "typescript": "^3.8.3"
-  },
-  "dependencies": {
-    "@expo/react-native-action-sheet": "^3.6.0",
-    "dayjs": "^1.8.26",
-    "prop-types": "^15.7.2",
-    "react-native-communications": "^2.2.1",
-    "react-native-iphone-x-helper": "^1.3.1",
-    "react-native-lightbox": "^0.8.1",
-    "react-native-parsed-text": "0.0.22",
-    "react-native-typing-animation": "^0.1.7",
-    "uuid": "3.4.0"
-  },
-  "peerDependencies": {
-    "dayjs": "*",
-    "react": "*",
-    "react-native": "*"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint:fix && yarn prettier && yarn tsc"
-    }
   }
 }
