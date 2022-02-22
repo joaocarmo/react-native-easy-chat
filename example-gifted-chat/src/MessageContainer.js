@@ -1,7 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
-import { View, Text } from 'react-native';
-import { Avatar, Bubble, SystemMessage, Message, MessageText } from 'react-native-easy-chat';
+import React from 'react'
+import { View, Text } from 'react-native'
+import {
+  Avatar,
+  Bubble,
+  SystemMessage,
+  Message,
+  MessageText,
+} from 'react-native-easy-chat'
 
 export const renderAvatar = (props) => (
   <Avatar
@@ -9,7 +15,7 @@ export const renderAvatar = (props) => (
     containerStyle={{ left: { borderWidth: 3, borderColor: 'red' }, right: {} }}
     imageStyle={{ left: { borderWidth: 3, borderColor: 'blue' }, right: {} }}
   />
-);
+)
 
 export const renderBubble = (props) => (
   <Bubble
@@ -39,7 +45,7 @@ export const renderBubble = (props) => (
       right: {},
     }}
   />
-);
+)
 
 export const renderSystemMessage = (props) => (
   <SystemMessage
@@ -48,7 +54,7 @@ export const renderSystemMessage = (props) => (
     wrapperStyle={{ borderWidth: 10, borderColor: 'white' }}
     textStyle={{ color: 'crimson', fontWeight: '900' }}
   />
-);
+)
 
 export const renderMessage = (props) => (
   <Message
@@ -59,7 +65,7 @@ export const renderMessage = (props) => (
       right: { backgroundColor: 'gold' },
     }}
   />
-);
+)
 
 export const renderMessageText = (props) => (
   <MessageText
@@ -78,7 +84,7 @@ export const renderMessageText = (props) => (
     }}
     customTextStyle={{ fontSize: 24, lineHeight: 24 }}
   />
-);
+)
 
 export const renderCustomView = ({ user }) => (
   <View style={{ minHeight: 20, alignItems: 'center' }}>
@@ -88,4 +94,4 @@ export const renderCustomView = ({ user }) => (
     </Text>
     <Text>From CustomView</Text>
   </View>
-);
+)

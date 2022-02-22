@@ -12,12 +12,7 @@ import {
   Platform,
 } from 'react-native'
 
-import {
-  MessageText,
-  MessageImage,
-  Time,
-  utils,
-} from 'react-native-easy-chat'
+import { MessageText, MessageImage, Time, utils } from 'react-native-easy-chat'
 
 const { isSameUser, isSameDay } = utils
 
@@ -39,7 +34,7 @@ export default class Bubble extends React.Component {
             options,
             cancelButtonIndex,
           },
-          buttonIndex => {
+          (buttonIndex) => {
             switch (buttonIndex) {
               case 0:
                 Clipboard.setString(this.props.currentMessage.text)
@@ -197,7 +192,7 @@ export default class Bubble extends React.Component {
       <View style={[styles.container, this.props.containerStyle]}>
         <TouchableOpacity
           onLongPress={this.onLongPress}
-          accessibilityTraits='text'
+          accessibilityTraits="text"
           {...this.props.touchableProps}
         >
           <View style={[styles.wrapper, this.props.wrapperStyle]}>

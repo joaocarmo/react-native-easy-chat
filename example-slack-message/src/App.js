@@ -29,7 +29,7 @@ export default class App extends React.Component {
   }
 
   onSend(messages = []) {
-    this.setState(previousState => ({
+    this.setState((previousState) => ({
       messages: EasyChat.append(previousState.messages, messages),
     }))
   }
@@ -57,7 +57,7 @@ export default class App extends React.Component {
     return (
       <EasyChat
         messages={this.state.messages}
-        onSend={messages => this.onSend(messages)}
+        onSend={(messages) => this.onSend(messages)}
         user={{
           _id: 1,
         }}

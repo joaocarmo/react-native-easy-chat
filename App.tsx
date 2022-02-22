@@ -2,7 +2,13 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { AppLoading, Asset, Linking } from 'expo'
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, Platform } from 'react-native'
-import { Bubble, GiftedChat as EasyChat, SystemMessage, IMessage, Send } from './src'
+import {
+  Bubble,
+  GiftedChat as EasyChat,
+  SystemMessage,
+  IMessage,
+  Send,
+} from './src'
 
 import AccessoryBar from './example-expo/AccessoryBar'
 import CustomActions from './example-expo/CustomActions'
@@ -15,9 +21,9 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
 })
 
-const filterBotMessages = message =>
+const filterBotMessages = (message) =>
   !message.system && message.user && message.user._id && message.user._id === 2
-const findStep = step => message => message._id === step
+const findStep = (step) => (message) => message._id === step
 
 const user = {
   _id: 1,
@@ -150,7 +156,7 @@ export default class App extends Component {
 
   onSendFromUser = (messages: IMessage[] = []) => {
     const createdAt = new Date()
-    const messagesToUpload = messages.map(message => ({
+    const messagesToUpload = messages.map((message) => ({
       ...message,
       user,
       createdAt,
@@ -169,7 +175,7 @@ export default class App extends Component {
     <AccessoryBar onSend={this.onSendFromUser} isTyping={this.setIsTyping} />
   )
 
-  renderCustomActions = props =>
+  renderCustomActions = (props) =>
     Platform.OS === 'web' ? null : (
       <CustomActions {...props} onSend={this.onSendFromUser} />
     )
@@ -178,7 +184,7 @@ export default class App extends Component {
     return <Bubble {...props} />
   }
 
-  renderSystemMessage = props => {
+  renderSystemMessage = (props) => {
     return (
       <SystemMessage
         {...props}
@@ -192,7 +198,7 @@ export default class App extends Component {
     )
   }
 
-  onQuickReply = replies => {
+  onQuickReply = (replies) => {
     const createdAt = new Date()
     if (replies.length === 1) {
       this.onSend([
@@ -208,7 +214,7 @@ export default class App extends Component {
         {
           createdAt,
           _id: Math.round(Math.random() * 1000000),
-          text: replies.map(reply => reply.title).join(', '),
+          text: replies.map((reply) => reply.title).join(', '),
           user,
         },
       ])
@@ -233,8 +239,8 @@ export default class App extends Component {
       <View
         style={styles.container}
         accessible
-        accessibilityLabel='main'
-        testID='main'
+        accessibilityLabel="main"
+        testID="main"
       >
         <NavBar />
         <EasyChat
@@ -246,10 +252,10 @@ export default class App extends Component {
           parsePatterns={this.parsePatterns}
           user={user}
           scrollToBottom
-          onLongPressAvatar={user => alert(JSON.stringify(user))}
+          onLongPressAvatar={(user) => alert(JSON.stringify(user))}
           onPressAvatar={() => alert('short press')}
           onQuickReply={this.onQuickReply}
-          keyboardShouldPersistTaps='never'
+          keyboardShouldPersistTaps="never"
           renderAccessory={Platform.OS === 'web' ? null : this.renderAccessory}
           renderActions={this.renderCustomActions}
           renderBubble={this.renderBubble}

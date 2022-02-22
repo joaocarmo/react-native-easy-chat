@@ -28,7 +28,7 @@ export default class CustomActions extends React.Component {
         options,
         cancelButtonIndex,
       },
-      async buttonIndex => {
+      async (buttonIndex) => {
         const { onSend } = this.props
         switch (buttonIndex) {
           case 0:

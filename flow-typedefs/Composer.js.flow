@@ -14,7 +14,7 @@ export type ComposerProps = $ReadOnly<{|
   textInputAutoFocus?: boolean,
   keyboardAppearance?: $PropertyType<TextInputProps, 'keyboardAppearance'>,
   multiline?: boolean,
-  onTextChanged?: string => void,
+  onTextChanged?: (string) => void,
   onInputSizeChanged?: ({|
     width: number,
     height: number,

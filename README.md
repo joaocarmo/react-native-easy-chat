@@ -66,7 +66,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { GiftedChat as EasyChat } from 'react-native-easy-chat'
 
 export function Example() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([])
 
   useEffect(() => {
     setMessages([
@@ -84,13 +84,15 @@ export function Example() {
   }, [])
 
   const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages => EasyChat.append(previousMessages, messages))
+    setMessages((previousMessages) =>
+      EasyChat.append(previousMessages, messages),
+    )
   }, [])
 
   return (
     <EasyChat
       messages={messages}
-      onSend={messages => onSend(messages)}
+      onSend={(messages) => onSend(messages)}
       user={{
         _id: 1,
       }}
@@ -340,7 +342,7 @@ simply implement `onInputTextChanged` to receive typing events and reset events 
 ```js
 <EasyChat
   text={customText}
-  onInputTextChanged={text => this.setCustomText(text)}
+  onInputTextChanged={(text) => this.setCustomText(text)}
   /* ... */
 />
 ```
@@ -365,10 +367,8 @@ If you are using Create React Native App / Expo, no Android specific installatio
 
 ```js
 <View style={{ flex: 1 }}>
-   <EasyChat />
-   {
-      Platform.OS === 'android' && <KeyboardAvoidingView behavior="padding" />
-   }
+  <EasyChat />
+  {Platform.OS === 'android' && <KeyboardAvoidingView behavior="padding" />}
 </View>
 ```
 
@@ -444,4 +444,5 @@ module.exports = function override(config, env) {
 - [MIT](LICENSE)
 
 <!-- References -->
+
 [react-native-gifted-chat]: https://github.com/FaridSafi/react-native-gifted-chat

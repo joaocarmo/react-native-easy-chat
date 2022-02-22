@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { GiftedChat as EasyChat } from 'react-native-easy-chat';
-import initialMessages from './messages';
-import { renderInputToolbar, renderActions, renderComposer, renderSend } from './InputToolbar';
+import React, { useState, useEffect } from 'react'
+import { GiftedChat as EasyChat } from 'react-native-easy-chat'
+import initialMessages from './messages'
+import {
+  renderInputToolbar,
+  renderActions,
+  renderComposer,
+  renderSend,
+} from './InputToolbar'
 import {
   renderAvatar,
   renderBubble,
@@ -9,19 +14,19 @@ import {
   renderMessage,
   renderMessageText,
   renderCustomView,
-} from './MessageContainer';
+} from './MessageContainer'
 
 const Chats = () => {
-  const [text, setText] = useState('');
-  const [messages, setMessages] = useState([]);
+  const [text, setText] = useState('')
+  const [messages, setMessages] = useState([])
 
   useEffect(() => {
-    setMessages(initialMessages.reverse());
-  }, []);
+    setMessages(initialMessages.reverse())
+  }, [])
 
   const onSend = (newMessages = []) => {
-    setMessages((prevMessages) => EasyChat.append(prevMessages, newMessages));
-  };
+    setMessages((prevMessages) => EasyChat.append(prevMessages, newMessages))
+  }
 
   return (
     <EasyChat
@@ -63,7 +68,7 @@ const Chats = () => {
         },
       ]}
     />
-  );
-};
+  )
+}
 
-export default Chats;
+export default Chats

@@ -18,8 +18,8 @@ export type AvatarProps<TMessage: IMessage = IMessage> = $ReadOnly<{|
   renderAvatar?:
     | (($Diff<AvatarProps<TMessage>, {| renderAvatar: * |}>) => React.Node)
     | null,
-  onPressAvatar?: User => void,
-  onLongPressAvatar?: User => void,
+  onPressAvatar?: (User) => void,
+  onLongPressAvatar?: (User) => void,
 |}>
 
 export default class Avatar<
