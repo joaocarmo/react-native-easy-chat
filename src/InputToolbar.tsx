@@ -77,6 +77,7 @@ export default class InputToolbar extends React.Component<
   }
 
   keyboardWillShowListener?: EmitterSubscription = undefined
+
   keyboardWillHideListener?: EmitterSubscription = undefined
 
   componentDidMount() {
@@ -119,7 +120,8 @@ export default class InputToolbar extends React.Component<
     const { containerStyle, ...props } = this.props
     if (this.props.renderActions) {
       return this.props.renderActions(props)
-    } else if (this.props.onPressActionButton) {
+    }
+    if (this.props.onPressActionButton) {
       return <Actions {...props} />
     }
     return null

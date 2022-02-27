@@ -89,7 +89,7 @@ export default class Time<
       timeTextStyle,
     } = this.props
 
-    if (!!currentMessage) {
+    if (currentMessage) {
       return (
         <View
           style={[

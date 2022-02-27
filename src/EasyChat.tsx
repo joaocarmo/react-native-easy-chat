@@ -77,7 +77,7 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   initialText?: string
   /* Placeholder when text is empty; default is 'Type a message...' */
   placeholder?: string
-  /* Makes the composer not editable*/
+  /* Makes the composer not editable */
   disableComposer?: boolean
   /* User sending the messages: { _id, name, avatar } */
   user?: User
@@ -89,7 +89,7 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   dateFormat?: string
   /* Enables the "Load earlier messages" button */
   loadEarlier?: boolean
-  /*Display an ActivityIndicator when loading earlier messages*/
+  /* Display an ActivityIndicator when loading earlier messages */
   isLoadingEarlier?: boolean
   /* Whether to render an avatar for the current user; default is false, only show avatars for other users */
   showUserAvatar?: boolean
@@ -102,19 +102,19 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   inverted?: boolean
   /* Extra props to be passed to the <Image> component created by the default renderMessageImage */
   imageProps?: Message<TMessage>['props']
-  /*Extra props to be passed to the MessageImage's Lightbox */
+  /* Extra props to be passed to the MessageImage's Lightbox */
   lightboxProps?: any
-  /*Distance of the chat from the bottom of the screen (e.g. useful if you display a tab bar) */
+  /* Distance of the chat from the bottom of the screen (e.g. useful if you display a tab bar) */
   bottomOffset?: number
   /* Minimum height of the input toolbar; default is 44 */
   minInputToolbarHeight?: number
-  /*Extra props to be passed to the messages <ListView>; some props can't be overridden, see the code in MessageContainer.render() for details */
+  /* Extra props to be passed to the messages <ListView>; some props can't be overridden, see the code in MessageContainer.render() for details */
   listViewProps?: any
   /*  Extra props to be passed to the <TextInput> */
   textInputProps?: any
-  /*Determines whether the keyboard should stay visible after a tap; see <ScrollView> docs */
+  /* Determines whether the keyboard should stay visible after a tap; see <ScrollView> docs */
   keyboardShouldPersistTaps?: any
-  /*Max message composer TextInput length */
+  /* Max message composer TextInput length */
   maxInputLength?: number
   /* Force getting keyboard height to fix some display issues */
   forceGetKeyboardHeight?: boolean
@@ -151,7 +151,7 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   messageIdGenerator?(message?: TMessage): string
   /* Callback when sending a message */
   onSend?(messages: TMessage[]): void
-  /*Callback when loading earlier messages*/
+  /* Callback when loading earlier messages */
   onLoadEarlier?(): void
   /*  Render a loading view when initializing */
   renderLoading?(): React.ReactNode
@@ -161,12 +161,12 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   renderAvatar?(props: Avatar<TMessage>['props']): React.ReactNode | null
   /* Custom message bubble */
   renderBubble?(props: Bubble<TMessage>['props']): React.ReactNode
-  /*Custom system message */
+  /* Custom system message */
   renderSystemMessage?(props: SystemMessage<TMessage>['props']): React.ReactNode
   /* Callback when a message bubble is long-pressed; default is to show an ActionSheet with "Copy Text" (see example using showActionSheetWithOptions()) */
   onLongPress?(context: any, message: any): void
   /* Reverses display order of messages; default is true */
-  /*Custom message container */
+  /* Custom message container */
   renderMessage?(message: Message<TMessage>['props']): React.ReactNode
   /* Custom message text */
   renderMessageText?(
@@ -180,7 +180,7 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   renderMessageAudio?(props: MessageAudioProps<TMessage>): React.ReactNode
   /* Custom view inside the bubble */
   renderCustomView?(props: Bubble<TMessage>['props']): React.ReactNode
-  /*Custom day above a message*/
+  /* Custom day above a message */
   renderDay?(props: Day<TMessage>['props']): React.ReactNode
   /* Custom time inside a message */
   renderTime?(props: Time<TMessage>['props']): React.ReactNode
@@ -198,9 +198,9 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   renderActions?(props: Actions['props']): React.ReactNode
   /* Custom send button; you can pass children to the original Send component quite easily, for example to use a custom icon (example) */
   renderSend?(props: Send['props']): React.ReactNode
-  /*Custom second line of actions below the message composer */
+  /* Custom second line of actions below the message composer */
   renderAccessory?(props: InputToolbar['props']): React.ReactNode
-  /*Callback when the Action button is pressed (if set, the default actionSheet will not be used) */
+  /* Callback when the Action button is pressed (if set, the default actionSheet will not be used) */
   onPressActionButton?(): void
   /* Callback when the input text changes */
   onInputTextChanged?(text: string): void
@@ -395,16 +395,26 @@ class EasyChat<TMessage extends IMessage = IMessage> extends React.Component<
       : messages.concat(currentMessages)
   }
 
-  _isMounted: boolean = false
-  _keyboardHeight: number = 0
-  _bottomOffset: number = 0
+  _isMounted = false
+
+  _keyboardHeight = 0
+
+  _bottomOffset = 0
+
   _maxHeight?: number = undefined
-  _isFirstLayout: boolean = true
-  _locale: string = 'en'
+
+  _isFirstLayout = true
+
+  _locale = 'en'
+
   invertibleScrollViewProps: any = undefined
+
   _actionSheetRef: any = undefined
+
   _messageContainerRef?: RefObject<FlatList<IMessage>> = React.createRef()
-  _isTextInputWasFocused: boolean = false
+
+  _isTextInputWasFocused = false
+
   textInput?: any
 
   state = {

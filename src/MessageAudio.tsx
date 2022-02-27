@@ -1,6 +1,6 @@
 import React from 'react'
-import Color from './Color'
 import { View, Text } from 'react-native'
+import Color from './Color'
 
 export default (_props: any) => (
   <View style={{ padding: 20 }}>

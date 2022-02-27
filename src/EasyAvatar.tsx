@@ -72,6 +72,7 @@ export default class EasyAvatar extends React.Component<EasyAvatarProps> {
   }
 
   avatarName?: string = undefined
+
   avatarColor?: string = undefined
 
   setAvatarColor() {
@@ -110,14 +111,16 @@ export default class EasyAvatar extends React.Component<EasyAvatarProps> {
     if (user) {
       if (typeof user.avatar === 'function') {
         return user.avatar([styles.avatarStyle, this.props.avatarStyle])
-      } else if (typeof user.avatar === 'string') {
+      }
+      if (typeof user.avatar === 'string') {
         return (
           <Image
             source={{ uri: user.avatar }}
             style={[styles.avatarStyle, this.props.avatarStyle]}
           />
         )
-      } else if (typeof user.avatar === 'number') {
+      }
+      if (typeof user.avatar === 'number') {
         return (
           <Image
             source={user.avatar}

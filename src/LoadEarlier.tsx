@@ -101,6 +101,7 @@ export default class LoadEarlier extends React.Component<LoadEarlierProps> {
       </View>
     )
   }
+
   render() {
     return (
       <TouchableOpacity
