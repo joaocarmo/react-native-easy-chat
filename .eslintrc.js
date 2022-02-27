@@ -8,6 +8,7 @@ module.exports = {
     'airbnb',
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
+    '@react-native-community',
     'plugin:prettier/recommended',
   ],
   plugins: ['@typescript-eslint', 'jest'],
@@ -44,5 +45,15 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
   },
 }
