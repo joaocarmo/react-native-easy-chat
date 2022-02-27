@@ -36,7 +36,7 @@ import Message from './Message'
 import MessageContainer from './MessageContainer'
 import Send from './Send'
 import Time from './Time'
-import GiftedAvatar from './GiftedAvatar'
+import EasyAvatar from './EasyAvatar'
 
 import {
   MIN_COMPOSER_HEIGHT,
@@ -57,14 +57,14 @@ import QuickReplies from './QuickReplies'
 
 dayjs.extend(localizedFormat)
 
-export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
+export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   /* Messages to display */
   messages?: TMessage[]
   /* Typing Indicator state */
   isTyping?: boolean
   /* Messages container style */
   messagesContainerStyle?: StyleProp<ViewStyle>
-  /* Input text; default is undefined, but if specified, it will override GiftedChat's internal state */
+  /* Input text; default is undefined, but if specified, it will override EasyChat's internal state */
   text?: string
   /* Controls whether or not the message bubbles appear at the top of the chat */
   alignTop?: boolean
@@ -217,7 +217,7 @@ export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
   ): boolean
 }
 
-export interface GiftedChatState<TMessage extends IMessage = IMessage> {
+export interface EasyChatState<TMessage extends IMessage = IMessage> {
   isInitialized: boolean
   composerHeight?: number
   messagesContainerHeight?: number | Animated.Value
@@ -226,9 +226,9 @@ export interface GiftedChatState<TMessage extends IMessage = IMessage> {
   messages?: TMessage[]
 }
 
-class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
-  GiftedChatProps<TMessage>,
-  GiftedChatState
+class EasyChat<TMessage extends IMessage = IMessage> extends React.Component<
+  EasyChatProps<TMessage>,
+  EasyChatState
 > {
   static childContextTypes = {
     actionSheet: PropTypes.func,
@@ -416,7 +416,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     messages: undefined,
   }
 
-  constructor(props: GiftedChatProps<TMessage>) {
+  constructor(props: EasyChatProps<TMessage>) {
     super(props)
 
     this.invertibleScrollViewProps = {
@@ -449,7 +449,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     this.setIsMounted(false)
   }
 
-  componentDidUpdate(prevProps: GiftedChatProps<TMessage> = {}) {
+  componentDidUpdate(prevProps: EasyChatProps<TMessage> = {}) {
     const { messages, text, inverted } = this.props
 
     if (this.props !== prevProps) {
@@ -917,7 +917,7 @@ const styles = StyleSheet.create({
 export * from './Models'
 
 export {
-  GiftedChat,
+  EasyChat,
   Actions,
   Avatar,
   Bubble,
@@ -932,6 +932,6 @@ export {
   MessageContainer,
   Send,
   Time,
-  GiftedAvatar,
+  EasyAvatar,
   utils,
 }

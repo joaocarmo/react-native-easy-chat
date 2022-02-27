@@ -1,7 +1,7 @@
 import React from 'react'
 import { Platform } from 'react-native'
 import PropTypes from 'prop-types'
-import { GiftedChat as EasyChat } from 'react-native-easy-chat'
+import { EasyChat } from 'react-native-easy-chat'
 import emojiUtils from 'emoji-utils'
 
 import SlackMessage from './SlackMessage'

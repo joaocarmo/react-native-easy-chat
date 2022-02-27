@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { GiftedChat as EasyChat } from 'react-native-easy-chat'
+import { EasyChat } from 'react-native-easy-chat'
 import initialMessages from './messages'
 import {
   renderInputToolbar,

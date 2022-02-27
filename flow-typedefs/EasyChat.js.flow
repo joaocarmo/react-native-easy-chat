@@ -33,7 +33,7 @@ import type { TimeProps } from './Time'
 import QuickReplies from './QuickReplies'
 import type { QuickRepliesProps } from './QuickReplies'
 import MessageContainer from './MessageContainer.js.flow'
-import GiftedAvatar from './GiftedAvatar.js.flow'
+import EasyAvatar from './EasyAvatar.js.flow'
 import type { IMessage, User, Reply, LeftRightStyle } from './types'
 import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue'
 import type {
@@ -44,7 +44,7 @@ import type {
 import { FlatList } from 'react-native'
 import * as utils from './utils'
 
-export type GiftedChatProps<TMessage: IMessage = IMessage> = $ReadOnly<{|
+export type EasyChatProps<TMessage: IMessage = IMessage> = $ReadOnly<{|
   messages?: Array<TMessage>,
   text?: string,
   alignTop?: boolean,
@@ -124,7 +124,7 @@ export type GiftedChatProps<TMessage: IMessage = IMessage> = $ReadOnly<{|
   ) => boolean,
 |}>
 
-export type GiftedChatState<TMessage: IMessage = IMessage> = {|
+export type EasyChatState<TMessage: IMessage = IMessage> = {|
   isInitialized: boolean,
   composerHeight?: number,
   messagesContainerHeight?: number | AnimatedValue,
@@ -133,14 +133,14 @@ export type GiftedChatState<TMessage: IMessage = IMessage> = {|
   messages?: Array<TMessage>,
 |}
 
-class GiftedChat<TMessage: IMessage = IMessage> extends React.Component<
-  GiftedChatProps<TMessage>,
-  GiftedChatState<TMessage>,
+class EasyChat<TMessage: IMessage = IMessage> extends React.Component<
+  EasyChatProps<TMessage>,
+  EasyChatState<TMessage>,
 > {}
 
 export * from './types'
 export {
-  GiftedChat,
+  EasyChat,
   Actions,
   Avatar,
   Bubble,
@@ -157,6 +157,6 @@ export {
   MessageContainer,
   Send,
   Time,
-  GiftedAvatar,
+  EasyAvatar,
   utils,
 }

@@ -2,7 +2,7 @@ import 'react-native'
 import React from 'react'
 import createComponentWithContext from './context'
 
-import { Day } from '../GiftedChat'
+import { Day } from '../EasyChat'
 
 it('should render <Day /> and compare with snapshot', () => {
   const component = createComponentWithContext(<Day />)

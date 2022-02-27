@@ -12,7 +12,7 @@ export default function NavBarCustom() {
       <NavBar>
         <NavButton />
         <NavTitle>
-          💬 Gifted Chat{'\n'}
+          💬 Easy Chat{'\n'}
           <Text style={{ fontSize: 10, color: '#aaa' }}>
             ({Constants.expoVersion})
           </Text>

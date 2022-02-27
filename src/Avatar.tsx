@@ -7,7 +7,7 @@ import {
   TextStyle,
   ViewStyle,
 } from 'react-native'
-import GiftedAvatar from './GiftedAvatar'
+import EasyAvatar from './EasyAvatar'
 import { StylePropType, isSameUser, isSameDay } from './utils'
 import { Omit, IMessage, User, LeftRightStyle } from './Models'
 
@@ -102,7 +102,7 @@ export default class Avatar<
     }
     if (this.props.currentMessage) {
       return (
-        <GiftedAvatar
+        <EasyAvatar
           avatarStyle={
             [
               styles[this.props.position].image,
@@ -159,7 +159,7 @@ export default class Avatar<
             containerStyle && containerStyle[position],
           ]}
         >
-          <GiftedAvatar
+          <EasyAvatar
             avatarStyle={
               [
                 styles[position].image,

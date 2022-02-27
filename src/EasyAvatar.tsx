@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export interface GiftedAvatarProps {
+export interface EasyAvatarProps {
   user?: User
   avatarStyle?: StyleProp<ImageStyle>
   textStyle?: StyleProp<TextStyle>
@@ -51,7 +51,7 @@ export interface GiftedAvatarProps {
   onLongPress?(props: any): void
 }
 
-export default class GiftedAvatar extends React.Component<GiftedAvatarProps> {
+export default class EasyAvatar extends React.Component<EasyAvatarProps> {
   static defaultProps = {
     user: {
       name: null,

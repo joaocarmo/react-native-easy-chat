@@ -2,7 +2,7 @@ import 'react-native'
 import React from 'react'
 import createComponentWithContext from './context'
 
-import { Bubble } from '../GiftedChat'
+import { Bubble } from '../EasyChat'
 
 it('should render <Bubble /> and compare with snapshot', () => {
   const tree = createComponentWithContext(
