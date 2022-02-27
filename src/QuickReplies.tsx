@@ -116,7 +116,6 @@ export default class QuickReplies extends Component<
 
         default: {
           warning(`onQuickReply unknown type: ${type}`)
-          return
         }
       }
     }
@@ -138,7 +137,7 @@ export default class QuickReplies extends Component<
     const { currentMessage, nextMessage } = this.props
     const hasReplies = !!currentMessage && !!currentMessage!.quickReplies
     const hasNext = !!nextMessage && !!nextMessage!._id
-    const keepIt = currentMessage!.quickReplies!.keepIt
+    const { keepIt } = currentMessage!.quickReplies!
 
     if (hasReplies && !hasNext) {
       return true
@@ -196,7 +195,7 @@ export default class QuickReplies extends Component<
               >
                 <Text
                   numberOfLines={10}
-                  ellipsizeMode={'tail'}
+                  ellipsizeMode="tail"
                   style={[
                     styles.quickReplyText,
                     { color: selected ? Color.white : color },

@@ -86,7 +86,7 @@ const TypingIndicator = ({ isTyping }: Props) => {
           style={{ marginLeft: 6, marginTop: 7.2 }}
           dotRadius={4}
           dotMargin={5.5}
-          dotColor={'rgba(0, 0, 0, 0.38)'}
+          dotColor="rgba(0, 0, 0, 0.38)"
         />
       ) : null}
     </Animated.View>

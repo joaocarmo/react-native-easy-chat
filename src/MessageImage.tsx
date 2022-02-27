@@ -58,6 +58,7 @@ export default class MessageImage<
     imageProps: PropTypes.object,
     lightboxProps: PropTypes.object,
   }
+
   render() {
     const {
       containerStyle,
@@ -66,7 +67,7 @@ export default class MessageImage<
       imageStyle,
       currentMessage,
     } = this.props
-    if (!!currentMessage) {
+    if (currentMessage) {
       return (
         <View style={[styles.container, containerStyle]}>
           <Lightbox

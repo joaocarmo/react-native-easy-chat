@@ -2,7 +2,7 @@ import 'react-native'
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { GiftedChat } from '../GiftedChat'
+import { EasyChat } from '../EasyChat'
 
 const messages = [
   {
@@ -16,10 +16,10 @@ const messages = [
   },
 ]
 
-it('should render <GiftedChat/> and compare with snapshot', () => {
+it('should render <EasyChat/> and compare with snapshot', () => {
   const tree = renderer
     .create(
-      <GiftedChat
+      <EasyChat
         messages={messages}
         onSend={() => {}}
         user={{

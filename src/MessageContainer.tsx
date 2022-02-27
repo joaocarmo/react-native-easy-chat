@@ -180,7 +180,7 @@ export default class MessageContainer<
     }
   }
 
-  scrollToBottom = (animated: boolean = true) => {
+  scrollToBottom = (animated = true) => {
     const { inverted } = this.props
     if (inverted) {
       this.scrollTo({ offset: 0, animated })
@@ -204,15 +204,13 @@ export default class MessageContainer<
       } else {
         this.setState({ showScrollBottom: false, hasScrolled: true })
       }
+    } else if (
+      contentOffsetY < scrollToBottomOffset! &&
+      contentSizeHeight - layoutMeasurementHeight > scrollToBottomOffset!
+    ) {
+      this.setState({ showScrollBottom: true, hasScrolled: true })
     } else {
-      if (
-        contentOffsetY < scrollToBottomOffset! &&
-        contentSizeHeight - layoutMeasurementHeight > scrollToBottomOffset!
-      ) {
-        this.setState({ showScrollBottom: true, hasScrolled: true })
-      } else {
-        this.setState({ showScrollBottom: false, hasScrolled: true })
-      }
+      this.setState({ showScrollBottom: false, hasScrolled: true })
     }
   }
 

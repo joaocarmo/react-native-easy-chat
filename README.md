@@ -63,7 +63,7 @@ You can provide a `video` if you provide a `renderMessageVideo` prop.
 
 ```jsx
 import React, { useState, useCallback, useEffect } from 'react'
-import { GiftedChat as EasyChat } from 'react-native-easy-chat'
+import { EasyChat } from 'react-native-easy-chat'
 
 export function Example() {
   const [messages, setMessages] = useState([])

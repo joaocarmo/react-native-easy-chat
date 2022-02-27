@@ -2,7 +2,7 @@ import 'react-native'
 import React from 'react'
 import createComponentWithContext from './context'
 
-import { Message } from '../GiftedChat'
+import { Message } from '../EasyChat'
 
 describe('Message component', () => {
   it('should render <Message /> and compare with snapshot', () => {

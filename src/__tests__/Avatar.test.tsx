@@ -2,7 +2,7 @@ import 'react-native'
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { Avatar } from '../GiftedChat'
+import { Avatar } from '../EasyChat'
 
 it('should render <Avatar /> and compare with snapshot', () => {
   const tree = renderer

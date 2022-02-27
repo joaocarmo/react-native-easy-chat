@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export interface GiftedAvatarProps {
+export interface EasyAvatarProps {
   user?: User
   avatarStyle?: StyleProp<ImageStyle>
   textStyle?: StyleProp<TextStyle>
@@ -51,7 +51,7 @@ export interface GiftedAvatarProps {
   onLongPress?(props: any): void
 }
 
-export default class GiftedAvatar extends React.Component<GiftedAvatarProps> {
+export default class EasyAvatar extends React.Component<EasyAvatarProps> {
   static defaultProps = {
     user: {
       name: null,
@@ -72,6 +72,7 @@ export default class GiftedAvatar extends React.Component<GiftedAvatarProps> {
   }
 
   avatarName?: string = undefined
+
   avatarColor?: string = undefined
 
   setAvatarColor() {
@@ -110,14 +111,16 @@ export default class GiftedAvatar extends React.Component<GiftedAvatarProps> {
     if (user) {
       if (typeof user.avatar === 'function') {
         return user.avatar([styles.avatarStyle, this.props.avatarStyle])
-      } else if (typeof user.avatar === 'string') {
+      }
+      if (typeof user.avatar === 'string') {
         return (
           <Image
             source={{ uri: user.avatar }}
             style={[styles.avatarStyle, this.props.avatarStyle]}
           />
         )
-      } else if (typeof user.avatar === 'number') {
+      }
+      if (typeof user.avatar === 'number') {
         return (
           <Image
             source={user.avatar}

@@ -11,7 +11,7 @@ export {
 } from './Bubble'
 export { ComposerProps } from './Composer'
 export { DayProps } from './Day'
-export { GiftedAvatarProps } from './GiftedAvatar'
+export { EasyAvatarProps } from './EasyAvatar'
 export { InputToolbarProps } from './InputToolbar'
 export { LoadEarlierProps } from './LoadEarlier'
 export { MessageProps } from './Message'

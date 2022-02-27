@@ -2,13 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { AppLoading, Asset, Linking } from 'expo'
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, Platform } from 'react-native'
-import {
-  Bubble,
-  GiftedChat as EasyChat,
-  SystemMessage,
-  IMessage,
-  Send,
-} from './src'
+import { Bubble, EasyChat, SystemMessage, IMessage, Send } from './src'
 
 import AccessoryBar from './example-expo/AccessoryBar'
 import CustomActions from './example-expo/CustomActions'

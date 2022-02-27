@@ -2,7 +2,7 @@ import 'react-native'
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { Composer } from '../GiftedChat'
+import { Composer } from '../EasyChat'
 
 it('should render <Composer /> and compare with snapshot', () => {
   const tree = renderer.create(<Composer />).toJSON()
