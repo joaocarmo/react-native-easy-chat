@@ -8,7 +8,6 @@ module.exports = {
     'airbnb',
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
-    '@react-native-community',
     'plugin:prettier/recommended',
   ],
   plugins: ['@typescript-eslint', 'jest'],
