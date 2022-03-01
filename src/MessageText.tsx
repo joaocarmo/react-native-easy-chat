@@ -10,11 +10,10 @@ import {
   TextStyle,
 } from 'react-native'
 
-// @ts-ignore
 import ParsedText from 'react-native-parsed-text'
 import Communications from 'react-native-communications'
 import { LeftRightStyle, IMessage } from './Models'
-import { StylePropType } from './utils'
+import { error, StylePropType } from './utils'
 
 const WWW_URL_PATTERN = /^www\./i
 
@@ -124,7 +123,7 @@ export default class MessageText<
     } else {
       Linking.canOpenURL(url).then((supported) => {
         if (!supported) {
-          console.error('No handler for URL:', url)
+          error('No handler for URL:', url)
         } else {
           Linking.openURL(url)
         }

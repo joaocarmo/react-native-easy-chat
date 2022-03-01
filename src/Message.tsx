@@ -135,7 +135,6 @@ export default class Message<
     if (this.props.renderBubble) {
       return this.props.renderBubble(props)
     }
-    // @ts-ignore
     return <Bubble {...props} />
   }
 
