@@ -1,8 +1,8 @@
 import { useLayoutEffect, useRef } from 'react'
 
 /**
- * A custom useEffect hook that only triggers on updates, not on initial mount
- * Idea stolen from: https://stackoverflow.com/a/55075818/1526448
+ * A custom useEffect hook that only triggers on updates, not on initial mount.
+ * @link https://stackoverflow.com/a/55075818/1526448
  * @param {()=>void} effect the function to call
  * @param {Array<any>} dependencies the state(s) that fires the update
  */
@@ -18,5 +18,6 @@ export function useUpdateLayoutEffect(
     } else {
       effect()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, dependencies)
 }

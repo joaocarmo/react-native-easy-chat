@@ -44,8 +44,10 @@ const styleString = (color: string) => `color: ${color}; font-weight: bold`
 
 const headerLog = '%c[react-native-easy-chat]'
 
-export const warning = (...args: any) =>
+export const warning = (...args: any[]) =>
+  // eslint-disable-next-line no-console
   console.log(headerLog, styleString('orange'), ...args)
 
-export const error = (...args: any) =>
+export const error = (...args: any[]) =>
+  // eslint-disable-next-line no-console
   console.log(headerLog, styleString('red'), ...args)
