@@ -50,7 +50,7 @@ export default class Send<
 > extends Component<SendProps<TMessage>> {
   static defaultProps = {
     text: '',
-    onSend: () => {},
+    onSend: () => null,
     label: 'Send',
     containerStyle: {},
     textStyle: {},

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {
   StyleSheet,
   Text,
@@ -37,7 +37,7 @@ export interface SystemMessageProps<TMessage extends IMessage> {
 
 export default class SystemMessage<
   TMessage extends IMessage = IMessage,
-> extends Component<SystemMessageProps<TMessage>> {
+> extends PureComponent<SystemMessageProps<TMessage>> {
   static defaultProps = {
     currentMessage: {
       system: false,

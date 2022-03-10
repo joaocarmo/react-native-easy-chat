@@ -12,36 +12,6 @@ import { IMessage, Reply } from './Models'
 import Color from './Color'
 import { warning, StylePropType } from './utils'
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    maxWidth: 300,
-  },
-  quickReply: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    maxWidth: 200,
-    paddingVertical: 7,
-    paddingHorizontal: 12,
-    minHeight: 50,
-    borderRadius: 13,
-    margin: 3,
-  },
-  quickReplyText: {
-    overflow: 'visible',
-  },
-  sendLink: {
-    borderWidth: 0,
-  },
-  sendLinkText: {
-    color: Color.defaultBlue,
-    fontWeight: '600',
-    fontSize: 17,
-  },
-})
-
 export interface QuickRepliesProps {
   nextMessage?: IMessage
   currentMessage?: IMessage
@@ -67,13 +37,10 @@ export default class QuickReplies extends Component<
   QuickRepliesState
 > {
   static defaultProps = {
-    currentMessage: {
-      quickReplies: [],
-    },
-    onQuickReply: () => {},
+    nextMessage: undefined,
+    onQuickReply: () => null,
     color: Color.peterRiver,
     sendText: 'Send',
-    keepReplies: false,
     renderQuickReplySend: undefined,
     quickReplyStyle: undefined,
   }
@@ -83,20 +50,24 @@ export default class QuickReplies extends Component<
     onQuickReply: PropTypes.func,
     color: PropTypes.string,
     sendText: PropTypes.string,
-    keepReplies: PropTypes.bool,
     renderQuickReplySend: PropTypes.func,
     quickReplyStyle: StylePropType,
   }
 
-  state = {
-    replies: [],
+  constructor(props: QuickRepliesProps) {
+    super(props)
+    this.state = {
+      replies: [],
+    }
   }
 
   handlePress = (reply: Reply) => () => {
     const { currentMessage } = this.props
     const { replies } = this.state
-    if (currentMessage) {
-      const { type } = currentMessage.quickReplies!
+
+    if (currentMessage?.quickReplies) {
+      const { type } = currentMessage.quickReplies
+
       switch (type) {
         case 'radio': {
           this.handleSend([reply])()
@@ -106,10 +77,10 @@ export default class QuickReplies extends Component<
         case 'checkbox': {
           if (replies.find(sameReply(reply))) {
             this.setState({
-              replies: this.state.replies.filter(diffReply(reply)),
+              replies: replies.filter(diffReply(reply)),
             })
           } else {
-            this.setState({ replies: [...this.state.replies, reply] })
+            this.setState({ replies: [...replies, reply] })
           }
           return
         }
@@ -122,12 +93,13 @@ export default class QuickReplies extends Component<
   }
 
   handleSend = (replies: Reply[]) => () => {
-    const { currentMessage } = this.props
-    if (this.props.onQuickReply) {
-      this.props.onQuickReply(
+    const { currentMessage, onQuickReply } = this.props
+
+    if (currentMessage && onQuickReply) {
+      onQuickReply(
         replies.map((reply: Reply) => ({
           ...reply,
-          messageId: currentMessage!._id,
+          messageId: currentMessage._id,
         })),
       )
     }
@@ -135,16 +107,19 @@ export default class QuickReplies extends Component<
 
   shouldComponentDisplay = () => {
     const { currentMessage, nextMessage } = this.props
-    const hasReplies = !!currentMessage && !!currentMessage!.quickReplies
-    const hasNext = !!nextMessage && !!nextMessage!._id
-    const { keepIt } = currentMessage!.quickReplies!
+
+    const hasReplies = !!currentMessage?.quickReplies
+    const hasNext = !!nextMessage?._id
+    const { keepIt } = currentMessage?.quickReplies || {}
 
     if (hasReplies && !hasNext) {
       return true
     }
+
     if (hasReplies && hasNext && keepIt) {
       return true
     }
+
     return false
   }
 
@@ -174,14 +149,15 @@ export default class QuickReplies extends Component<
       return null
     }
 
-    const { type } = currentMessage!.quickReplies!
+    const { type } = currentMessage?.quickReplies || {}
 
     return (
       <View style={styles.container}>
-        {currentMessage!.quickReplies!.values.map(
+        {currentMessage?.quickReplies?.values.map(
           (reply: Reply, index: number) => {
             const selected =
               type === 'checkbox' && replies.find(sameReply(reply))
+
             return (
               <TouchableOpacity
                 onPress={this.handlePress(reply)}
@@ -191,6 +167,7 @@ export default class QuickReplies extends Component<
                   { borderColor: color },
                   selected && { backgroundColor: color },
                 ]}
+                // eslint-disable-next-line react/no-array-index-key
                 key={`${reply.value}-${index}`}
               >
                 <Text
@@ -212,3 +189,33 @@ export default class QuickReplies extends Component<
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    maxWidth: 300,
+  },
+  quickReply: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    maxWidth: 200,
+    paddingVertical: 7,
+    paddingHorizontal: 12,
+    minHeight: 50,
+    borderRadius: 13,
+    margin: 3,
+  },
+  quickReplyText: {
+    overflow: 'visible',
+  },
+  sendLink: {
+    borderWidth: 0,
+  },
+  sendLinkText: {
+    color: Color.defaultBlue,
+    fontWeight: '600',
+    fontSize: 17,
+  },
+})

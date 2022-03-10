@@ -40,6 +40,13 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    /* Temporary start */
+    'react/prefer-stateless-function': [
+      'error',
+      { ignorePureComponents: true },
+    ],
+    'react/static-property-placement': ['error', 'static public field'],
+    /* Temporary end */
     'react/forbid-prop-types': 'off',
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-no-literals': ['error', { noStrings: false, ignoreProps: true }],
