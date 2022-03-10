@@ -165,7 +165,7 @@ export interface BubbleProps<TMessage extends IMessage> {
 }
 
 export default class Bubble<
-  TMessage extends IMessage = IMessage
+  TMessage extends IMessage = IMessage,
 > extends React.Component<BubbleProps<TMessage>> {
   static contextTypes = {
     actionSheet: PropTypes.func,
@@ -284,12 +284,8 @@ export default class Bubble<
   }
 
   styledBubbleToNext() {
-    const {
-      currentMessage,
-      nextMessage,
-      position,
-      containerToNextStyle,
-    } = this.props
+    const { currentMessage, nextMessage, position, containerToNextStyle } =
+      this.props
     if (
       currentMessage &&
       nextMessage &&
@@ -440,12 +436,8 @@ export default class Bubble<
 
   renderTime() {
     if (this.props.currentMessage && this.props.currentMessage.createdAt) {
-      const {
-        containerStyle,
-        wrapperStyle,
-        textStyle,
-        ...timeProps
-      } = this.props
+      const { containerStyle, wrapperStyle, textStyle, ...timeProps } =
+        this.props
       if (this.props.renderTime) {
         return this.props.renderTime(timeProps)
       }
@@ -503,12 +495,8 @@ export default class Bubble<
   }
 
   render() {
-    const {
-      position,
-      containerStyle,
-      wrapperStyle,
-      bottomContainerStyle,
-    } = this.props
+    const { position, containerStyle, wrapperStyle, bottomContainerStyle } =
+      this.props
     return (
       <View
         style={[

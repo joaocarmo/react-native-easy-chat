@@ -66,7 +66,7 @@ export interface MessageTextProps<TMessage extends IMessage> {
 }
 
 export default class MessageText<
-  TMessage extends IMessage = IMessage
+  TMessage extends IMessage = IMessage,
 > extends React.Component<MessageTextProps<TMessage>> {
   static contextTypes = {
     actionSheet: PropTypes.func,

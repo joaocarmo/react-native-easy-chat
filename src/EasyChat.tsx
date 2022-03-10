@@ -649,7 +649,8 @@ class EasyChat<TMessage extends IMessage = IMessage> extends React.Component<
         e.endCoordinates ? e.endCoordinates.height : e.end.height,
       )
       this.setBottomOffset(this.safeAreaSupport(this.props.bottomOffset))
-      const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard()
+      const newMessagesContainerHeight =
+        this.getMessagesContainerHeightWithKeyboard()
       this.setState({
         messagesContainerHeight: newMessagesContainerHeight,
       })
@@ -763,9 +764,8 @@ class EasyChat<TMessage extends IMessage = IMessage> extends React.Component<
     }
     this.notifyInputTextReset()
     const newComposerHeight = this.props.minComposerHeight
-    const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard(
-      newComposerHeight,
-    )
+    const newMessagesContainerHeight =
+      this.getMessagesContainerHeightWithKeyboard(newComposerHeight)
     this.setState({
       text: this.getTextFromProp(''),
       composerHeight: newComposerHeight,
@@ -784,9 +784,8 @@ class EasyChat<TMessage extends IMessage = IMessage> extends React.Component<
       this.props.minComposerHeight!,
       Math.min(this.props.maxComposerHeight!, size.height),
     )
-    const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard(
-      newComposerHeight,
-    )
+    const newMessagesContainerHeight =
+      this.getMessagesContainerHeightWithKeyboard(newComposerHeight)
     this.setState({
       composerHeight: newComposerHeight,
       messagesContainerHeight: newMessagesContainerHeight,
@@ -820,9 +819,8 @@ class EasyChat<TMessage extends IMessage = IMessage> extends React.Component<
     this.notifyInputTextReset()
     this.setMaxHeight(layout.height)
     const newComposerHeight = this.props.minComposerHeight
-    const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard(
-      newComposerHeight,
-    )
+    const newMessagesContainerHeight =
+      this.getMessagesContainerHeightWithKeyboard(newComposerHeight)
     const initialText = this.props.initialText || ''
     this.setState({
       isInitialized: true,

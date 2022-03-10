@@ -38,7 +38,7 @@ export interface MessageImageProps<TMessage extends IMessage> {
 }
 
 export default class MessageImage<
-  TMessage extends IMessage = IMessage
+  TMessage extends IMessage = IMessage,
 > extends Component<MessageImageProps<TMessage>> {
   static defaultProps = {
     currentMessage: {

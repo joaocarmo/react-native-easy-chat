@@ -53,7 +53,7 @@ export interface MessageProps<TMessage extends IMessage> {
 }
 
 export default class Message<
-  TMessage extends IMessage = IMessage
+  TMessage extends IMessage = IMessage,
 > extends React.Component<MessageProps<TMessage>> {
   static defaultProps = {
     renderAvatar: undefined,

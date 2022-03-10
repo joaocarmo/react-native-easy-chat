@@ -45,7 +45,7 @@ export interface DayProps<TMessage extends IMessage> {
 }
 
 export default class Day<
-  TMessage extends IMessage = IMessage
+  TMessage extends IMessage = IMessage,
 > extends PureComponent<DayProps<TMessage>> {
   static contextTypes = {
     getLocale: PropTypes.func,

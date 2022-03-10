@@ -46,7 +46,7 @@ export interface SendProps<TMessage extends IMessage> {
 }
 
 export default class Send<
-  TMessage extends IMessage = IMessage
+  TMessage extends IMessage = IMessage,
 > extends Component<SendProps<TMessage>> {
   static defaultProps = {
     text: '',

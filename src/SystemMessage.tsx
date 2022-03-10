@@ -36,7 +36,7 @@ export interface SystemMessageProps<TMessage extends IMessage> {
 }
 
 export default class SystemMessage<
-  TMessage extends IMessage = IMessage
+  TMessage extends IMessage = IMessage,
 > extends Component<SystemMessageProps<TMessage>> {
   static defaultProps = {
     currentMessage: {
@@ -55,12 +55,8 @@ export default class SystemMessage<
   }
 
   render() {
-    const {
-      currentMessage,
-      containerStyle,
-      wrapperStyle,
-      textStyle,
-    } = this.props
+    const { currentMessage, containerStyle, wrapperStyle, textStyle } =
+      this.props
     if (currentMessage) {
       return (
         <View style={[styles.container, containerStyle]}>
