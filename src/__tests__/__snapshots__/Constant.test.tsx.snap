@@ -3,9 +3,16 @@
 exports[`should compare Constant with snapshot 1`] = `
 Object {
   "DATE_FORMAT": "ll",
+  "DEFAULT_OPTION_TITLES": Array [
+    "Call",
+    "Text",
+    "Cancel",
+  ],
   "DEFAULT_PLACEHOLDER": "Type a message...",
   "MAX_COMPOSER_HEIGHT": 200,
   "MIN_COMPOSER_HEIGHT": 33,
   "TIME_FORMAT": "LT",
+  "VIDEO_NOT_IMPLEMENTED_MESSAGE": "You need to provide your own implementation by using renderMessageVideo prop.",
+  "VIDEO_NOT_IMPLEMENTED_TITLE": "Video is not implemented by EasyChat.",
 }
 `;

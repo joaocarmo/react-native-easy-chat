@@ -1,4 +1,5 @@
-import { StyleProp, ViewStyle } from 'react-native'
+import type { ReactNode } from 'react'
+import type { StyleProp, ViewStyle } from 'react-native'
 
 export { ActionsProps } from './Actions'
 export { AvatarProps } from './Avatar'
@@ -29,7 +30,7 @@ export interface LeftRightStyle<T> {
   left?: StyleProp<T>
   right?: StyleProp<T>
 }
-type renderFunction = (x: any) => JSX.Element
+type renderFunction = (args: unknown) => ReactNode
 export interface User {
   _id: string | number
   name?: string
@@ -39,7 +40,7 @@ export interface User {
 export interface Reply {
   title: string
   value: string
-  messageId?: any
+  messageId?: string | number
 }
 
 export interface QuickReplies {

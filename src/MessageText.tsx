@@ -12,12 +12,14 @@ import {
 
 import ParsedText from 'react-native-parsed-text'
 import Communications from 'react-native-communications'
+import type { ParseShape } from 'react-native-parsed-text'
 import { LeftRightStyle, IMessage } from './Models'
 import { error, StylePropType } from './utils'
+import { DEFAULT_OPTION_TITLES } from './Constant'
 
 const WWW_URL_PATTERN = /^www\./i
 
-const textStyle = {
+const textDefaultStyle = {
   fontSize: 16,
   lineHeight: 20,
   marginTop: 5,
@@ -31,7 +33,7 @@ const styles = {
     container: {},
     text: {
       color: 'black',
-      ...textStyle,
+      ...textDefaultStyle,
     },
     link: {
       color: 'black',
@@ -42,7 +44,7 @@ const styles = {
     container: {},
     text: {
       color: 'white',
-      ...textStyle,
+      ...textDefaultStyle,
     },
     link: {
       color: 'white',
@@ -50,8 +52,6 @@ const styles = {
     },
   }),
 }
-
-const DEFAULT_OPTION_TITLES = ['Call', 'Text', 'Cancel']
 
 export interface MessageTextProps<TMessage extends IMessage> {
   position: 'left' | 'right'
@@ -62,12 +62,15 @@ export interface MessageTextProps<TMessage extends IMessage> {
   linkStyle?: LeftRightStyle<TextStyle>
   textProps?: TextProps
   customTextStyle?: StyleProp<TextStyle>
-  parsePatterns?(linkStyle: TextStyle): any
+  parsePatterns?(linkStyle: TextStyle): ParseShape[]
 }
 
-export default class MessageText<
-  TMessage extends IMessage = IMessage,
-> extends React.Component<MessageTextProps<TMessage>> {
+const onEmailPress = (email: string) =>
+  Communications.email([email], null, null, null, null)
+
+class MessageText<TMessage extends IMessage = IMessage> extends React.Component<
+  MessageTextProps<TMessage>
+> {
   static contextTypes = {
     actionSheet: PropTypes.func,
   }
@@ -108,10 +111,12 @@ export default class MessageText<
   }
 
   shouldComponentUpdate(nextProps: MessageTextProps<TMessage>) {
+    const { currentMessage } = this.props
+
     return (
-      !!this.props.currentMessage &&
+      !!currentMessage &&
       !!nextProps.currentMessage &&
-      this.props.currentMessage.text !== nextProps.currentMessage.text
+      currentMessage.text !== nextProps.currentMessage.text
     )
   }
 
@@ -132,13 +137,16 @@ export default class MessageText<
   }
 
   onPhonePress = (phone: string) => {
+    const { actionSheet } = this.context
     const { optionTitles } = this.props
+
     const options =
       optionTitles && optionTitles.length > 0
         ? optionTitles.slice(0, 3)
         : DEFAULT_OPTION_TITLES
     const cancelButtonIndex = options.length - 1
-    this.context.actionSheet().showActionSheetWithOptions(
+
+    actionSheet().showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex,
@@ -158,39 +166,60 @@ export default class MessageText<
     )
   }
 
-  onEmailPress = (email: string) =>
-    Communications.email([email], null, null, null, null)
-
   render() {
-    const linkStyle = [
-      styles[this.props.position].link,
-      this.props.linkStyle && this.props.linkStyle[this.props.position],
-    ]
+    const {
+      containerStyle,
+      currentMessage,
+      customTextStyle,
+      linkStyle,
+      parsePatterns,
+      position,
+      textProps,
+      textStyle,
+    } = this.props
+
+    const enhancedlinkStyle = [
+      styles[position].link,
+      linkStyle && linkStyle[position],
+    ] as TextStyle
+
+    const parsedPatterns =
+      typeof parsePatterns === 'function'
+        ? parsePatterns(enhancedlinkStyle)
+        : []
+
+    const message = currentMessage?.text || ''
+
     return (
       <View
         style={[
-          styles[this.props.position].container,
-          this.props.containerStyle &&
-            this.props.containerStyle[this.props.position],
+          styles[position].container,
+          containerStyle && containerStyle[position],
         ]}
       >
         <ParsedText
           style={[
-            styles[this.props.position].text,
-            this.props.textStyle && this.props.textStyle[this.props.position],
-            this.props.customTextStyle,
+            styles[position].text,
+            textStyle && textStyle[position],
+            customTextStyle,
           ]}
           parse={[
-            ...this.props.parsePatterns!(linkStyle as TextStyle),
-            { type: 'url', style: linkStyle, onPress: this.onUrlPress },
-            { type: 'phone', style: linkStyle, onPress: this.onPhonePress },
-            { type: 'email', style: linkStyle, onPress: this.onEmailPress },
+            ...parsedPatterns,
+            { type: 'url', style: enhancedlinkStyle, onPress: this.onUrlPress },
+            {
+              type: 'phone',
+              style: enhancedlinkStyle,
+              onPress: this.onPhonePress,
+            },
+            { type: 'email', style: enhancedlinkStyle, onPress: onEmailPress },
           ]}
-          childrenProps={{ ...this.props.textProps }}
+          childrenProps={{ ...textProps }}
         >
-          {this.props.currentMessage!.text}
+          {message}
         </ParsedText>
       </View>
     )
   }
 }
+
+export default MessageText
