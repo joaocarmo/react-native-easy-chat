@@ -52,9 +52,9 @@ export interface MessageProps<TMessage extends IMessage> {
   onMessageLayout?(event: LayoutChangeEvent): void
 }
 
-export default class Message<
-  TMessage extends IMessage = IMessage,
-> extends React.Component<MessageProps<TMessage>> {
+class Message<TMessage extends IMessage = IMessage> extends React.Component<
+  MessageProps<TMessage>
+> {
   static defaultProps = {
     renderAvatar: undefined,
     renderBubble: null,
@@ -93,26 +93,27 @@ export default class Message<
   }
 
   shouldComponentUpdate(nextProps: MessageProps<TMessage>) {
-    const next = nextProps.currentMessage!
-    const current = this.props.currentMessage!
+    const { currentMessage: current, shouldUpdateMessage } = this.props
+    const { currentMessage: next } = nextProps
+
     const { previousMessage, nextMessage } = this.props
     const nextPropsMessage = nextProps.nextMessage
     const nextPropsPreviousMessage = nextProps.previousMessage
 
     const shouldUpdate =
-      (this.props.shouldUpdateMessage &&
-        this.props.shouldUpdateMessage(this.props, nextProps)) ||
+      (typeof shouldUpdateMessage === 'function' &&
+        shouldUpdateMessage(this.props, nextProps)) ||
       false
 
     return (
-      next.sent !== current.sent ||
-      next.received !== current.received ||
-      next.pending !== current.pending ||
-      next.createdAt !== current.createdAt ||
-      next.text !== current.text ||
-      next.image !== current.image ||
-      next.video !== current.video ||
-      next.audio !== current.audio ||
+      next?.sent !== current?.sent ||
+      next?.received !== current?.received ||
+      next?.pending !== current?.pending ||
+      next?.createdAt !== current?.createdAt ||
+      next?.text !== current?.text ||
+      next?.image !== current?.image ||
+      next?.video !== current?.video ||
+      next?.audio !== current?.audio ||
       previousMessage !== nextPropsPreviousMessage ||
       nextMessage !== nextPropsMessage ||
       shouldUpdate
@@ -120,31 +121,43 @@ export default class Message<
   }
 
   renderDay() {
-    if (this.props.currentMessage && this.props.currentMessage.createdAt) {
+    const { currentMessage, renderDay } = this.props
+
+    if (currentMessage?.createdAt) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { containerStyle, onMessageLayout, ...props } = this.props
-      if (this.props.renderDay) {
-        return this.props.renderDay(props)
+
+      if (typeof renderDay === 'function') {
+        return renderDay(props)
       }
+
       return <Day {...props} />
     }
+
     return null
   }
 
   renderBubble() {
-    const { containerStyle, onMessageLayout, ...props } = this.props
-    if (this.props.renderBubble) {
-      return this.props.renderBubble(props)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { containerStyle, onMessageLayout, renderBubble, ...props } =
+      this.props
+
+    if (typeof renderBubble === 'function') {
+      return renderBubble(props)
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return <Bubble {...props} />
   }
 
   renderSystemMessage() {
-    const { containerStyle, onMessageLayout, ...props } = this.props
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { containerStyle, onMessageLayout, renderSystemMessage, ...props } =
+      this.props
 
-    if (this.props.renderSystemMessage) {
-      return this.props.renderSystemMessage(props)
+    if (typeof renderSystemMessage === 'function') {
+      return renderSystemMessage(props)
     }
     return <SystemMessage {...props} />
   }
@@ -171,20 +184,27 @@ export default class Message<
       return null
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { containerStyle, onMessageLayout, ...props } = this.props
+
     return <Avatar {...props} />
   }
 
   render() {
     const {
-      currentMessage,
-      onMessageLayout,
-      nextMessage,
-      position,
       containerStyle,
+      currentMessage,
+      inverted,
+      nextMessage,
+      onMessageLayout,
+      position,
     } = this.props
+
     if (currentMessage) {
-      const sameUser = isSameUser(currentMessage, nextMessage!)
+      const sameUser = isSameUser(currentMessage, nextMessage)
+      const sameUserStyle = { marginBottom: sameUser ? 2 : 10 }
+      const invertedStyle = !inverted && { marginBottom: 2 }
+
       return (
         <View onLayout={onMessageLayout}>
           {this.renderDay()}
@@ -194,14 +214,14 @@ export default class Message<
             <View
               style={[
                 styles[position].container,
-                { marginBottom: sameUser ? 2 : 10 },
-                !this.props.inverted && { marginBottom: 2 },
+                sameUserStyle,
+                invertedStyle,
                 containerStyle && containerStyle[position],
               ]}
             >
-              {this.props.position === 'left' ? this.renderAvatar() : null}
+              {position === 'left' ? this.renderAvatar() : null}
               {this.renderBubble()}
-              {this.props.position === 'right' ? this.renderAvatar() : null}
+              {position === 'right' ? this.renderAvatar() : null}
             </View>
           )}
         </View>
@@ -210,3 +230,5 @@ export default class Message<
     return null
   }
 }
+
+export default Message
