@@ -12,6 +12,11 @@ export const TIME_FORMAT = 'LT'
 
 export const DEFAULT_OPTION_TITLES = ['Call', 'Text', 'Cancel']
 
+export const AUDIO_NOT_IMPLEMENTED_MESSAGE =
+  'Audio is not implemented by EasyChat.'
+export const AUDIO_NOT_IMPLEMENTED_TITLE =
+  'You need to provide your own implementation by using renderMessageAudio prop.'
+
 export const VIDEO_NOT_IMPLEMENTED_TITLE =
   'Video is not implemented by EasyChat.'
 export const VIDEO_NOT_IMPLEMENTED_MESSAGE =

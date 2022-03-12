@@ -1,15 +1,27 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import type { FC } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 import Color from './Color'
+import {
+  AUDIO_NOT_IMPLEMENTED_MESSAGE,
+  AUDIO_NOT_IMPLEMENTED_TITLE,
+} from './Constant'
 
-export default (_props: any) => (
-  <View style={{ padding: 20 }}>
-    <Text style={{ color: Color.alizarin, fontWeight: '600' }}>
-      Audio is not implemented by EasyChat.
-    </Text>
-    <Text style={{ color: Color.alizarin, fontWeight: '600' }}>
-      You need to provide your own implementation by using renderMessageAudio
-      prop.
-    </Text>
+const MessageAudio: FC = () => (
+  <View style={styles.viewStyle}>
+    <Text style={styles.textStyle}>{AUDIO_NOT_IMPLEMENTED_MESSAGE}</Text>
+    <Text style={styles.textStyle}>{AUDIO_NOT_IMPLEMENTED_TITLE}</Text>
   </View>
 )
+
+const styles = StyleSheet.create({
+  viewStyle: {
+    padding: 20,
+  },
+  textStyle: {
+    color: Color.alizarin,
+    fontWeight: '600',
+  },
+})
+
+export default MessageAudio

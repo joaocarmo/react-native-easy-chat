@@ -1,5 +1,6 @@
+import React from 'react'
+import type { RefObject } from 'react'
 import PropTypes from 'prop-types'
-import React, { RefObject } from 'react'
 
 import {
   FlatList,
@@ -94,7 +95,12 @@ interface State {
   hasScrolled: boolean
 }
 
-export default class MessageContainer<
+const DEFAULT_SCROLL_TO_BOTTOM_OFFSET = 200
+const SCROLL_DOWN_INDICADOR = 'V'
+
+const keyExtractor = (item: IMessage) => `${item._id}`
+
+class MessageContainer<
   TMessage extends IMessage = IMessage,
 > extends React.PureComponent<MessageContainerProps<TMessage>, State> {
   static defaultProps = {
@@ -104,15 +110,18 @@ export default class MessageContainer<
     renderChatEmpty: null,
     renderFooter: null,
     renderMessage: null,
-    onLoadEarlier: () => {},
-    onQuickReply: () => {},
+    renderLoadEarlier: undefined,
+    onLoadEarlier: () => null,
+    onQuickReply: () => null,
     inverted: true,
     loadEarlier: false,
     listViewProps: {},
     invertibleScrollViewProps: {},
     extraData: null,
     scrollToBottom: false,
-    scrollToBottomOffset: 200,
+    scrollToBottomOffset: DEFAULT_SCROLL_TO_BOTTOM_OFFSET,
+    scrollToBottomComponent: undefined,
+    forwardRef: undefined,
     alignTop: false,
     scrollToBottomStyle: {},
     infiniteScroll: false,
@@ -141,51 +150,60 @@ export default class MessageContainer<
     infiniteScroll: PropTypes.bool,
   }
 
-  state = {
-    showScrollBottom: false,
-    hasScrolled: false,
+  constructor(props: MessageContainerProps<TMessage>) {
+    super(props)
+
+    this.state = {
+      showScrollBottom: false,
+      hasScrolled: false,
+    }
   }
 
   renderTypingIndicator = () => {
+    const { isTyping } = this.props
+
     if (Platform.OS === 'web') {
       return null
     }
-    return <TypingIndicator isTyping={this.props.isTyping || false} />
+
+    return <TypingIndicator isTyping={isTyping || false} />
   }
 
   renderFooter = () => {
-    if (this.props.renderFooter) {
-      return this.props.renderFooter(this.props)
+    const { renderFooter } = this.props
+
+    if (typeof renderFooter === 'function') {
+      return renderFooter(this.props)
     }
 
     return this.renderTypingIndicator()
   }
 
   renderLoadEarlier = () => {
-    if (this.props.loadEarlier === true) {
+    const { loadEarlier, renderLoadEarlier } = this.props
+
+    if (loadEarlier === true) {
       const loadEarlierProps = {
         ...this.props,
       }
-      if (this.props.renderLoadEarlier) {
-        return this.props.renderLoadEarlier(loadEarlierProps)
+
+      if (typeof renderLoadEarlier === 'function') {
+        return renderLoadEarlier(loadEarlierProps)
       }
+
       return <LoadEarlier {...loadEarlierProps} />
     }
+
     return null
   }
 
-  scrollTo(options: { animated?: boolean; offset: number }) {
-    if (this.props.forwardRef && this.props.forwardRef.current && options) {
-      this.props.forwardRef.current.scrollToOffset(options)
-    }
-  }
-
   scrollToBottom = (animated = true) => {
-    const { inverted } = this.props
+    const { forwardRef, inverted } = this.props
+
     if (inverted) {
       this.scrollTo({ offset: 0, animated })
-    } else if (this.props.forwardRef && this.props.forwardRef.current) {
-      this.props.forwardRef!.current!.scrollToEnd({ animated })
+    } else if (forwardRef?.current) {
+      forwardRef.current.scrollToEnd({ animated })
     }
   }
 
@@ -197,16 +215,19 @@ export default class MessageContainer<
         layoutMeasurement: { height: layoutMeasurementHeight },
       },
     } = event
-    const { scrollToBottomOffset } = this.props
-    if (this.props.inverted) {
-      if (contentOffsetY > scrollToBottomOffset!) {
+
+    const { inverted, scrollToBottomOffset = DEFAULT_SCROLL_TO_BOTTOM_OFFSET } =
+      this.props
+
+    if (inverted) {
+      if (contentOffsetY > scrollToBottomOffset) {
         this.setState({ showScrollBottom: true, hasScrolled: true })
       } else {
         this.setState({ showScrollBottom: false, hasScrolled: true })
       }
     } else if (
-      contentOffsetY < scrollToBottomOffset! &&
-      contentSizeHeight - layoutMeasurementHeight > scrollToBottomOffset!
+      contentOffsetY < scrollToBottomOffset &&
+      contentSizeHeight - layoutMeasurementHeight > scrollToBottomOffset
     ) {
       this.setState({ showScrollBottom: true, hasScrolled: true })
     } else {
@@ -214,17 +235,60 @@ export default class MessageContainer<
     }
   }
 
-  renderRow = ({ item, index }: ListRenderItemInfo<TMessage>) => {
+  onLayoutList = () => {
+    const { inverted, messages } = this.props
+
+    if (!inverted && messages && messages?.length > 0) {
+      setTimeout(
+        () => this.scrollToBottom && this.scrollToBottom(false),
+        15 * messages.length,
+      )
+    }
+  }
+
+  onEndReached = ({ distanceFromEnd }: { distanceFromEnd: number }) => {
+    const { hasScrolled } = this.state
+    const { loadEarlier, onLoadEarlier, infiniteScroll, isLoadingEarlier } =
+      this.props
+
+    if (
+      infiniteScroll &&
+      (hasScrolled || distanceFromEnd > 0) &&
+      distanceFromEnd <= 100 &&
+      loadEarlier &&
+      onLoadEarlier &&
+      !isLoadingEarlier &&
+      Platform.OS !== 'web'
+    ) {
+      onLoadEarlier()
+    }
+  }
+
+  scrollTo(options: { animated?: boolean; offset: number }) {
+    const { forwardRef } = this.props
+
+    if (forwardRef?.current && options) {
+      forwardRef.current.scrollToOffset(options)
+    }
+  }
+
+  renderRow = ({ item: _item, index }: ListRenderItemInfo<TMessage>) => {
+    const item = _item
+
     if (!item._id && item._id !== 0) {
       warning('EasyChat: `_id` is missing for message', JSON.stringify(item))
     }
+
     if (!item.user) {
       if (!item.system) {
         warning('EasyChat: `user` is missing for message', JSON.stringify(item))
       }
+
       item.user = { _id: 0 }
     }
-    const { messages, user, inverted, ...restProps } = this.props
+
+    const { messages, user, inverted, renderMessage, ...restProps } = this.props
+
     if (messages && user) {
       const previousMessage =
         (inverted ? messages[index + 1] : messages[index - 1]) || {}
@@ -242,24 +306,27 @@ export default class MessageContainer<
         position: item.user._id === user._id ? 'right' : 'left',
       }
 
-      if (this.props.renderMessage) {
-        return this.props.renderMessage(messageProps)
+      if (typeof renderMessage === 'function') {
+        return renderMessage(messageProps)
       }
+
       return <Message {...messageProps} />
     }
+
     return null
   }
 
   renderChatEmpty = () => {
-    if (this.props.renderChatEmpty) {
-      return this.props.inverted ? (
-        this.props.renderChatEmpty()
+    const { inverted, renderChatEmpty } = this.props
+
+    if (typeof renderChatEmpty === 'function') {
+      return inverted ? (
+        renderChatEmpty()
       ) : (
-        <View style={styles.emptyChatContainer}>
-          {this.props.renderChatEmpty()}
-        </View>
+        <View style={styles.emptyChatContainer}>{renderChatEmpty()}</View>
       )
     }
+
     return <View style={styles.container} />
   }
 
@@ -274,11 +341,14 @@ export default class MessageContainer<
       return scrollToBottomComponent()
     }
 
-    return <Text>V</Text>
+    return <Text>{SCROLL_DOWN_INDICADOR}</Text>
   }
 
   renderScrollToBottomWrapper() {
-    const propsStyle = this.props.scrollToBottomStyle || {}
+    const { scrollToBottomStyle } = this.props
+
+    const propsStyle = scrollToBottomStyle || {}
+
     return (
       <View style={[styles.scrollToBottomStyle, propsStyle]}>
         <TouchableOpacity
@@ -291,60 +361,37 @@ export default class MessageContainer<
     )
   }
 
-  onLayoutList = () => {
-    if (
-      !this.props.inverted &&
-      !!this.props.messages &&
-      this.props.messages!.length
-    ) {
-      setTimeout(
-        () => this.scrollToBottom && this.scrollToBottom(false),
-        15 * this.props.messages!.length,
-      )
-    }
-  }
-
-  onEndReached = ({ distanceFromEnd }: { distanceFromEnd: number }) => {
-    const { loadEarlier, onLoadEarlier, infiniteScroll, isLoadingEarlier } =
-      this.props
-    if (
-      infiniteScroll &&
-      (this.state.hasScrolled || distanceFromEnd > 0) &&
-      distanceFromEnd <= 100 &&
-      loadEarlier &&
-      onLoadEarlier &&
-      !isLoadingEarlier &&
-      Platform.OS !== 'web'
-    ) {
-      onLoadEarlier()
-    }
-  }
-
-  keyExtractor = (item: TMessage) => `${item._id}`
-
   render() {
-    const { inverted } = this.props
+    const { showScrollBottom } = this.state
+    const {
+      alignTop,
+      extraData,
+      forwardRef,
+      inverted,
+      invertibleScrollViewProps,
+      isTyping,
+      listViewProps,
+      messages,
+      scrollToBottom,
+    } = this.props
+
     return (
-      <View
-        style={
-          this.props.alignTop ? styles.containerAlignTop : styles.container
-        }
-      >
-        {this.state.showScrollBottom && this.props.scrollToBottom
+      <View style={alignTop ? styles.containerAlignTop : styles.container}>
+        {showScrollBottom && scrollToBottom
           ? this.renderScrollToBottomWrapper()
           : null}
         <FlatList
-          ref={this.props.forwardRef}
-          extraData={[this.props.extraData, this.props.isTyping]}
-          keyExtractor={this.keyExtractor}
+          ref={forwardRef}
+          extraData={[extraData, isTyping]}
+          keyExtractor={keyExtractor}
           enableEmptySections
           automaticallyAdjustContentInsets={false}
           inverted={inverted}
-          data={this.props.messages}
+          data={messages}
           style={styles.listStyle}
           contentContainerStyle={styles.contentContainerStyle}
           renderItem={this.renderRow}
-          {...this.props.invertibleScrollViewProps}
+          {...invertibleScrollViewProps}
           ListEmptyComponent={this.renderChatEmpty}
           ListFooterComponent={
             inverted ? this.renderHeaderWrapper : this.renderFooter
@@ -357,9 +404,11 @@ export default class MessageContainer<
           onLayout={this.onLayoutList}
           onEndReached={this.onEndReached}
           onEndReachedThreshold={0.1}
-          {...this.props.listViewProps}
+          {...listViewProps}
         />
       </View>
     )
   }
 }
+
+export default MessageContainer

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {
   Image,
   StyleSheet,
@@ -37,9 +37,9 @@ export interface MessageImageProps<TMessage extends IMessage> {
   lightboxProps?: object
 }
 
-export default class MessageImage<
-  TMessage extends IMessage = IMessage,
-> extends Component<MessageImageProps<TMessage>> {
+class MessageImage<TMessage extends IMessage = IMessage> extends PureComponent<
+  MessageImageProps<TMessage>
+> {
   static defaultProps = {
     currentMessage: {
       image: null,
@@ -87,3 +87,5 @@ export default class MessageImage<
     return null
   }
 }
+
+export default MessageImage
