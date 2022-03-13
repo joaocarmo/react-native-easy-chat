@@ -514,14 +514,33 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     this.setIsMounted(false)
   }
 
-  initLocale() {
-    const { locale } = this.props
-
-    if (locale === null) {
-      this.setLocale('en')
-    } else {
-      this.setLocale(locale || 'en')
+  /**
+   * Store text input focus status when keyboard hide to retrieve
+   * it after wards if needed.
+   * `onKeyboardWillHide` may be called twice in sequence so we
+   * make a guard condition (eg. showing image picker)
+   */
+  handleTextInputFocusWhenKeyboardHide() {
+    if (!this._isTextInputWasFocused) {
+      this._isTextInputWasFocused = this.textInput?.isFocused() || false
     }
+  }
+
+  /**
+   * Refocus the text input only if it was focused before showing keyboard.
+   * This is needed in some cases (eg. showing image picker).
+   */
+  handleTextInputFocusWhenKeyboardShow() {
+    if (
+      this.textInput &&
+      this._isTextInputWasFocused &&
+      !this.textInput.isFocused()
+    ) {
+      this.textInput.focus()
+    }
+
+    // Reset the indicator since the keyboard is shown
+    this._isTextInputWasFocused = false
   }
 
   setLocale(locale: string) {
@@ -556,7 +575,7 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
   getMessages() {
     const { messages } = this.state
 
-    return messages
+    return messages as TMessage[]
   }
 
   setMaxHeight(height: number) {
@@ -629,14 +648,6 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     return renderAccessory ? minInputToolbarHeight * 2 : minInputToolbarHeight
   }
 
-  calculateInputToolbarHeight(composerHeight: number) {
-    const { minComposerHeight = MIN_COMPOSER_HEIGHT } = this.props
-
-    return (
-      composerHeight + (this.getMinInputToolbarHeight() - minComposerHeight)
-    )
-  }
-
   /**
    * Returns the height, based on current window size, without taking the keyboard into account.
    */
@@ -663,35 +674,6 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
       this.getKeyboardHeight() +
       this.getBottomOffset()
     )
-  }
-
-  /**
-   * Store text input focus status when keyboard hide to retrieve
-   * it after wards if needed.
-   * `onKeyboardWillHide` may be called twice in sequence so we
-   * make a guard condition (eg. showing image picker)
-   */
-  handleTextInputFocusWhenKeyboardHide() {
-    if (!this._isTextInputWasFocused) {
-      this._isTextInputWasFocused = this.textInput?.isFocused() || false
-    }
-  }
-
-  /**
-   * Refocus the text input only if it was focused before showing keyboard.
-   * This is needed in some cases (eg. showing image picker).
-   */
-  handleTextInputFocusWhenKeyboardShow() {
-    if (
-      this.textInput &&
-      this._isTextInputWasFocused &&
-      !this.textInput.isFocused()
-    ) {
-      this.textInput.focus()
-    }
-
-    // Reset the indicator since the keyboard is shown
-    this._isTextInputWasFocused = false
   }
 
   onKeyboardWillShow = (e: KeyboardEvent) => {
@@ -747,56 +729,6 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     this.setIsTypingDisabled(false)
   }
 
-  scrollToBottom(animated = true) {
-    if (this._messageContainerRef?.current) {
-      const { inverted } = this.props
-
-      if (!inverted) {
-        this._messageContainerRef.current.scrollToEnd({ animated })
-      } else {
-        this._messageContainerRef.current.scrollToOffset({
-          offset: 0,
-          animated,
-        })
-      }
-    }
-  }
-
-  renderMessages() {
-    const { messagesContainerHeight } = this.state
-    const {
-      isKeyboardInternallyHandled,
-      isTyping,
-      messagesContainerStyle,
-      ...messagesContainerProps
-    } = this.props
-    const viewStyle = [
-      {
-        height: messagesContainerHeight,
-      },
-      messagesContainerStyle,
-    ] as ViewStyle
-
-    const fragment = (
-      <View style={viewStyle}>
-        <MessageContainer<TMessage>
-          {...messagesContainerProps}
-          invertibleScrollViewProps={this.invertibleScrollViewProps}
-          messages={this.getMessages()}
-          forwardRef={this._messageContainerRef}
-          isTyping={isTyping}
-        />
-        {this.renderChatFooter()}
-      </View>
-    )
-
-    return isKeyboardInternallyHandled ? (
-      <KeyboardAvoidingView enabled>{fragment}</KeyboardAvoidingView>
-    ) : (
-      fragment
-    )
-  }
-
   onSend = (messages: TMessage[] = [], shouldResetInputToolbar = false) => {
     const { messageIdGenerator, onSend, user } = this.props
 
@@ -833,31 +765,6 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     }
   }
 
-  resetInputToolbar() {
-    const { minComposerHeight } = this.props
-
-    if (this.textInput) {
-      this.textInput.clear()
-    }
-
-    this.notifyInputTextReset()
-
-    const newComposerHeight = minComposerHeight
-    const newMessagesContainerHeight =
-      this.getMessagesContainerHeightWithKeyboard(newComposerHeight)
-
-    this.setState({
-      text: this.getTextFromProp(''),
-      composerHeight: newComposerHeight,
-      messagesContainerHeight: newMessagesContainerHeight,
-    })
-  }
-
-  // eslint-disable-next-line react/no-unused-class-component-methods
-  focusTextInput() {
-    this.textInput?.focus()
-  }
-
   onInputSizeChanged = (size: { height: number }) => {
     const {
       minComposerHeight = MIN_COMPOSER_HEIGHT,
@@ -891,14 +798,6 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     // Only set state if it's not being overridden by a prop.
     if (propText === undefined) {
       this.setState({ text })
-    }
-  }
-
-  notifyInputTextReset() {
-    const { onInputTextChanged } = this.props
-
-    if (typeof onInputTextChanged === 'function') {
-      onInputTextChanged('')
     }
   }
 
@@ -946,6 +845,107 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     if (this.getIsFirstLayout() === true) {
       this.setIsFirstLayout(false)
     }
+  }
+
+  initLocale() {
+    const { locale } = this.props
+
+    if (locale === null) {
+      this.setLocale('en')
+    } else {
+      this.setLocale(locale || 'en')
+    }
+  }
+
+  // eslint-disable-next-line react/no-unused-class-component-methods
+  focusTextInput() {
+    this.textInput?.focus()
+  }
+
+  calculateInputToolbarHeight(composerHeight: number) {
+    const { minComposerHeight = MIN_COMPOSER_HEIGHT } = this.props
+
+    return (
+      composerHeight + (this.getMinInputToolbarHeight() - minComposerHeight)
+    )
+  }
+
+  notifyInputTextReset() {
+    const { onInputTextChanged } = this.props
+
+    if (typeof onInputTextChanged === 'function') {
+      onInputTextChanged('')
+    }
+  }
+
+  scrollToBottom(animated = true) {
+    if (this._messageContainerRef?.current) {
+      const { inverted } = this.props
+
+      if (!inverted) {
+        this._messageContainerRef.current.scrollToEnd({ animated })
+      } else {
+        this._messageContainerRef.current.scrollToOffset({
+          offset: 0,
+          animated,
+        })
+      }
+    }
+  }
+
+  resetInputToolbar() {
+    const { minComposerHeight } = this.props
+
+    if (this.textInput) {
+      this.textInput.clear()
+    }
+
+    this.notifyInputTextReset()
+
+    const newComposerHeight = minComposerHeight
+    const newMessagesContainerHeight =
+      this.getMessagesContainerHeightWithKeyboard(newComposerHeight)
+
+    this.setState({
+      text: this.getTextFromProp(''),
+      composerHeight: newComposerHeight,
+      messagesContainerHeight: newMessagesContainerHeight,
+    })
+  }
+
+  renderMessages() {
+    const { messagesContainerHeight } = this.state
+    const {
+      isKeyboardInternallyHandled,
+      isTyping,
+      messagesContainerStyle,
+      ...messagesContainerProps
+    } = this.props
+    const viewStyle = [
+      {
+        height: messagesContainerHeight,
+      },
+      messagesContainerStyle,
+    ] as ViewStyle
+
+    const fragment = (
+      <View style={viewStyle}>
+        <MessageContainer<TMessage>
+          {...messagesContainerProps}
+          invertibleScrollViewProps={this.invertibleScrollViewProps}
+          messages={this.getMessages()}
+          forwardRef={this._messageContainerRef}
+          isTyping={isTyping}
+        />
+        {this.renderChatFooter()}
+      </View>
+    )
+
+    return isKeyboardInternallyHandled ? (
+      <KeyboardAvoidingView enabled>{fragment}</KeyboardAvoidingView>
+    ) : (
+      fragment
+    )
   }
 
   renderInputToolbar() {

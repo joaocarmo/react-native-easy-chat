@@ -44,7 +44,7 @@
     "type-check": "tsc --noEmit"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "tslint --fix",
+    "*.{js,jsx,ts,tsx}": "eslint --ext ts,tsx --fix",
     "*.{json,js,jsx,ts,tsx,md,yml,yaml}": "prettier --write"
   },
   "peerDependencies": {
