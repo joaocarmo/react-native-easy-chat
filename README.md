@@ -32,12 +32,6 @@ actively supporting it. Feel free to fork and contribute!
 - Quick Reply messages (bot)
 - Typying indicatior [react-native-typing-animation](https://github.com/watadarkstar/react-native-typing-animation)
 
-## Dependency
-
-- Use version `0.2.x` for RN `>= 0.44.0`
-- Use version `0.1.x` for RN `>= 0.40.0`
-- Use version `0.0.10` for RN `< 0.40.0`
-
 ## Installation
 
 ```sh
@@ -47,6 +41,14 @@ yarn add react-native-easy-chat
 
 npm install react-native-easy-chat
 ```
+
+## Dependency map for older versions of React Native
+
+Support for older versions of React Native will not be a priority.
+
+- Use `react-native-gifted-chat@0.2.x` for RN `>= 0.44.0`
+- Use `react-native-gifted-chat@0.1.x` for RN `>= 0.40.0`
+- Use `react-native-gifted-chat@0.0.10` for RN `< 0.40.0`
 
 ### Video
 

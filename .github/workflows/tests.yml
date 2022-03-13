@@ -1,3 +1,5 @@
+# This workflow is automatically triggered on pull requests and runs the tests.
+#
 name: Tests
 
 on:
