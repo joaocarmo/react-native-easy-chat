@@ -33,7 +33,7 @@
     "lint": "eslint . --ext ts,tsx",
     "postpublish": "yarn config:dev",
     "prepare": "husky install",
-    "prepublishOnly": "yarn lint && yarn build && yarn test && yarn config:npm",
+    "prepublishOnly": "yarn config:npm",
     "pretty:fix": "prettier --write .",
     "pretty": "prettier --check .",
     "start:web": "yarn config:dev && expo start -w --dev",

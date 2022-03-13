@@ -7,6 +7,8 @@
 
 ## About
 
+[![npm version](https://badge.fury.io/js/react-native-easy-chat.svg)][npmjs]
+
 This is a chat UI for React Native & Web. It started as a fork of
 [react-native-gifted-chat][react-native-gifted-chat] and then diverged into
 something different. It's a simple chat UI that is easy to use and integrate.
@@ -448,4 +450,5 @@ module.exports = function override(config, env) {
 
 <!-- References -->
 
+[npmjs]: https://www.npmjs.com/package/react-native-easy-chat
 [react-native-gifted-chat]: https://github.com/FaridSafi/react-native-gifted-chat
