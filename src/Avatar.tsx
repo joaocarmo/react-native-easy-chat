@@ -1,5 +1,6 @@
+import { Component } from 'react'
+import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import React, { ReactNode } from 'react'
 import {
   StyleSheet,
   View,
@@ -26,7 +27,7 @@ export interface AvatarProps<TMessage extends IMessage> {
   onLongPressAvatar?(user: User): void
 }
 
-class Avatar<TMessage extends IMessage = IMessage> extends React.Component<
+class Avatar<TMessage extends IMessage = IMessage> extends Component<
   AvatarProps<TMessage>
 > {
   static defaultProps = {

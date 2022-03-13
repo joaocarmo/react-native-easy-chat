@@ -1,5 +1,5 @@
+import { Component } from 'react'
 import PropTypes from 'prop-types'
-import React from 'react'
 import {
   Linking,
   StyleSheet,
@@ -43,7 +43,7 @@ export interface MessageTextProps<TMessage extends IMessage> {
 const onEmailPress = (email: string) =>
   Communications.email([email], null, null, null, null)
 
-class MessageText<TMessage extends IMessage = IMessage> extends React.Component<
+class MessageText<TMessage extends IMessage = IMessage> extends Component<
   MessageTextProps<TMessage>
 > {
   static contextTypes = {

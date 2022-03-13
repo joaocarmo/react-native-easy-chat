@@ -1,4 +1,3 @@
-import React from 'react'
 import type { FC } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import Color from './Color'

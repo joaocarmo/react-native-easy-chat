@@ -1,5 +1,6 @@
+import { Component } from 'react'
+import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
 import {
   Text,
   StyleSheet,
@@ -19,7 +20,7 @@ export interface QuickRepliesProps {
   sendText?: string
   quickReplyStyle?: StyleProp<ViewStyle>
   onQuickReply?(reply: Reply[]): void
-  renderQuickReplySend?(): React.ReactNode
+  renderQuickReplySend?(): ReactNode
 }
 
 export interface QuickRepliesState {

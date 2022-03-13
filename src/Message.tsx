@@ -1,5 +1,6 @@
+import { Component } from 'react'
+import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import React from 'react'
 import { View, StyleSheet, ViewStyle, LayoutChangeEvent } from 'react-native'
 
 import Avatar from './Avatar'
@@ -20,10 +21,10 @@ export interface MessageProps<TMessage extends IMessage> {
   user: User
   inverted?: boolean
   containerStyle?: LeftRightStyle<ViewStyle>
-  renderBubble?(props: Bubble['props']): React.ReactNode
-  renderDay?(props: Day['props']): React.ReactNode
-  renderSystemMessage?(props: SystemMessage['props']): React.ReactNode
-  renderAvatar?(props: Avatar['props']): React.ReactNode
+  renderBubble?(props: Bubble['props']): ReactNode
+  renderDay?(props: Day['props']): ReactNode
+  renderSystemMessage?(props: SystemMessage['props']): ReactNode
+  renderAvatar?(props: Avatar['props']): ReactNode
   shouldUpdateMessage?(
     props: MessageProps<IMessage>,
     nextProps: MessageProps<IMessage>,
@@ -31,7 +32,7 @@ export interface MessageProps<TMessage extends IMessage> {
   onMessageLayout?(event: LayoutChangeEvent): void
 }
 
-class Message<TMessage extends IMessage = IMessage> extends React.Component<
+class Message<TMessage extends IMessage = IMessage> extends Component<
   MessageProps<TMessage>
 > {
   static defaultProps = {

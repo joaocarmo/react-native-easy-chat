@@ -1,5 +1,6 @@
+import { Component } from 'react'
+import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import React from 'react'
 import {
   Text,
   Clipboard,
@@ -80,19 +81,19 @@ export interface BubbleProps<TMessage extends IMessage> {
   onPress?(context?: any, message?: any): void
   onLongPress?(context?: any, message?: any): void
   onQuickReply?(replies: Reply[]): void
-  renderMessageImage?(props: RenderMessageImageProps<TMessage>): React.ReactNode
-  renderMessageVideo?(props: RenderMessageVideoProps<TMessage>): React.ReactNode
-  renderMessageAudio?(props: RenderMessageAudioProps<TMessage>): React.ReactNode
-  renderMessageText?(props: RenderMessageTextProps<TMessage>): React.ReactNode
-  renderCustomView?(bubbleProps: BubbleProps<TMessage>): React.ReactNode
-  renderTime?(timeProps: Time['props']): React.ReactNode
-  renderTicks?(currentMessage: TMessage): React.ReactNode
-  renderUsername?(): React.ReactNode
-  renderQuickReplySend?(): React.ReactNode
-  renderQuickReplies?(quickReplies: QuickReplies['props']): React.ReactNode
+  renderMessageImage?(props: RenderMessageImageProps<TMessage>): ReactNode
+  renderMessageVideo?(props: RenderMessageVideoProps<TMessage>): ReactNode
+  renderMessageAudio?(props: RenderMessageAudioProps<TMessage>): ReactNode
+  renderMessageText?(props: RenderMessageTextProps<TMessage>): ReactNode
+  renderCustomView?(bubbleProps: BubbleProps<TMessage>): ReactNode
+  renderTime?(timeProps: Time['props']): ReactNode
+  renderTicks?(currentMessage: TMessage): ReactNode
+  renderUsername?(): ReactNode
+  renderQuickReplySend?(): ReactNode
+  renderQuickReplies?(quickReplies: QuickReplies['props']): ReactNode
 }
 
-class Bubble<TMessage extends IMessage = IMessage> extends React.Component<
+class Bubble<TMessage extends IMessage = IMessage> extends Component<
   BubbleProps<TMessage>
 > {
   static contextTypes = {

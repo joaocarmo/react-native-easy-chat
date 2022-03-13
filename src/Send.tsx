@@ -1,5 +1,6 @@
+import { Component } from 'react'
+import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -19,7 +20,7 @@ export interface SendProps<TMessage extends IMessage> {
   label?: string
   containerStyle?: StyleProp<ViewStyle>
   textStyle?: StyleProp<TextStyle>
-  children?: React.ReactNode
+  children?: ReactNode
   alwaysShowSend?: boolean
   disabled?: boolean
   sendButtonProps?: Partial<TouchableOpacityProps>

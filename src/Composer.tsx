@@ -1,4 +1,4 @@
-import React from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Platform, StyleSheet, TextInput, TextInputProps } from 'react-native'
 import { MIN_COMPOSER_HEIGHT, DEFAULT_PLACEHOLDER } from './Constant'
@@ -20,7 +20,7 @@ export interface ComposerProps {
   onInputSizeChanged?(layout: { width: number; height: number }): void
 }
 
-class Composer extends React.Component<ComposerProps> {
+class Composer extends Component<ComposerProps> {
   static defaultProps = {
     composerHeight: MIN_COMPOSER_HEIGHT,
     text: '',

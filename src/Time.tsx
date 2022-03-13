@@ -1,5 +1,5 @@
+import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
 import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native'
 import dayjs from 'dayjs'
 

@@ -1,5 +1,5 @@
-import React from 'react'
-import type { RefObject } from 'react'
+import { PureComponent } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import PropTypes from 'prop-types'
 
 import {
@@ -38,11 +38,11 @@ export interface MessageContainerProps<TMessage extends IMessage> {
   extraData?: any
   scrollToBottomOffset?: number
   forwardRef?: RefObject<FlatList<IMessage>>
-  renderChatEmpty?(): React.ReactNode
-  renderFooter?(props: MessageContainerProps<TMessage>): React.ReactNode
-  renderMessage?(props: Message['props']): React.ReactNode
-  renderLoadEarlier?(props: LoadEarlier['props']): React.ReactNode
-  scrollToBottomComponent?(): React.ReactNode
+  renderChatEmpty?(): ReactNode
+  renderFooter?(props: MessageContainerProps<TMessage>): ReactNode
+  renderMessage?(props: Message['props']): ReactNode
+  renderLoadEarlier?(props: LoadEarlier['props']): ReactNode
+  scrollToBottomComponent?(): ReactNode
   onLoadEarlier?(): void
   onQuickReply?(replies: Reply[]): void
   infiniteScroll?: boolean
@@ -61,7 +61,7 @@ const keyExtractor = (item: IMessage) => `${item._id}`
 
 class MessageContainer<
   TMessage extends IMessage = IMessage,
-> extends React.PureComponent<MessageContainerProps<TMessage>, State> {
+> extends PureComponent<MessageContainerProps<TMessage>, State> {
   static defaultProps = {
     messages: [],
     user: {},

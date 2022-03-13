@@ -1,5 +1,5 @@
+import { Component } from 'react'
 import PropTypes from 'prop-types'
-import React from 'react'
 import {
   Image,
   Text,
@@ -32,7 +32,7 @@ export interface EasyAvatarProps {
   onLongPress?(props: any): void
 }
 
-class EasyAvatar extends React.Component<EasyAvatarProps> {
+class EasyAvatar extends Component<EasyAvatarProps> {
   static defaultProps = {
     user: {
       name: null,

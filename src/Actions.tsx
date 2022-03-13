@@ -1,5 +1,6 @@
+import { Component } from 'react'
+import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import React, { ReactNode } from 'react'
 import {
   StyleSheet,
   Text,
@@ -23,7 +24,7 @@ export interface ActionsProps {
   onPressActionButton?(): void
 }
 
-class Actions extends React.Component<ActionsProps> {
+class Actions extends Component<ActionsProps> {
   static defaultProps: ActionsProps = {
     options: {},
     optionTintColor: Color.optionTintColor,

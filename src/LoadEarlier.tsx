@@ -1,5 +1,5 @@
+import { Component } from 'react'
 import PropTypes from 'prop-types'
-import React from 'react'
 import {
   ActivityIndicator,
   Platform,
@@ -26,7 +26,7 @@ export interface LoadEarlierProps {
   onLoadEarlier?(): void
 }
 
-class LoadEarlier extends React.Component<LoadEarlierProps> {
+class LoadEarlier extends Component<LoadEarlierProps> {
   static defaultProps = {
     onLoadEarlier: () => null,
     isLoadingEarlier: false,

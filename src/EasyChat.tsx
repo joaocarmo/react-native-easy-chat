@@ -1,5 +1,6 @@
+import { Component, createRef, RefObject } from 'react'
+import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import React, { RefObject } from 'react'
 import {
   Animated,
   Platform,
@@ -154,52 +155,50 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   /* Callback when loading earlier messages */
   onLoadEarlier?(): void
   /*  Render a loading view when initializing */
-  renderLoading?(): React.ReactNode
+  renderLoading?(): ReactNode
   /* Custom "Load earlier messages" button */
-  renderLoadEarlier?(props: LoadEarlier['props']): React.ReactNode
+  renderLoadEarlier?(props: LoadEarlier['props']): ReactNode
   /* Custom message avatar; set to null to not render any avatar for the message */
-  renderAvatar?(props: Avatar<TMessage>['props']): React.ReactNode | null
+  renderAvatar?(props: Avatar<TMessage>['props']): ReactNode | null
   /* Custom message bubble */
-  renderBubble?(props: Bubble<TMessage>['props']): React.ReactNode
+  renderBubble?(props: Bubble<TMessage>['props']): ReactNode
   /* Custom system message */
-  renderSystemMessage?(props: SystemMessage<TMessage>['props']): React.ReactNode
+  renderSystemMessage?(props: SystemMessage<TMessage>['props']): ReactNode
   /* Callback when a message bubble is long-pressed; default is to show an ActionSheet with "Copy Text" (see example using showActionSheetWithOptions()) */
   onLongPress?(context: any, message: any): void
   /* Reverses display order of messages; default is true */
   /* Custom message container */
-  renderMessage?(message: Message<TMessage>['props']): React.ReactNode
+  renderMessage?(message: Message<TMessage>['props']): ReactNode
   /* Custom message text */
-  renderMessageText?(
-    messageText: MessageText<TMessage>['props'],
-  ): React.ReactNode
+  renderMessageText?(messageText: MessageText<TMessage>['props']): ReactNode
   /* Custom message image */
-  renderMessageImage?(props: MessageImage<TMessage>['props']): React.ReactNode
+  renderMessageImage?(props: MessageImage<TMessage>['props']): ReactNode
   /* Custom message video */
-  renderMessageVideo?(props: MessageVideoProps<TMessage>): React.ReactNode
+  renderMessageVideo?(props: MessageVideoProps<TMessage>): ReactNode
   /* Custom message video */
-  renderMessageAudio?(props: MessageAudioProps<TMessage>): React.ReactNode
+  renderMessageAudio?(props: MessageAudioProps<TMessage>): ReactNode
   /* Custom view inside the bubble */
-  renderCustomView?(props: Bubble<TMessage>['props']): React.ReactNode
+  renderCustomView?(props: Bubble<TMessage>['props']): ReactNode
   /* Custom day above a message */
-  renderDay?(props: Day<TMessage>['props']): React.ReactNode
+  renderDay?(props: Day<TMessage>['props']): ReactNode
   /* Custom time inside a message */
-  renderTime?(props: Time<TMessage>['props']): React.ReactNode
+  renderTime?(props: Time<TMessage>['props']): ReactNode
   /* Custom footer component on the ListView, e.g. 'User is typing...' */
-  renderFooter?(): React.ReactNode
+  renderFooter?(): ReactNode
   /* Custom component to render in the ListView when messages are empty */
-  renderChatEmpty?(): React.ReactNode
+  renderChatEmpty?(): ReactNode
   /* Custom component to render below the MessageContainer (separate from the ListView) */
-  renderChatFooter?(): React.ReactNode
+  renderChatFooter?(): ReactNode
   /* Custom message composer container */
-  renderInputToolbar?(props: InputToolbar['props']): React.ReactNode
+  renderInputToolbar?(props: InputToolbar['props']): ReactNode
   /*  Custom text input message composer */
-  renderComposer?(props: Composer['props']): React.ReactNode
+  renderComposer?(props: Composer['props']): ReactNode
   /* Custom action button on the left of the message composer */
-  renderActions?(props: Actions['props']): React.ReactNode
+  renderActions?(props: Actions['props']): ReactNode
   /* Custom send button; you can pass children to the original Send component quite easily, for example to use a custom icon (example) */
-  renderSend?(props: Send['props']): React.ReactNode
+  renderSend?(props: Send['props']): ReactNode
   /* Custom second line of actions below the message composer */
-  renderAccessory?(props: InputToolbar['props']): React.ReactNode
+  renderAccessory?(props: InputToolbar['props']): ReactNode
   /* Callback when the Action button is pressed (if set, the default actionSheet will not be used) */
   onPressActionButton?(): void
   /* Callback when the input text changes */
@@ -207,10 +206,10 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   /* Custom parse patterns for react-native-parsed-text used to linking message content (like URLs and phone numbers) */
   parsePatterns?(linkStyle: TextStyle): any
   onQuickReply?(replies: Reply[]): void
-  renderQuickReplies?(quickReplies: QuickReplies['props']): React.ReactNode
-  renderQuickReplySend?(): React.ReactNode
+  renderQuickReplies?(quickReplies: QuickReplies['props']): ReactNode
+  renderQuickReplySend?(): ReactNode
   /* Scroll to bottom custom component */
-  scrollToBottomComponent?(): React.ReactNode
+  scrollToBottomComponent?(): ReactNode
   shouldUpdateMessage?(
     props: Message<TMessage>['props'],
     nextProps: Message<TMessage>['props'],
@@ -226,7 +225,7 @@ export interface EasyChatState<TMessage extends IMessage = IMessage> {
   messages?: TMessage[]
 }
 
-class EasyChat<TMessage extends IMessage = IMessage> extends React.Component<
+class EasyChat<TMessage extends IMessage = IMessage> extends Component<
   EasyChatProps<TMessage>,
   EasyChatState
 > {
@@ -411,7 +410,7 @@ class EasyChat<TMessage extends IMessage = IMessage> extends React.Component<
 
   _actionSheetRef: any = undefined
 
-  _messageContainerRef?: RefObject<FlatList<IMessage>> = React.createRef()
+  _messageContainerRef?: RefObject<FlatList<IMessage>> = createRef()
 
   _isTextInputWasFocused = false
 

@@ -1,5 +1,6 @@
+import { Component } from 'react'
+import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import React from 'react'
 import {
   StyleSheet,
   View,
@@ -21,17 +22,14 @@ export interface InputToolbarProps {
   containerStyle?: StyleProp<ViewStyle>
   primaryStyle?: StyleProp<ViewStyle>
   accessoryStyle?: StyleProp<ViewStyle>
-  renderAccessory?(props: InputToolbarProps): React.ReactNode
-  renderActions?(props: Actions['props']): React.ReactNode
-  renderSend?(props: Send['props']): React.ReactNode
-  renderComposer?(props: Composer['props']): React.ReactNode
+  renderAccessory?(props: InputToolbarProps): ReactNode
+  renderActions?(props: Actions['props']): ReactNode
+  renderSend?(props: Send['props']): ReactNode
+  renderComposer?(props: Composer['props']): ReactNode
   onPressActionButton?(): void
 }
 
-class InputToolbar extends React.Component<
-  InputToolbarProps,
-  { position: string }
-> {
+class InputToolbar extends Component<InputToolbarProps, { position: string }> {
   static defaultProps = {
     options: undefined,
     optionTintColor: undefined,
