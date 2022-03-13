@@ -10,6 +10,7 @@ import {
   ImageStyle,
   TextStyle,
 } from 'react-native'
+import type { GestureResponderEvent } from 'react-native'
 import Color from './Color'
 import { User } from './Models'
 import { StylePropType } from './utils'
@@ -28,8 +29,8 @@ export interface EasyAvatarProps {
   user?: User
   avatarStyle?: StyleProp<ImageStyle>
   textStyle?: StyleProp<TextStyle>
-  onPress?(props: any): void
-  onLongPress?(props: any): void
+  onPress?(event: GestureResponderEvent): void
+  onLongPress?(event: GestureResponderEvent): void
 }
 
 class EasyAvatar extends Component<EasyAvatarProps> {
@@ -57,8 +58,11 @@ class EasyAvatar extends Component<EasyAvatarProps> {
   avatarColor?: string = undefined
 
   setAvatarColor() {
-    const userName = (this.props.user && this.props.user.name) || ''
+    const { user } = this.props
+
+    const userName = user?.name || ''
     const name = userName.toUpperCase().split(' ')
+
     if (name.length === 1) {
       this.avatarName = `${name[0].charAt(0)}`
     } else if (name.length > 1) {
@@ -88,71 +92,60 @@ class EasyAvatar extends Component<EasyAvatarProps> {
   }
 
   renderAvatar() {
-    const { user } = this.props
+    const { avatarStyle, user } = this.props
+
     if (user) {
       if (typeof user.avatar === 'function') {
-        return user.avatar([styles.avatarStyle, this.props.avatarStyle])
+        return user.avatar([styles.avatarStyle, avatarStyle])
       }
+
       if (typeof user.avatar === 'string') {
         return (
           <Image
             source={{ uri: user.avatar }}
-            style={[styles.avatarStyle, this.props.avatarStyle]}
+            style={[styles.avatarStyle, avatarStyle]}
           />
         )
       }
+
       if (typeof user.avatar === 'number') {
         return (
           <Image
             source={user.avatar}
-            style={[styles.avatarStyle, this.props.avatarStyle]}
+            style={[styles.avatarStyle, avatarStyle]}
           />
         )
       }
     }
+
     return null
   }
 
   renderInitials() {
-    return (
-      <Text style={[styles.textStyle, this.props.textStyle]}>
-        {this.avatarName}
-      </Text>
-    )
-  }
+    const { textStyle } = this.props
 
-  handleOnPress = () => {
-    const { onPress, ...other } = this.props
-    if (this.props.onPress) {
-      this.props.onPress(other)
-    }
+    return <Text style={[styles.textStyle, textStyle]}>{this.avatarName}</Text>
   }
-
-  handleOnLongPress = () => {}
 
   render() {
-    if (
-      !this.props.user ||
-      (!this.props.user.name && !this.props.user.avatar)
-    ) {
+    const { avatarStyle, onPress, onLongPress, user } = this.props
+
+    if (!user || (!user.name && !user.avatar)) {
       // render placeholder
       return (
         <View
-          style={[
-            styles.avatarStyle,
-            styles.avatarTransparent,
-            this.props.avatarStyle,
-          ]}
+          style={[styles.avatarStyle, styles.avatarTransparent, avatarStyle]}
           accessibilityTraits="image"
         />
       )
     }
-    if (this.props.user.avatar) {
+
+    if (user.avatar) {
       return (
         <TouchableOpacity
-          disabled={!this.props.onPress}
-          onPress={this.props.onPress}
-          onLongPress={this.props.onLongPress}
+          disabled={!onPress}
+          onPress={onPress}
+          onLongPress={onLongPress}
           accessibilityTraits="image"
         >
           {this.renderAvatar()}
@@ -164,13 +157,13 @@ class EasyAvatar extends Component<EasyAvatarProps> {
 
     return (
       <TouchableOpacity
-        disabled={!this.props.onPress}
-        onPress={this.props.onPress}
-        onLongPress={this.props.onLongPress}
+        disabled={!onPress}
+        onPress={onPress}
+        onLongPress={onLongPress}
         style={[
           styles.avatarStyle,
           { backgroundColor: this.avatarColor },
-          this.props.avatarStyle,
+          avatarStyle,
         ]}
         accessibilityTraits="image"
       >

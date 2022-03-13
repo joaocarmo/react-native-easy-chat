@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Platform, StyleSheet, TextInput, TextInputProps } from 'react-native'
+import { Platform, StyleSheet, TextInput } from 'react-native'
+import type { LayoutChangeEvent, TextInputProps } from 'react-native'
 import { MIN_COMPOSER_HEIGHT, DEFAULT_PLACEHOLDER } from './Constant'
 import Color from './Color'
 import { StylePropType } from './utils'
@@ -53,8 +54,9 @@ class Composer extends Component<ComposerProps> {
 
   layout?: { width: number; height: number } = undefined
 
-  onLayout = (e: any) => {
-    const { layout } = e.nativeEvent
+  onLayout = (event: LayoutChangeEvent) => {
+    const { layout } = event.nativeEvent
+    const { onInputSizeChanged } = this.props
 
     // Support earlier versions of React Native on Android.
     if (!layout) {
@@ -68,31 +70,47 @@ class Composer extends Component<ComposerProps> {
           this.layout.height !== layout.height))
     ) {
       this.layout = layout
-      this.props.onInputSizeChanged!(this.layout!)
+
+      onInputSizeChanged?.(this.layout)
     }
   }
 
   onChangeText = (text: string) => {
-    this.props.onTextChanged!(text)
+    const { onTextChanged } = this.props
+
+    onTextChanged?.(text)
   }
 
   render() {
+    const {
+      composerHeight,
+      disableComposer,
+      keyboardAppearance,
+      multiline,
+      placeholder,
+      placeholderTextColor,
+      text,
+      textInputAutoFocus,
+      textInputProps,
+      textInputStyle,
+    } = this.props
+
     return (
       <TextInput
-        testID={this.props.placeholder}
+        testID={placeholder}
         accessible
-        accessibilityLabel={this.props.placeholder}
-        placeholder={this.props.placeholder}
-        placeholderTextColor={this.props.placeholderTextColor}
-        multiline={this.props.multiline}
-        editable={!this.props.disableComposer}
+        accessibilityLabel={placeholder}
+        placeholder={placeholder}
+        placeholderTextColor={placeholderTextColor}
+        multiline={multiline}
+        editable={!disableComposer}
         onLayout={this.onLayout}
         onChangeText={this.onChangeText}
         style={[
           styles.textInput,
-          this.props.textInputStyle,
+          textInputStyle,
           {
-            height: this.props.composerHeight,
+            height: composerHeight,
             ...Platform.select({
               web: {
                 outlineWidth: 0,
@@ -102,12 +120,12 @@ class Composer extends Component<ComposerProps> {
             }),
           },
         ]}
-        autoFocus={this.props.textInputAutoFocus}
-        value={this.props.text}
+        autoFocus={textInputAutoFocus}
+        value={text}
         enablesReturnKeyAutomatically
         underlineColorAndroid="transparent"
-        keyboardAppearance={this.props.keyboardAppearance}
-        {...this.props.textInputProps}
+        keyboardAppearance={keyboardAppearance}
+        {...textInputProps}
       />
     )
   }
