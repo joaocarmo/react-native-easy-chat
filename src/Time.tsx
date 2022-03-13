@@ -1,5 +1,5 @@
+import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
 import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native'
 import dayjs from 'dayjs'
 
@@ -8,7 +8,7 @@ import { TIME_FORMAT } from './Constant'
 import { LeftRightStyle, IMessage } from './Models'
 import { StylePropType } from './utils'
 
-const containerStyle = {
+const containerDefaultStyle = {
   marginLeft: 10,
   marginRight: 10,
   marginBottom: 5,
@@ -20,27 +20,6 @@ const textStyle = {
   textAlign: 'right',
 }
 
-const styles = {
-  left: StyleSheet.create({
-    container: {
-      ...containerStyle,
-    },
-    text: {
-      color: Color.timeTextColor,
-      ...textStyle,
-    },
-  }),
-  right: StyleSheet.create({
-    container: {
-      ...containerStyle,
-    },
-    text: {
-      color: Color.white,
-      ...textStyle,
-    },
-  }),
-}
-
 export interface TimeProps<TMessage extends IMessage> {
   position: 'left' | 'right'
   currentMessage?: TMessage
@@ -49,9 +28,9 @@ export interface TimeProps<TMessage extends IMessage> {
   timeFormat?: string
 }
 
-export default class Time<
-  TMessage extends IMessage = IMessage
-> extends Component<TimeProps<TMessage>> {
+class Time<TMessage extends IMessage = IMessage> extends PureComponent<
+  TimeProps<TMessage>
+> {
   static contextTypes = {
     getLocale: PropTypes.func,
   }
@@ -81,6 +60,7 @@ export default class Time<
   }
 
   render() {
+    const { getLocale } = this.context
     const {
       position,
       containerStyle,
@@ -106,7 +86,7 @@ export default class Time<
             }
           >
             {dayjs(currentMessage.createdAt)
-              .locale(this.context.getLocale())
+              .locale(getLocale())
               .format(timeFormat)}
           </Text>
         </View>
@@ -115,3 +95,26 @@ export default class Time<
     return null
   }
 }
+
+const styles = {
+  left: StyleSheet.create({
+    container: {
+      ...containerDefaultStyle,
+    },
+    text: {
+      color: Color.timeTextColor,
+      ...textStyle,
+    },
+  }),
+  right: StyleSheet.create({
+    container: {
+      ...containerDefaultStyle,
+    },
+    text: {
+      color: Color.white,
+      ...textStyle,
+    },
+  }),
+}
+
+export default Time

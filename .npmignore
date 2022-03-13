@@ -20,7 +20,6 @@ babel.config.js
 metro.config.js
 README.md
 tsconfig.json
-tslint.json
 types.d.ts
 yarn-error.log
 yarn.lock

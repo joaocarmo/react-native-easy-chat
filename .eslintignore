@@ -1,0 +1,21 @@
+# node.js
+node_modules
+
+# tests
+__tests__
+
+# build
+lib
+
+# examples
+example-*
+
+# expo
+App.tsx
+
+# configs
+.eslintrc.js
+babel.config.js
+jest.config.js
+jest.setup.js
+metro.config.js

@@ -1,5 +1,6 @@
+import { Component } from 'react'
+import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -14,28 +15,12 @@ import Color from './Color'
 import { IMessage } from './Models'
 import { StylePropType } from './utils'
 
-const styles = StyleSheet.create({
-  container: {
-    height: 44,
-    justifyContent: 'flex-end',
-  },
-  text: {
-    color: Color.defaultBlue,
-    fontWeight: '600',
-    fontSize: 17,
-    backgroundColor: Color.backgroundTransparent,
-    marginBottom: 12,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-})
-
 export interface SendProps<TMessage extends IMessage> {
   text?: string
   label?: string
   containerStyle?: StyleProp<ViewStyle>
   textStyle?: StyleProp<TextStyle>
-  children?: React.ReactNode
+  children?: ReactNode
   alwaysShowSend?: boolean
   disabled?: boolean
   sendButtonProps?: Partial<TouchableOpacityProps>
@@ -45,12 +30,12 @@ export interface SendProps<TMessage extends IMessage> {
   ): void
 }
 
-export default class Send<
-  TMessage extends IMessage = IMessage
-> extends Component<SendProps<TMessage>> {
+class Send<TMessage extends IMessage = IMessage> extends Component<
+  SendProps<TMessage>
+> {
   static defaultProps = {
     text: '',
-    onSend: () => {},
+    onSend: () => null,
     label: 'Send',
     containerStyle: {},
     textStyle: {},
@@ -111,3 +96,21 @@ export default class Send<
     return <View />
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 44,
+    justifyContent: 'flex-end',
+  },
+  text: {
+    color: Color.defaultBlue,
+    fontWeight: '600',
+    fontSize: 17,
+    backgroundColor: Color.backgroundTransparent,
+    marginBottom: 12,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+})
+
+export default Send

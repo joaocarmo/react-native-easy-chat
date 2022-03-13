@@ -1,5 +1,6 @@
+import { Component } from 'react'
+import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import React from 'react'
 import {
   StyleSheet,
   View,
@@ -15,42 +16,23 @@ import Actions from './Actions'
 import Color from './Color'
 import { StylePropType } from './utils'
 
-const styles = StyleSheet.create({
-  container: {
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: Color.defaultColor,
-    backgroundColor: Color.white,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  primary: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  accessory: {
-    height: 44,
-  },
-})
-
 export interface InputToolbarProps {
-  options?: { [key: string]: any }
+  options?: Record<string, any>
   optionTintColor?: string
   containerStyle?: StyleProp<ViewStyle>
   primaryStyle?: StyleProp<ViewStyle>
   accessoryStyle?: StyleProp<ViewStyle>
-  renderAccessory?(props: InputToolbarProps): React.ReactNode
-  renderActions?(props: Actions['props']): React.ReactNode
-  renderSend?(props: Send['props']): React.ReactNode
-  renderComposer?(props: Composer['props']): React.ReactNode
+  renderAccessory?(props: InputToolbarProps): ReactNode
+  renderActions?(props: Actions['props']): ReactNode
+  renderSend?(props: Send['props']): ReactNode
+  renderComposer?(props: Composer['props']): ReactNode
   onPressActionButton?(): void
 }
 
-export default class InputToolbar extends React.Component<
-  InputToolbarProps,
-  { position: string }
-> {
+class InputToolbar extends Component<InputToolbarProps, { position: string }> {
   static defaultProps = {
+    options: undefined,
+    optionTintColor: undefined,
     renderAccessory: null,
     renderActions: null,
     renderSend: null,
@@ -58,7 +40,7 @@ export default class InputToolbar extends React.Component<
     containerStyle: {},
     primaryStyle: {},
     accessoryStyle: {},
-    onPressActionButton: () => {},
+    onPressActionButton: () => null,
   }
 
   static propTypes = {
@@ -72,13 +54,17 @@ export default class InputToolbar extends React.Component<
     accessoryStyle: StylePropType,
   }
 
-  state = {
-    position: 'absolute',
-  }
-
   keyboardWillShowListener?: EmitterSubscription = undefined
 
   keyboardWillHideListener?: EmitterSubscription = undefined
+
+  constructor(props: InputToolbarProps) {
+    super(props)
+
+    this.state = {
+      position: 'absolute',
+    }
+  }
 
   componentDidMount() {
     this.keyboardWillShowListener = Keyboard.addListener(
@@ -101,7 +87,9 @@ export default class InputToolbar extends React.Component<
   }
 
   keyboardWillShow = () => {
-    if (this.state.position !== 'relative') {
+    const { position } = this.state
+
+    if (position !== 'relative') {
       this.setState({
         position: 'relative',
       })
@@ -109,7 +97,9 @@ export default class InputToolbar extends React.Component<
   }
 
   keyboardWillHide = () => {
-    if (this.state.position !== 'absolute') {
+    const { position } = this.state
+
+    if (position !== 'absolute') {
       this.setState({
         position: 'absolute',
       })
@@ -117,36 +107,48 @@ export default class InputToolbar extends React.Component<
   }
 
   renderActions() {
-    const { containerStyle, ...props } = this.props
-    if (this.props.renderActions) {
-      return this.props.renderActions(props)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { containerStyle, renderActions, onPressActionButton, ...props } =
+      this.props
+
+    if (typeof renderActions === 'function') {
+      return renderActions(props)
     }
-    if (this.props.onPressActionButton) {
-      return <Actions {...props} />
+
+    if (onPressActionButton) {
+      return <Actions onPressActionButton={onPressActionButton} {...props} />
     }
+
     return null
   }
 
   renderSend() {
-    if (this.props.renderSend) {
-      return this.props.renderSend(this.props)
+    const { renderSend, ...props } = this.props
+
+    if (typeof renderSend === 'function') {
+      return renderSend(props)
     }
-    return <Send {...this.props} />
+
+    return <Send {...props} />
   }
 
   renderComposer() {
-    if (this.props.renderComposer) {
-      return this.props.renderComposer(this.props)
+    const { renderComposer, ...props } = this.props
+
+    if (typeof renderComposer === 'function') {
+      return renderComposer(props)
     }
 
-    return <Composer {...this.props} />
+    return <Composer {...props} />
   }
 
   renderAccessory() {
-    if (this.props.renderAccessory) {
+    const { accessoryStyle, renderAccessory, ...props } = this.props
+
+    if (typeof renderAccessory === 'function') {
       return (
-        <View style={[styles.accessory, this.props.accessoryStyle]}>
-          {this.props.renderAccessory(this.props)}
+        <View style={[styles.accessory, accessoryStyle]}>
+          {renderAccessory(props)}
         </View>
       )
     }
@@ -154,17 +156,17 @@ export default class InputToolbar extends React.Component<
   }
 
   render() {
+    const { position } = this.state
+    const { containerStyle, primaryStyle } = this.props
+    const viewStyle = [
+      styles.container,
+      { position },
+      containerStyle,
+    ] as ViewStyle
+
     return (
-      <View
-        style={
-          [
-            styles.container,
-            { position: this.state.position },
-            this.props.containerStyle,
-          ] as ViewStyle
-        }
-      >
-        <View style={[styles.primary, this.props.primaryStyle]}>
+      <View style={viewStyle}>
+        <View style={[styles.primary, primaryStyle]}>
           {this.renderActions()}
           {this.renderComposer()}
           {this.renderSend()}
@@ -174,3 +176,23 @@ export default class InputToolbar extends React.Component<
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: Color.defaultColor,
+    backgroundColor: Color.white,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  primary: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  accessory: {
+    height: 44,
+  },
+})
+
+export default InputToolbar

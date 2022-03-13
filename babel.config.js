@@ -3,5 +3,13 @@ module.exports = (api) => {
 
   return {
     presets: ['babel-preset-expo', '@babel/preset-typescript'],
+    plugins: [
+      [
+        '@babel/plugin-transform-react-jsx',
+        {
+          runtime: 'automatic',
+        },
+      ],
+    ],
   }
 }

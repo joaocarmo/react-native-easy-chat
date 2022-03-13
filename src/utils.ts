@@ -1,7 +1,30 @@
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
+import type { IMessage } from './Models'
 
-import { IMessage } from './Models'
+type ConsoleLogArgs = Parameters<typeof console.log>
+
+const HEADER_LOG = '%c[react-native-easy-chat]'
+const IS_DEV = process.env.NODE_ENV === 'development'
+
+export const styleString = (color: string) =>
+  `color: ${color}; font-weight: bold`
+
+export const print = (...args: ConsoleLogArgs) =>
+  // eslint-disable-next-line no-console
+  console.log(HEADER_LOG, ...args)
+
+export const debug = (...args: ConsoleLogArgs) => {
+  if (IS_DEV) {
+    print(styleString('yellow'), ...args)
+  }
+}
+
+export const error = (...args: ConsoleLogArgs) =>
+  print(styleString('red'), ...args)
+
+export const warning = (...args: ConsoleLogArgs) =>
+  print(styleString('orange'), ...args)
 
 export const StylePropType = PropTypes.oneOfType([
   PropTypes.array,
@@ -10,10 +33,10 @@ export const StylePropType = PropTypes.oneOfType([
   PropTypes.bool,
 ])
 
-export function isSameDay(
+export const isSameDay = (
   currentMessage: IMessage,
   diffMessage: IMessage | null | undefined,
-) {
+) => {
   if (!diffMessage || !diffMessage.createdAt) {
     return false
   }
@@ -28,24 +51,13 @@ export function isSameDay(
   return currentCreatedAt.isSame(diffCreatedAt, 'day')
 }
 
-export function isSameUser(
+export const isSameUser = (
   currentMessage: IMessage,
   diffMessage: IMessage | null | undefined,
-) {
-  return !!(
+) =>
+  !!(
     diffMessage &&
     diffMessage.user &&
     currentMessage.user &&
     diffMessage.user._id === currentMessage.user._id
   )
-}
-
-const styleString = (color: string) => `color: ${color}; font-weight: bold`
-
-const headerLog = '%c[react-native-easy-chat]'
-
-export const warning = (...args: any) =>
-  console.log(headerLog, styleString('orange'), ...args)
-
-export const error = (...args: any) =>
-  console.log(headerLog, styleString('red'), ...args)

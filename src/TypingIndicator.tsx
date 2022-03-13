@@ -1,15 +1,22 @@
-import * as React from 'react'
+import { useCallback, useMemo } from 'react'
 import { Animated, StyleSheet } from 'react-native'
 import { TypingAnimation } from 'react-native-typing-animation'
 import { useUpdateLayoutEffect } from './hooks/useUpdateLayoutEffect'
 import Color from './Color'
 
-interface Props {
+const defaultDot = {
+  color: 'rgba(0, 0, 0, 0.38)',
+  margin: 5.5,
+  radius: 4,
+  style: { marginLeft: 6, marginTop: 7.2 },
+}
+
+interface TypingIndicatorProps {
   isTyping?: boolean
 }
 
-const TypingIndicator = ({ isTyping }: Props) => {
-  const { yCoords, heightScale, marginScale } = React.useMemo(
+const TypingIndicator = ({ isTyping }: TypingIndicatorProps) => {
+  const { yCoords, heightScale, marginScale } = useMemo(
     () => ({
       yCoords: new Animated.Value(200),
       heightScale: new Animated.Value(0),
@@ -17,18 +24,23 @@ const TypingIndicator = ({ isTyping }: Props) => {
     }),
     [],
   )
+  const indicatorStyle = useMemo(
+    () => [
+      styles.container,
+      {
+        transform: [
+          {
+            translateY: yCoords,
+          },
+        ],
+        height: heightScale,
+        marginBottom: marginScale,
+      },
+    ],
+    [heightScale, marginScale, yCoords],
+  )
 
-  // on isTyping fire side effect
-  useUpdateLayoutEffect(() => {
-    if (isTyping) {
-      slideIn()
-    } else {
-      slideOut()
-    }
-  }, [isTyping])
-
-  // side effect
-  const slideIn = () => {
+  const slideIn = useCallback(() => {
     Animated.parallel([
       Animated.spring(yCoords, {
         toValue: 0,
@@ -45,10 +57,9 @@ const TypingIndicator = ({ isTyping }: Props) => {
         useNativeDriver: false,
       }),
     ]).start()
-  }
+  }, [heightScale, marginScale, yCoords])
 
-  // side effect
-  const slideOut = () => {
+  const slideOut = useCallback(() => {
     Animated.parallel([
       Animated.spring(yCoords, {
         toValue: 200,
@@ -65,32 +76,34 @@ const TypingIndicator = ({ isTyping }: Props) => {
         useNativeDriver: false,
       }),
     ]).start()
-  }
+  }, [heightScale, marginScale, yCoords])
+
+  const callbackEffect = useCallback(() => {
+    if (isTyping) {
+      slideIn()
+    } else {
+      slideOut()
+    }
+  }, [isTyping, slideIn, slideOut])
+
+  useUpdateLayoutEffect(callbackEffect, [callbackEffect])
+
   return (
-    <Animated.View
-      style={[
-        styles.container,
-        {
-          transform: [
-            {
-              translateY: yCoords,
-            },
-          ],
-          height: heightScale,
-          marginBottom: marginScale,
-        },
-      ]}
-    >
-      {isTyping ? (
+    <Animated.View style={indicatorStyle}>
+      {isTyping && (
         <TypingAnimation
-          style={{ marginLeft: 6, marginTop: 7.2 }}
-          dotRadius={4}
-          dotMargin={5.5}
-          dotColor="rgba(0, 0, 0, 0.38)"
+          style={defaultDot.style}
+          dotRadius={defaultDot.radius}
+          dotMargin={defaultDot.margin}
+          dotColor={defaultDot.color}
         />
-      ) : null}
+      )}
     </Animated.View>
   )
+}
+
+TypingIndicator.defaultProps = {
+  isTyping: false,
 }
 
 const styles = StyleSheet.create({

@@ -2,10 +2,29 @@
 
 exports[`should compare Constant with snapshot 1`] = `
 Object {
+  "ACTIONS_DEFAULT_ICON_TEXT": "+",
+  "AUDIO_NOT_IMPLEMENTED_MESSAGE": "Audio is not implemented by EasyChat.",
+  "AUDIO_NOT_IMPLEMENTED_TITLE": "You need to provide your own implementation by using renderMessageAudio prop.",
+  "BUBBLE_DEFAULT_OPTION_TITLES": Array [
+    "Copy Text",
+    "Cancel",
+  ],
+  "BUBBLE_DEFAULT_PENDING_TICK": "🕓",
+  "BUBBLE_DEFAULT_RECEIVED_TICK": "✓",
+  "BUBBLE_DEFAULT_SENT_TICK": "✓",
+  "BUBBLE_RENDER_USERNAME_TICK": "~",
   "DATE_FORMAT": "ll",
+  "DEFAULT_INPUT_TOOLBAR_HEIGHT": 44,
   "DEFAULT_PLACEHOLDER": "Type a message...",
   "MAX_COMPOSER_HEIGHT": 200,
+  "MESSAGE_DEFAULT_OPTION_TITLES": Array [
+    "Call",
+    "Text",
+    "Cancel",
+  ],
   "MIN_COMPOSER_HEIGHT": 33,
   "TIME_FORMAT": "LT",
+  "VIDEO_NOT_IMPLEMENTED_MESSAGE": "You need to provide your own implementation by using renderMessageVideo prop.",
+  "VIDEO_NOT_IMPLEMENTED_TITLE": "Video is not implemented by EasyChat.",
 }
 `;

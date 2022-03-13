@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { PureComponent } from 'react'
 import {
   StyleSheet,
   Text,
@@ -12,22 +12,6 @@ import Color from './Color'
 import { IMessage } from './Models'
 import { StylePropType } from './utils'
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    marginTop: 5,
-    marginBottom: 10,
-  },
-  text: {
-    backgroundColor: Color.backgroundTransparent,
-    color: Color.defaultColor,
-    fontSize: 12,
-    fontWeight: '300',
-  },
-})
-
 export interface SystemMessageProps<TMessage extends IMessage> {
   currentMessage?: TMessage
   containerStyle?: StyleProp<ViewStyle>
@@ -35,9 +19,9 @@ export interface SystemMessageProps<TMessage extends IMessage> {
   textStyle?: StyleProp<TextStyle>
 }
 
-export default class SystemMessage<
-  TMessage extends IMessage = IMessage
-> extends Component<SystemMessageProps<TMessage>> {
+class SystemMessage<TMessage extends IMessage = IMessage> extends PureComponent<
+  SystemMessageProps<TMessage>
+> {
   static defaultProps = {
     currentMessage: {
       system: false,
@@ -55,12 +39,8 @@ export default class SystemMessage<
   }
 
   render() {
-    const {
-      currentMessage,
-      containerStyle,
-      wrapperStyle,
-      textStyle,
-    } = this.props
+    const { currentMessage, containerStyle, wrapperStyle, textStyle } =
+      this.props
     if (currentMessage) {
       return (
         <View style={[styles.container, containerStyle]}>
@@ -73,3 +53,21 @@ export default class SystemMessage<
     return null
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    marginTop: 5,
+    marginBottom: 10,
+  },
+  text: {
+    backgroundColor: Color.backgroundTransparent,
+    color: Color.defaultColor,
+    fontSize: 12,
+    fontWeight: '300',
+  },
+})
+
+export default SystemMessage

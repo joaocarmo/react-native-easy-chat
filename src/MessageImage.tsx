@@ -1,5 +1,5 @@
+import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
 import {
   Image,
   StyleSheet,
@@ -10,25 +10,9 @@ import {
   ImageStyle,
 } from 'react-native'
 // TODO: support web
-// @ts-ignore
 import Lightbox from 'react-native-lightbox'
 import { IMessage } from './Models'
 import { StylePropType } from './utils'
-
-const styles = StyleSheet.create({
-  container: {},
-  image: {
-    width: 150,
-    height: 100,
-    borderRadius: 13,
-    margin: 3,
-    resizeMode: 'cover',
-  },
-  imageActive: {
-    flex: 1,
-    resizeMode: 'contain',
-  },
-})
 
 export interface MessageImageProps<TMessage extends IMessage> {
   currentMessage?: TMessage
@@ -38,9 +22,9 @@ export interface MessageImageProps<TMessage extends IMessage> {
   lightboxProps?: object
 }
 
-export default class MessageImage<
-  TMessage extends IMessage = IMessage
-> extends Component<MessageImageProps<TMessage>> {
+class MessageImage<TMessage extends IMessage = IMessage> extends PureComponent<
+  MessageImageProps<TMessage>
+> {
   static defaultProps = {
     currentMessage: {
       image: null,
@@ -88,3 +72,20 @@ export default class MessageImage<
     return null
   }
 }
+
+const styles = StyleSheet.create({
+  container: {},
+  image: {
+    width: 150,
+    height: 100,
+    borderRadius: 13,
+    margin: 3,
+    resizeMode: 'cover',
+  },
+  imageActive: {
+    flex: 1,
+    resizeMode: 'contain',
+  },
+})
+
+export default MessageImage

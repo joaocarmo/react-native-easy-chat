@@ -1,5 +1,6 @@
+import { Component } from 'react'
+import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import React, { ReactNode } from 'react'
 import {
   StyleSheet,
   View,
@@ -10,37 +11,6 @@ import {
 import EasyAvatar from './EasyAvatar'
 import { StylePropType, isSameUser, isSameDay } from './utils'
 import { Omit, IMessage, User, LeftRightStyle } from './Models'
-
-const styles = {
-  left: StyleSheet.create({
-    container: {
-      marginRight: 8,
-    },
-    onTop: {
-      alignSelf: 'flex-start',
-    },
-    onBottom: {},
-    image: {
-      height: 36,
-      width: 36,
-      borderRadius: 18,
-    },
-  }),
-  right: StyleSheet.create({
-    container: {
-      marginLeft: 8,
-    },
-    onTop: {
-      alignSelf: 'flex-start',
-    },
-    onBottom: {},
-    image: {
-      height: 36,
-      width: 36,
-      borderRadius: 18,
-    },
-  }),
-}
 
 export interface AvatarProps<TMessage extends IMessage> {
   currentMessage?: TMessage
@@ -57,9 +27,9 @@ export interface AvatarProps<TMessage extends IMessage> {
   onLongPressAvatar?(user: User): void
 }
 
-export default class Avatar<
-  TMessage extends IMessage = IMessage
-> extends React.Component<AvatarProps<TMessage>> {
+class Avatar<TMessage extends IMessage = IMessage> extends Component<
+  AvatarProps<TMessage>
+> {
   static defaultProps = {
     renderAvatarOnTop: false,
     showAvatarForEveryMessage: false,
@@ -69,10 +39,12 @@ export default class Avatar<
     },
     previousMessage: {},
     nextMessage: {},
+    textStyle: undefined,
+    renderAvatar: undefined,
     containerStyle: {},
     imageStyle: {},
-    onPressAvatar: () => {},
-    onLongPressAvatar: () => {},
+    onPressAvatar: () => null,
+    onLongPressAvatar: () => null,
   }
 
   static propTypes = {
@@ -96,30 +68,33 @@ export default class Avatar<
   }
 
   renderAvatar() {
-    if (this.props.renderAvatar) {
-      const { renderAvatar, ...avatarProps } = this.props
-      return this.props.renderAvatar(avatarProps)
+    const { renderAvatar, ...avatarProps } = this.props
+
+    if (typeof renderAvatar === 'function') {
+      return renderAvatar(avatarProps)
     }
-    if (this.props.currentMessage) {
+
+    const {
+      currentMessage,
+      imageStyle,
+      onLongPressAvatar,
+      onPressAvatar,
+      position,
+      textStyle,
+    } = avatarProps
+    const avatarStyle = [
+      styles[position].image,
+      imageStyle?.[position],
+    ] as ImageStyle
+
+    if (currentMessage) {
       return (
         <EasyAvatar
-          avatarStyle={
-            [
-              styles[this.props.position].image,
-              this.props.imageStyle &&
-                this.props.imageStyle[this.props.position],
-            ] as ImageStyle
-          }
-          textStyle={this.props.textStyle ? this.props.textStyle : {}}
-          user={this.props.currentMessage.user}
-          onPress={() =>
-            this.props.onPressAvatar &&
-            this.props.onPressAvatar(this.props.currentMessage!.user)
-          }
-          onLongPress={() =>
-            this.props.onLongPressAvatar &&
-            this.props.onLongPressAvatar(this.props.currentMessage!.user)
-          }
+          avatarStyle={avatarStyle}
+          textStyle={textStyle || {}}
+          user={currentMessage.user}
+          onPress={() => onPressAvatar?.(currentMessage.user)}
+          onLongPress={() => onLongPressAvatar?.(currentMessage.user)}
         />
       )
     }
@@ -184,3 +159,36 @@ export default class Avatar<
     )
   }
 }
+
+const styles = {
+  left: StyleSheet.create({
+    container: {
+      marginRight: 8,
+    },
+    onTop: {
+      alignSelf: 'flex-start',
+    },
+    onBottom: {},
+    image: {
+      height: 36,
+      width: 36,
+      borderRadius: 18,
+    },
+  }),
+  right: StyleSheet.create({
+    container: {
+      marginLeft: 8,
+    },
+    onTop: {
+      alignSelf: 'flex-start',
+    },
+    onBottom: {},
+    image: {
+      height: 36,
+      width: 36,
+      borderRadius: 18,
+    },
+  }),
+}
+
+export default Avatar

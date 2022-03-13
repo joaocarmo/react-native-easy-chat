@@ -405,7 +405,8 @@ If you use React Navigation, additional handling may be required to account for 
 module.exports = function override(config, env) {
   config.module.rules.push({
     test: /\.js$/,
-    exclude: /node_modules[/\\](?!react-native-easy-chat|react-native-lightbox|react-native-parsed-text)/,
+    exclude:
+      /node_modules[/\\](?!react-native-easy-chat|react-native-lightbox|react-native-parsed-text)/,
     use: {
       loader: 'babel-loader',
       options: {
