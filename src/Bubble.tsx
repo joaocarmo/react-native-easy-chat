@@ -32,7 +32,13 @@ import {
   MessageVideoProps,
   MessageAudioProps,
 } from './Models'
-import { BUBBLE_DEFAULT_OPTION_TITLES } from './Constant'
+import {
+  BUBBLE_DEFAULT_OPTION_TITLES,
+  BUBBLE_DEFAULT_PENDING_TICK,
+  BUBBLE_DEFAULT_RECEIVED_TICK,
+  BUBBLE_DEFAULT_SENT_TICK,
+  BUBBLE_RENDER_USERNAME_TICK,
+} from './Constant'
 
 export type RenderMessageImageProps<TMessage extends IMessage> = Omit<
   BubbleProps<TMessage>,
@@ -101,6 +107,12 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
   }
 
   static defaultProps = {
+    inverted: false,
+    textStyle: undefined,
+    quickReplyStyle: undefined,
+    renderQuickReplySend: undefined,
+    isCustomViewBottom: false,
+    renderUsernameOnMessage: false,
     touchableProps: {},
     onPress: null,
     onLongPress: null,
@@ -178,15 +190,19 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
   }
 
   onPress = () => {
-    if (this.props.onPress) {
-      this.props.onPress(this.context, this.props.currentMessage)
+    const { currentMessage, onPress } = this.props
+
+    if (typeof onPress === 'function') {
+      onPress(this.context, currentMessage)
     }
   }
 
   onLongPress = () => {
-    const { currentMessage } = this.props
-    if (this.props.onLongPress) {
-      this.props.onLongPress(this.context, this.props.currentMessage)
+    const { actionSheet } = this.context
+    const { currentMessage, onLongPress } = this.props
+
+    if (typeof onLongPress === 'function') {
+      onLongPress(this.context, currentMessage)
     } else if (currentMessage && currentMessage.text) {
       const { optionTitles } = this.props
       const options =
@@ -194,7 +210,8 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
           ? optionTitles.slice(0, 2)
           : BUBBLE_DEFAULT_OPTION_TITLES
       const cancelButtonIndex = options.length - 1
-      this.context.actionSheet().showActionSheetWithOptions(
+
+      actionSheet().showActionSheetWithOptions(
         {
           options,
           cancelButtonIndex,
@@ -215,6 +232,7 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
   styledBubbleToNext() {
     const { currentMessage, nextMessage, position, containerToNextStyle } =
       this.props
+
     if (
       currentMessage &&
       nextMessage &&
@@ -227,6 +245,7 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
         containerToNextStyle && containerToNextStyle[position],
       ]
     }
+
     return null
   }
 
@@ -237,6 +256,7 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
       position,
       containerToPreviousStyle,
     } = this.props
+
     if (
       currentMessage &&
       previousMessage &&
@@ -249,6 +269,7 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
         containerToPreviousStyle && containerToPreviousStyle[position],
       ]
     }
+
     return null
   }
 
@@ -260,11 +281,21 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
       renderQuickReplySend,
       quickReplyStyle,
     } = this.props
+
     if (currentMessage && currentMessage.quickReplies) {
-      const { containerStyle, wrapperStyle, ...quickReplyProps } = this.props
-      if (this.props.renderQuickReplies) {
-        return this.props.renderQuickReplies(quickReplyProps)
+      const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        containerStyle,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        wrapperStyle,
+        renderQuickReplies,
+        ...quickReplyProps
+      } = this.props
+
+      if (typeof renderQuickReplies === 'function') {
+        return renderQuickReplies(quickReplyProps)
       }
+
       return (
         <QuickReplies
           {...{
@@ -277,63 +308,111 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
         />
       )
     }
+
     return null
   }
 
   renderMessageText() {
-    if (this.props.currentMessage && this.props.currentMessage.text) {
+    const { currentMessage } = this.props
+
+    if (currentMessage?.text) {
       const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         containerStyle,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         wrapperStyle,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         optionTitles,
+        renderMessageText,
         ...messageTextProps
       } = this.props
-      if (this.props.renderMessageText) {
-        return this.props.renderMessageText(messageTextProps)
+
+      if (typeof renderMessageText === 'function') {
+        return renderMessageText(messageTextProps)
       }
+
       return <MessageText {...messageTextProps} />
     }
+
     return null
   }
 
   renderMessageImage() {
-    if (this.props.currentMessage && this.props.currentMessage.image) {
-      const { containerStyle, wrapperStyle, ...messageImageProps } = this.props
-      if (this.props.renderMessageImage) {
-        return this.props.renderMessageImage(messageImageProps)
+    const { currentMessage } = this.props
+
+    if (currentMessage?.image) {
+      const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        containerStyle,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        wrapperStyle,
+        renderMessageImage,
+        ...messageImageProps
+      } = this.props
+
+      if (typeof renderMessageImage === 'function') {
+        return renderMessageImage(messageImageProps)
       }
+
       return <MessageImage {...messageImageProps} />
     }
+
     return null
   }
 
   renderMessageVideo() {
-    if (this.props.currentMessage && this.props.currentMessage.video) {
-      const { containerStyle, wrapperStyle, ...messageVideoProps } = this.props
-      if (this.props.renderMessageVideo) {
-        return this.props.renderMessageVideo(messageVideoProps)
+    const { currentMessage } = this.props
+
+    if (currentMessage?.video) {
+      const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        containerStyle,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        wrapperStyle,
+        renderMessageVideo,
+        ...messageVideoProps
+      } = this.props
+
+      if (typeof renderMessageVideo === 'function') {
+        return renderMessageVideo(messageVideoProps)
       }
+
       return <MessageVideo {...messageVideoProps} />
     }
+
     return null
   }
 
   renderMessageAudio() {
-    if (this.props.currentMessage && this.props.currentMessage.audio) {
-      const { containerStyle, wrapperStyle, ...messageAudioProps } = this.props
-      if (this.props.renderMessageAudio) {
-        return this.props.renderMessageAudio(messageAudioProps)
+    const { currentMessage } = this.props
+
+    if (currentMessage?.audio) {
+      const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        containerStyle,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        wrapperStyle,
+        renderMessageAudio,
+        ...messageAudioProps
+      } = this.props
+
+      if (typeof renderMessageAudio === 'function') {
+        return renderMessageAudio(messageAudioProps)
       }
+
       return <MessageAudio {...messageAudioProps} />
     }
+
     return null
   }
 
   renderTicks() {
-    const { currentMessage, renderTicks, user } = this.props
+    const { currentMessage, renderTicks, user, tickStyle } = this.props
+
     if (renderTicks && currentMessage) {
       return renderTicks(currentMessage)
     }
+
     if (
       currentMessage &&
       user &&
@@ -342,6 +421,7 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
     ) {
       return null
     }
+
     if (
       currentMessage &&
       (currentMessage.sent || currentMessage.received || currentMessage.pending)
@@ -349,62 +429,92 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
       return (
         <View style={styles.content.tickView}>
           {!!currentMessage.sent && (
-            <Text style={[styles.content.tick, this.props.tickStyle]}>✓</Text>
+            <Text style={[styles.content.tick, tickStyle]}>
+              {BUBBLE_DEFAULT_SENT_TICK}
+            </Text>
           )}
           {!!currentMessage.received && (
-            <Text style={[styles.content.tick, this.props.tickStyle]}>✓</Text>
+            <Text style={[styles.content.tick, tickStyle]}>
+              {BUBBLE_DEFAULT_RECEIVED_TICK}
+            </Text>
           )}
           {!!currentMessage.pending && (
-            <Text style={[styles.content.tick, this.props.tickStyle]}>🕓</Text>
+            <Text style={[styles.content.tick, tickStyle]}>
+              {BUBBLE_DEFAULT_PENDING_TICK}
+            </Text>
           )}
         </View>
       )
     }
+
     return null
   }
 
   renderTime() {
-    if (this.props.currentMessage && this.props.currentMessage.createdAt) {
-      const { containerStyle, wrapperStyle, textStyle, ...timeProps } =
-        this.props
-      if (this.props.renderTime) {
-        return this.props.renderTime(timeProps)
+    const { currentMessage } = this.props
+
+    if (currentMessage?.createdAt) {
+      const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        containerStyle,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        wrapperStyle,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        textStyle,
+        renderTime,
+        ...timeProps
+      } = this.props
+
+      if (typeof renderTime === 'function') {
+        return renderTime(timeProps)
       }
+
       return <Time {...timeProps} />
     }
+
     return null
   }
 
   renderUsername() {
-    const { currentMessage, user } = this.props
-    if (this.props.renderUsernameOnMessage && currentMessage) {
+    const { currentMessage, user, renderUsernameOnMessage, usernameStyle } =
+      this.props
+
+    if (renderUsernameOnMessage && currentMessage) {
       if (user && currentMessage.user._id === user._id) {
         return null
       }
+
+      const combinedUsernameStyle = [
+        styles.content.username,
+        usernameStyle,
+      ] as TextStyle
+
       return (
         <View style={styles.content.usernameView}>
-          <Text
-            style={
-              [styles.content.username, this.props.usernameStyle] as TextStyle
-            }
-          >
-            ~ {currentMessage.user.name}
+          <Text style={combinedUsernameStyle}>
+            {`${BUBBLE_RENDER_USERNAME_TICK} ${currentMessage.user.name}`}
           </Text>
         </View>
       )
     }
+
     return null
   }
 
   renderCustomView() {
-    if (this.props.renderCustomView) {
-      return this.props.renderCustomView(this.props)
+    const { renderCustomView } = this.props
+
+    if (typeof renderCustomView === 'function') {
+      return renderCustomView(this.props)
     }
+
     return null
   }
 
   renderBubbleContent() {
-    return this.props.isCustomViewBottom ? (
+    const { isCustomViewBottom } = this.props
+
+    return isCustomViewBottom ? (
       <View>
         {this.renderMessageImage()}
         {this.renderMessageVideo()}
@@ -424,8 +534,14 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
   }
 
   render() {
-    const { position, containerStyle, wrapperStyle, bottomContainerStyle } =
-      this.props
+    const {
+      bottomContainerStyle,
+      containerStyle,
+      position,
+      touchableProps,
+      wrapperStyle,
+    } = this.props
+
     return (
       <View
         style={[
@@ -445,7 +561,7 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
             onPress={this.onPress}
             onLongPress={this.onLongPress}
             accessibilityTraits="text"
-            {...this.props.touchableProps}
+            {...touchableProps}
           >
             <View>
               {this.renderBubbleContent()}

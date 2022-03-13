@@ -11,6 +11,13 @@ export const DATE_FORMAT = 'll'
 export const TIME_FORMAT = 'LT'
 
 export const BUBBLE_DEFAULT_OPTION_TITLES = ['Copy Text', 'Cancel']
+
+export const BUBBLE_DEFAULT_SENT_TICK = '✓'
+export const BUBBLE_DEFAULT_RECEIVED_TICK = '✓'
+export const BUBBLE_DEFAULT_PENDING_TICK = '🕓'
+
+export const BUBBLE_RENDER_USERNAME_TICK = '~'
+
 export const MESSAGE_DEFAULT_OPTION_TITLES = ['Call', 'Text', 'Cancel']
 
 export const ACTIONS_DEFAULT_ICON_TEXT = '+'
