@@ -17,21 +17,6 @@ import { StylePropType, isSameDay } from './utils'
 import { DATE_FORMAT } from './Constant'
 import { IMessage } from './Models'
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    marginBottom: 10,
-  },
-  text: {
-    backgroundColor: Color.backgroundTransparent,
-    color: Color.defaultColor,
-    fontSize: 12,
-    fontWeight: '600',
-  },
-})
-
 export interface DayProps<TMessage extends IMessage> {
   currentMessage?: TMessage
   nextMessage?: TMessage
@@ -44,9 +29,9 @@ export interface DayProps<TMessage extends IMessage> {
   inverted?: boolean
 }
 
-export default class Day<
-  TMessage extends IMessage = IMessage,
-> extends PureComponent<DayProps<TMessage>> {
+class Day<TMessage extends IMessage = IMessage> extends PureComponent<
+  DayProps<TMessage>
+> {
   static contextTypes = {
     getLocale: PropTypes.func,
   }
@@ -57,6 +42,7 @@ export default class Day<
     },
     previousMessage: {},
     nextMessage: {},
+    inverted: false,
     containerStyle: {},
     wrapperStyle: {},
     textStyle: {},
@@ -77,6 +63,7 @@ export default class Day<
   }
 
   render() {
+    const { getLocale } = this.context
     const {
       dateFormat,
       currentMessage,
@@ -87,13 +74,13 @@ export default class Day<
       textProps,
     } = this.props
 
-    if (currentMessage && !isSameDay(currentMessage, previousMessage!)) {
+    if (currentMessage && !isSameDay(currentMessage, previousMessage)) {
       return (
         <View style={[styles.container, containerStyle]}>
           <View style={wrapperStyle}>
             <Text style={[styles.text, textStyle]} {...textProps}>
               {dayjs(currentMessage.createdAt)
-                .locale(this.context.getLocale())
+                .locale(getLocale())
                 .format(dateFormat)}
             </Text>
           </View>
@@ -103,3 +90,20 @@ export default class Day<
     return null
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 5,
+    marginBottom: 10,
+  },
+  text: {
+    backgroundColor: Color.backgroundTransparent,
+    color: Color.defaultColor,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+})
+
+export default Day

@@ -24,25 +24,6 @@ const {
   midnightBlue,
 } = Color
 
-const styles = StyleSheet.create({
-  avatarStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-  },
-  avatarTransparent: {
-    backgroundColor: Color.backgroundTransparent,
-  },
-  textStyle: {
-    color: Color.white,
-    fontSize: 16,
-    backgroundColor: Color.backgroundTransparent,
-    fontWeight: '100',
-  },
-})
-
 export interface EasyAvatarProps {
   user?: User
   avatarStyle?: StyleProp<ImageStyle>
@@ -51,7 +32,7 @@ export interface EasyAvatarProps {
   onLongPress?(props: any): void
 }
 
-export default class EasyAvatar extends React.Component<EasyAvatarProps> {
+class EasyAvatar extends React.Component<EasyAvatarProps> {
   static defaultProps = {
     user: {
       name: null,
@@ -198,3 +179,24 @@ export default class EasyAvatar extends React.Component<EasyAvatarProps> {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  avatarStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+  avatarTransparent: {
+    backgroundColor: Color.backgroundTransparent,
+  },
+  textStyle: {
+    color: Color.white,
+    fontSize: 16,
+    backgroundColor: Color.backgroundTransparent,
+    fontWeight: '100',
+  },
+})
+
+export default EasyAvatar

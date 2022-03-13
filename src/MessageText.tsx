@@ -15,7 +15,7 @@ import Communications from 'react-native-communications'
 import type { ParseShape } from 'react-native-parsed-text'
 import { LeftRightStyle, IMessage } from './Models'
 import { error, StylePropType } from './utils'
-import { DEFAULT_OPTION_TITLES } from './Constant'
+import { MESSAGE_DEFAULT_OPTION_TITLES } from './Constant'
 
 const WWW_URL_PATTERN = /^www\./i
 
@@ -26,31 +26,6 @@ const textDefaultStyle = {
   marginBottom: 5,
   marginLeft: 10,
   marginRight: 10,
-}
-
-const styles = {
-  left: StyleSheet.create({
-    container: {},
-    text: {
-      color: 'black',
-      ...textDefaultStyle,
-    },
-    link: {
-      color: 'black',
-      textDecorationLine: 'underline',
-    },
-  }),
-  right: StyleSheet.create({
-    container: {},
-    text: {
-      color: 'white',
-      ...textDefaultStyle,
-    },
-    link: {
-      color: 'white',
-      textDecorationLine: 'underline',
-    },
-  }),
 }
 
 export interface MessageTextProps<TMessage extends IMessage> {
@@ -77,7 +52,7 @@ class MessageText<TMessage extends IMessage = IMessage> extends React.Component<
 
   static defaultProps = {
     position: 'left',
-    optionTitles: DEFAULT_OPTION_TITLES,
+    optionTitles: MESSAGE_DEFAULT_OPTION_TITLES,
     currentMessage: {
       text: '',
     },
@@ -143,7 +118,7 @@ class MessageText<TMessage extends IMessage = IMessage> extends React.Component<
     const options =
       optionTitles && optionTitles.length > 0
         ? optionTitles.slice(0, 3)
-        : DEFAULT_OPTION_TITLES
+        : MESSAGE_DEFAULT_OPTION_TITLES
     const cancelButtonIndex = options.length - 1
 
     actionSheet().showActionSheetWithOptions(
@@ -220,6 +195,31 @@ class MessageText<TMessage extends IMessage = IMessage> extends React.Component<
       </View>
     )
   }
+}
+
+const styles = {
+  left: StyleSheet.create({
+    container: {},
+    text: {
+      color: 'black',
+      ...textDefaultStyle,
+    },
+    link: {
+      color: 'black',
+      textDecorationLine: 'underline',
+    },
+  }),
+  right: StyleSheet.create({
+    container: {},
+    text: {
+      color: 'white',
+      ...textDefaultStyle,
+    },
+    link: {
+      color: 'white',
+      textDecorationLine: 'underline',
+    },
+  }),
 }
 
 export default MessageText

@@ -10,27 +10,6 @@ import Day from './Day'
 import { StylePropType, isSameUser } from './utils'
 import { IMessage, User, LeftRightStyle } from './Models'
 
-const styles = {
-  left: StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      alignItems: 'flex-end',
-      justifyContent: 'flex-start',
-      marginLeft: 8,
-      marginRight: 0,
-    },
-  }),
-  right: StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      alignItems: 'flex-end',
-      justifyContent: 'flex-end',
-      marginLeft: 0,
-      marginRight: 8,
-    },
-  }),
-}
-
 export interface MessageProps<TMessage extends IMessage> {
   key: any
   showUserAvatar?: boolean
@@ -229,6 +208,27 @@ class Message<TMessage extends IMessage = IMessage> extends React.Component<
     }
     return null
   }
+}
+
+const styles = {
+  left: StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      justifyContent: 'flex-start',
+      marginLeft: 8,
+      marginRight: 0,
+    },
+  }),
+  right: StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+      justifyContent: 'flex-end',
+      marginLeft: 0,
+      marginRight: 8,
+    },
+  }),
 }
 
 export default Message

@@ -22,7 +22,7 @@ export interface ActionsProps {
   onPressActionButton?(): void
 }
 
-export default class Actions extends React.Component<ActionsProps> {
+class Actions extends React.Component<ActionsProps> {
   static defaultProps: ActionsProps = {
     options: {},
     optionTintColor: Color.optionTintColor,
@@ -109,3 +109,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 })
+
+export default Actions

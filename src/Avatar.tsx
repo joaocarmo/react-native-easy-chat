@@ -11,37 +11,6 @@ import EasyAvatar from './EasyAvatar'
 import { StylePropType, isSameUser, isSameDay } from './utils'
 import { Omit, IMessage, User, LeftRightStyle } from './Models'
 
-const styles = {
-  left: StyleSheet.create({
-    container: {
-      marginRight: 8,
-    },
-    onTop: {
-      alignSelf: 'flex-start',
-    },
-    onBottom: {},
-    image: {
-      height: 36,
-      width: 36,
-      borderRadius: 18,
-    },
-  }),
-  right: StyleSheet.create({
-    container: {
-      marginLeft: 8,
-    },
-    onTop: {
-      alignSelf: 'flex-start',
-    },
-    onBottom: {},
-    image: {
-      height: 36,
-      width: 36,
-      borderRadius: 18,
-    },
-  }),
-}
-
 export interface AvatarProps<TMessage extends IMessage> {
   currentMessage?: TMessage
   previousMessage?: TMessage
@@ -57,9 +26,9 @@ export interface AvatarProps<TMessage extends IMessage> {
   onLongPressAvatar?(user: User): void
 }
 
-export default class Avatar<
-  TMessage extends IMessage = IMessage,
-> extends React.Component<AvatarProps<TMessage>> {
+class Avatar<TMessage extends IMessage = IMessage> extends React.Component<
+  AvatarProps<TMessage>
+> {
   static defaultProps = {
     renderAvatarOnTop: false,
     showAvatarForEveryMessage: false,
@@ -184,3 +153,36 @@ export default class Avatar<
     )
   }
 }
+
+const styles = {
+  left: StyleSheet.create({
+    container: {
+      marginRight: 8,
+    },
+    onTop: {
+      alignSelf: 'flex-start',
+    },
+    onBottom: {},
+    image: {
+      height: 36,
+      width: 36,
+      borderRadius: 18,
+    },
+  }),
+  right: StyleSheet.create({
+    container: {
+      marginLeft: 8,
+    },
+    onTop: {
+      alignSelf: 'flex-start',
+    },
+    onBottom: {},
+    image: {
+      height: 36,
+      width: 36,
+      borderRadius: 18,
+    },
+  }),
+}
+
+export default Avatar

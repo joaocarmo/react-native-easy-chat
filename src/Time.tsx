@@ -20,27 +20,6 @@ const textStyle = {
   textAlign: 'right',
 }
 
-const styles = {
-  left: StyleSheet.create({
-    container: {
-      ...containerDefaultStyle,
-    },
-    text: {
-      color: Color.timeTextColor,
-      ...textStyle,
-    },
-  }),
-  right: StyleSheet.create({
-    container: {
-      ...containerDefaultStyle,
-    },
-    text: {
-      color: Color.white,
-      ...textStyle,
-    },
-  }),
-}
-
 export interface TimeProps<TMessage extends IMessage> {
   position: 'left' | 'right'
   currentMessage?: TMessage
@@ -49,9 +28,9 @@ export interface TimeProps<TMessage extends IMessage> {
   timeFormat?: string
 }
 
-export default class Time<
-  TMessage extends IMessage = IMessage,
-> extends PureComponent<TimeProps<TMessage>> {
+class Time<TMessage extends IMessage = IMessage> extends PureComponent<
+  TimeProps<TMessage>
+> {
   static contextTypes = {
     getLocale: PropTypes.func,
   }
@@ -116,3 +95,26 @@ export default class Time<
     return null
   }
 }
+
+const styles = {
+  left: StyleSheet.create({
+    container: {
+      ...containerDefaultStyle,
+    },
+    text: {
+      color: Color.timeTextColor,
+      ...textStyle,
+    },
+  }),
+  right: StyleSheet.create({
+    container: {
+      ...containerDefaultStyle,
+    },
+    text: {
+      color: Color.white,
+      ...textStyle,
+    },
+  }),
+}
+
+export default Time

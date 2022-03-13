@@ -31,79 +31,7 @@ import {
   MessageVideoProps,
   MessageAudioProps,
 } from './Models'
-
-const styles = {
-  left: StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'flex-start',
-    },
-    wrapper: {
-      borderRadius: 15,
-      backgroundColor: Color.leftBubbleBackground,
-      marginRight: 60,
-      minHeight: 20,
-      justifyContent: 'flex-end',
-    },
-    containerToNext: {
-      borderBottomLeftRadius: 3,
-    },
-    containerToPrevious: {
-      borderTopLeftRadius: 3,
-    },
-    bottom: {
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-    },
-  }),
-  right: StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'flex-end',
-    },
-    wrapper: {
-      borderRadius: 15,
-      backgroundColor: Color.defaultBlue,
-      marginLeft: 60,
-      minHeight: 20,
-      justifyContent: 'flex-end',
-    },
-    containerToNext: {
-      borderBottomRightRadius: 3,
-    },
-    containerToPrevious: {
-      borderTopRightRadius: 3,
-    },
-    bottom: {
-      flexDirection: 'row',
-      justifyContent: 'flex-end',
-    },
-  }),
-  content: StyleSheet.create({
-    tick: {
-      fontSize: 10,
-      backgroundColor: Color.backgroundTransparent,
-      color: Color.white,
-    },
-    tickView: {
-      flexDirection: 'row',
-      marginRight: 10,
-    },
-    username: {
-      top: -3,
-      left: 0,
-      fontSize: 12,
-      backgroundColor: 'transparent',
-      color: '#aaa',
-    },
-    usernameView: {
-      flexDirection: 'row',
-      marginHorizontal: 10,
-    },
-  }),
-}
-
-const DEFAULT_OPTION_TITLES = ['Copy Text', 'Cancel']
+import { BUBBLE_DEFAULT_OPTION_TITLES } from './Constant'
 
 export type RenderMessageImageProps<TMessage extends IMessage> = Omit<
   BubbleProps<TMessage>,
@@ -164,9 +92,9 @@ export interface BubbleProps<TMessage extends IMessage> {
   renderQuickReplies?(quickReplies: QuickReplies['props']): React.ReactNode
 }
 
-export default class Bubble<
-  TMessage extends IMessage = IMessage,
-> extends React.Component<BubbleProps<TMessage>> {
+class Bubble<TMessage extends IMessage = IMessage> extends React.Component<
+  BubbleProps<TMessage>
+> {
   static contextTypes = {
     actionSheet: PropTypes.func,
   }
@@ -186,7 +114,7 @@ export default class Bubble<
     renderQuickReplies: null,
     onQuickReply: null,
     position: 'left',
-    optionTitles: DEFAULT_OPTION_TITLES,
+    optionTitles: BUBBLE_DEFAULT_OPTION_TITLES,
     currentMessage: {
       text: null,
       createdAt: null,
@@ -263,7 +191,7 @@ export default class Bubble<
       const options =
         optionTitles && optionTitles.length > 0
           ? optionTitles.slice(0, 2)
-          : DEFAULT_OPTION_TITLES
+          : BUBBLE_DEFAULT_OPTION_TITLES
       const cancelButtonIndex = options.length - 1
       this.context.actionSheet().showActionSheetWithOptions(
         {
@@ -538,3 +466,76 @@ export default class Bubble<
     )
   }
 }
+
+const styles = {
+  left: StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'flex-start',
+    },
+    wrapper: {
+      borderRadius: 15,
+      backgroundColor: Color.leftBubbleBackground,
+      marginRight: 60,
+      minHeight: 20,
+      justifyContent: 'flex-end',
+    },
+    containerToNext: {
+      borderBottomLeftRadius: 3,
+    },
+    containerToPrevious: {
+      borderTopLeftRadius: 3,
+    },
+    bottom: {
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+    },
+  }),
+  right: StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'flex-end',
+    },
+    wrapper: {
+      borderRadius: 15,
+      backgroundColor: Color.defaultBlue,
+      marginLeft: 60,
+      minHeight: 20,
+      justifyContent: 'flex-end',
+    },
+    containerToNext: {
+      borderBottomRightRadius: 3,
+    },
+    containerToPrevious: {
+      borderTopRightRadius: 3,
+    },
+    bottom: {
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+    },
+  }),
+  content: StyleSheet.create({
+    tick: {
+      fontSize: 10,
+      backgroundColor: Color.backgroundTransparent,
+      color: Color.white,
+    },
+    tickView: {
+      flexDirection: 'row',
+      marginRight: 10,
+    },
+    username: {
+      top: -3,
+      left: 0,
+      fontSize: 12,
+      backgroundColor: 'transparent',
+      color: '#aaa',
+    },
+    usernameView: {
+      flexDirection: 'row',
+      marginHorizontal: 10,
+    },
+  }),
+}
+
+export default Bubble

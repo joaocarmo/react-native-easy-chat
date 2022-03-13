@@ -14,22 +14,6 @@ import Color from './Color'
 import { IMessage } from './Models'
 import { StylePropType } from './utils'
 
-const styles = StyleSheet.create({
-  container: {
-    height: 44,
-    justifyContent: 'flex-end',
-  },
-  text: {
-    color: Color.defaultBlue,
-    fontWeight: '600',
-    fontSize: 17,
-    backgroundColor: Color.backgroundTransparent,
-    marginBottom: 12,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-})
-
 export interface SendProps<TMessage extends IMessage> {
   text?: string
   label?: string
@@ -45,9 +29,9 @@ export interface SendProps<TMessage extends IMessage> {
   ): void
 }
 
-export default class Send<
-  TMessage extends IMessage = IMessage,
-> extends Component<SendProps<TMessage>> {
+class Send<TMessage extends IMessage = IMessage> extends Component<
+  SendProps<TMessage>
+> {
   static defaultProps = {
     text: '',
     onSend: () => null,
@@ -111,3 +95,21 @@ export default class Send<
     return <View />
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: 44,
+    justifyContent: 'flex-end',
+  },
+  text: {
+    color: Color.defaultBlue,
+    fontWeight: '600',
+    fontSize: 17,
+    backgroundColor: Color.backgroundTransparent,
+    marginBottom: 12,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+})
+
+export default Send

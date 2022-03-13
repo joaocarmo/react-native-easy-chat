@@ -32,10 +32,7 @@ const sameReply = (currentReply: Reply) => (reply: Reply) =>
 const diffReply = (currentReply: Reply) => (reply: Reply) =>
   currentReply.value !== reply.value
 
-export default class QuickReplies extends Component<
-  QuickRepliesProps,
-  QuickRepliesState
-> {
+class QuickReplies extends Component<QuickRepliesProps, QuickRepliesState> {
   static defaultProps = {
     nextMessage: undefined,
     onQuickReply: () => null,
@@ -219,3 +216,5 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
 })
+
+export default QuickReplies
