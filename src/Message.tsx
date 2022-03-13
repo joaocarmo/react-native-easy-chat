@@ -80,10 +80,7 @@ class Message<TMessage extends IMessage = IMessage> extends Component<
     const nextPropsMessage = nextProps.nextMessage
     const nextPropsPreviousMessage = nextProps.previousMessage
 
-    const shouldUpdate =
-      (typeof shouldUpdateMessage === 'function' &&
-        shouldUpdateMessage(this.props, nextProps)) ||
-      false
+    const shouldUpdate = shouldUpdateMessage?.(this.props, nextProps) || false
 
     return (
       next?.sent !== current?.sent ||

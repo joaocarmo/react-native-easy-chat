@@ -93,14 +93,8 @@ class Avatar<TMessage extends IMessage = IMessage> extends Component<
           avatarStyle={avatarStyle}
           textStyle={textStyle || {}}
           user={currentMessage.user}
-          onPress={() =>
-            typeof onPressAvatar === 'function' &&
-            onPressAvatar(currentMessage.user)
-          }
-          onLongPress={() =>
-            typeof onLongPressAvatar === 'function' &&
-            onLongPressAvatar(currentMessage.user)
-          }
+          onPress={() => onPressAvatar?.(currentMessage.user)}
+          onLongPress={() => onLongPressAvatar?.(currentMessage.user)}
         />
       )
     }

@@ -31,7 +31,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-console': ['error'],
     'no-restricted-syntax': 'off',
-    'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'no-underscore-dangle': ['error', { allow: ['_id'], allowAfterThis: true }],
     'object-curly-spacing': ['error', 'always'],
     'react/function-component-definition': [
       'error',

@@ -86,7 +86,7 @@ class LoadEarlier extends Component<LoadEarlierProps> {
     return (
       <TouchableOpacity
         style={[styles.container, containerStyle]}
-        onPress={() => typeof onLoadEarlier === 'function' && onLoadEarlier()}
+        onPress={() => onLoadEarlier?.()}
         disabled={isLoadingEarlier === true}
         accessibilityTraits="button"
       >
