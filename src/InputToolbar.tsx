@@ -1,12 +1,13 @@
 import { Component } from 'react'
 import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  Keyboard,
+import { StyleSheet, View, Keyboard } from 'react-native'
+import type {
+  // ColorValue,
   EmitterSubscription,
   StyleProp,
+  TextInputProps,
+  TextStyle,
   ViewStyle,
 } from 'react-native'
 
@@ -16,42 +17,50 @@ import Actions from './Actions'
 import Color from './Color'
 import { StylePropType } from './utils'
 
+type ColorValue = any
+
 export interface InputToolbarProps {
+  accessoryStyle?: StyleProp<ViewStyle>
+  containerStyle?: StyleProp<ViewStyle>
+  onPressActionButton?(): void
   options?: Record<string, any>
   optionTintColor?: string
-  containerStyle?: StyleProp<ViewStyle>
+  placeholderTextColor?: ColorValue
   primaryStyle?: StyleProp<ViewStyle>
-  accessoryStyle?: StyleProp<ViewStyle>
   renderAccessory?(props: InputToolbarProps): ReactNode
   renderActions?(props: Actions['props']): ReactNode
-  renderSend?(props: Send['props']): ReactNode
   renderComposer?(props: Composer['props']): ReactNode
-  onPressActionButton?(): void
+  renderSend?(props: Send['props']): ReactNode
+  textInputStyle?: TextInputProps['style']
+  textStyle?: StyleProp<TextStyle>
 }
 
 class InputToolbar extends Component<InputToolbarProps, { position: string }> {
   static defaultProps = {
+    accessoryStyle: {},
+    containerStyle: {},
+    onPressActionButton: () => null,
     options: undefined,
     optionTintColor: undefined,
+    placeholderTextColor: undefined,
+    primaryStyle: {},
     renderAccessory: null,
     renderActions: null,
-    renderSend: null,
     renderComposer: null,
-    containerStyle: {},
-    primaryStyle: {},
-    accessoryStyle: {},
-    onPressActionButton: () => null,
+    renderSend: null,
+    textInputStyle: undefined,
+    textStyle: undefined,
   }
 
   static propTypes = {
+    accessoryStyle: StylePropType,
+    containerStyle: StylePropType,
+    onPressActionButton: PropTypes.func,
+    primaryStyle: StylePropType,
     renderAccessory: PropTypes.func,
     renderActions: PropTypes.func,
-    renderSend: PropTypes.func,
     renderComposer: PropTypes.func,
-    onPressActionButton: PropTypes.func,
-    containerStyle: StylePropType,
-    primaryStyle: StylePropType,
-    accessoryStyle: StylePropType,
+    renderSend: PropTypes.func,
   }
 
   keyboardWillShowListener?: EmitterSubscription = undefined
@@ -71,6 +80,7 @@ class InputToolbar extends Component<InputToolbarProps, { position: string }> {
       'keyboardWillShow',
       this.keyboardWillShow,
     )
+
     this.keyboardWillHideListener = Keyboard.addListener(
       'keyboardWillHide',
       this.keyboardWillHide,
@@ -81,6 +91,7 @@ class InputToolbar extends Component<InputToolbarProps, { position: string }> {
     if (this.keyboardWillShowListener) {
       this.keyboardWillShowListener.remove()
     }
+
     if (this.keyboardWillHideListener) {
       this.keyboardWillHideListener.remove()
     }
