@@ -13,6 +13,8 @@ export const TIME_FORMAT = 'LT'
 export const BUBBLE_DEFAULT_OPTION_TITLES = ['Copy Text', 'Cancel']
 export const MESSAGE_DEFAULT_OPTION_TITLES = ['Call', 'Text', 'Cancel']
 
+export const ACTIONS_DEFAULT_ICON_TEXT = '+'
+
 export const AUDIO_NOT_IMPLEMENTED_MESSAGE =
   'Audio is not implemented by EasyChat.'
 export const AUDIO_NOT_IMPLEMENTED_TITLE =

@@ -11,9 +11,10 @@ import {
 } from 'react-native'
 import Color from './Color'
 import { StylePropType } from './utils'
+import { ACTIONS_DEFAULT_ICON_TEXT } from './Constant'
 
 export interface ActionsProps {
-  options?: { [key: string]: any }
+  options?: Record<string, any>
   optionTintColor?: string
   icon?: () => ReactNode
   wrapperStyle?: StyleProp<ViewStyle>
@@ -27,13 +28,13 @@ class Actions extends React.Component<ActionsProps> {
     options: {},
     optionTintColor: Color.optionTintColor,
     icon: undefined,
+    onPressActionButton: undefined,
     containerStyle: {},
     iconTextStyle: {},
     wrapperStyle: {},
   }
 
   static propTypes = {
-    onSend: PropTypes.func,
     options: PropTypes.object,
     optionTintColor: PropTypes.string,
     icon: PropTypes.func,
@@ -47,40 +48,49 @@ class Actions extends React.Component<ActionsProps> {
   }
 
   onActionsPress = () => {
-    const { options } = this.props
-    const optionKeys = Object.keys(options!)
+    const { actionSheet } = this.context
+    const { options, optionTintColor } = this.props
+
+    const optionKeys = Object.keys(options ?? {})
     const cancelButtonIndex = optionKeys.indexOf('Cancel')
-    this.context.actionSheet().showActionSheetWithOptions(
+    actionSheet().showActionSheetWithOptions(
       {
         options: optionKeys,
         cancelButtonIndex,
-        tintColor: this.props.optionTintColor,
+        tintColor: optionTintColor,
       },
       (buttonIndex: number) => {
         const key = optionKeys[buttonIndex]
         if (key) {
-          options![key](this.props)
+          options?.[key](this.props)
         }
       },
     )
   }
 
   renderIcon() {
-    if (this.props.icon) {
-      return this.props.icon()
+    const { icon, iconTextStyle, wrapperStyle } = this.props
+
+    if (typeof icon === 'function') {
+      return icon()
     }
+
     return (
-      <View style={[styles.wrapper, this.props.wrapperStyle]}>
-        <Text style={[styles.iconText, this.props.iconTextStyle]}>+</Text>
+      <View style={[styles.wrapper, wrapperStyle]}>
+        <Text style={[styles.iconText, iconTextStyle]}>
+          {ACTIONS_DEFAULT_ICON_TEXT}
+        </Text>
       </View>
     )
   }
 
   render() {
+    const { containerStyle, onPressActionButton } = this.props
+
     return (
       <TouchableOpacity
-        style={[styles.container, this.props.containerStyle]}
-        onPress={this.props.onPressActionButton || this.onActionsPress}
+        style={[styles.container, containerStyle]}
+        onPress={onPressActionButton || this.onActionsPress}
       >
         {this.renderIcon()}
       </TouchableOpacity>

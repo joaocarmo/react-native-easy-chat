@@ -38,10 +38,12 @@ class Avatar<TMessage extends IMessage = IMessage> extends React.Component<
     },
     previousMessage: {},
     nextMessage: {},
+    textStyle: undefined,
+    renderAvatar: undefined,
     containerStyle: {},
     imageStyle: {},
-    onPressAvatar: () => {},
-    onLongPressAvatar: () => {},
+    onPressAvatar: () => null,
+    onLongPressAvatar: () => null,
   }
 
   static propTypes = {
@@ -65,29 +67,38 @@ class Avatar<TMessage extends IMessage = IMessage> extends React.Component<
   }
 
   renderAvatar() {
-    if (this.props.renderAvatar) {
-      const { renderAvatar, ...avatarProps } = this.props
-      return this.props.renderAvatar(avatarProps)
+    const { renderAvatar, ...avatarProps } = this.props
+
+    if (typeof renderAvatar === 'function') {
+      return renderAvatar(avatarProps)
     }
-    if (this.props.currentMessage) {
+
+    const {
+      currentMessage,
+      imageStyle,
+      onLongPressAvatar,
+      onPressAvatar,
+      position,
+      textStyle,
+    } = avatarProps
+    const avatarStyle = [
+      styles[position].image,
+      imageStyle?.[position],
+    ] as ImageStyle
+
+    if (currentMessage) {
       return (
         <EasyAvatar
-          avatarStyle={
-            [
-              styles[this.props.position].image,
-              this.props.imageStyle &&
-                this.props.imageStyle[this.props.position],
-            ] as ImageStyle
-          }
-          textStyle={this.props.textStyle ? this.props.textStyle : {}}
-          user={this.props.currentMessage.user}
+          avatarStyle={avatarStyle}
+          textStyle={textStyle || {}}
+          user={currentMessage.user}
           onPress={() =>
-            this.props.onPressAvatar &&
-            this.props.onPressAvatar(this.props.currentMessage!.user)
+            typeof onPressAvatar === 'function' &&
+            onPressAvatar(currentMessage.user)
           }
           onLongPress={() =>
-            this.props.onLongPressAvatar &&
-            this.props.onLongPressAvatar(this.props.currentMessage!.user)
+            typeof onLongPressAvatar === 'function' &&
+            onLongPressAvatar(currentMessage.user)
           }
         />
       )

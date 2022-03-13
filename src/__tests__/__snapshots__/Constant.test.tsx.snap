@@ -2,6 +2,7 @@
 
 exports[`should compare Constant with snapshot 1`] = `
 Object {
+  "ACTIONS_DEFAULT_ICON_TEXT": "+",
   "AUDIO_NOT_IMPLEMENTED_MESSAGE": "Audio is not implemented by EasyChat.",
   "AUDIO_NOT_IMPLEMENTED_TITLE": "You need to provide your own implementation by using renderMessageAudio prop.",
   "BUBBLE_DEFAULT_OPTION_TITLES": Array [
