@@ -9,9 +9,10 @@ lib
 
 # examples
 example-*
+example/
 
 # expo
-example/App.tsx
+App.tsx
 
 # configs
 .eslintrc.js
