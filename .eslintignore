@@ -11,7 +11,7 @@ lib
 example-*
 
 # expo
-App.tsx
+example/App.tsx
 
 # configs
 .eslintrc.js

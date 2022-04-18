@@ -139,6 +139,7 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   options?: Record<string, any>
   optionTintColor?: string
   quickReplyStyle?: StyleProp<ViewStyle>
+  quickReplyTextStyle?: StyleProp<TextStyle>
   /* optional prop used to place customView below text, image and video views; default is false */
   isCustomViewBottom?: boolean
   /* infinite scroll up when reach the top of messages container, automatically call onLoadEarlier function if exist */
@@ -289,6 +290,7 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     parsePatterns: undefined,
     placeholder: DEFAULT_PLACEHOLDER,
     quickReplyStyle: undefined,
+    quickReplyTextStyle: undefined,
     renderAccessory: null,
     renderActions: null,
     renderAvatar: undefined,

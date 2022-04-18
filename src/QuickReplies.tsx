@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   StyleProp,
   ViewStyle,
+  TextStyle,
 } from 'react-native'
 import { IMessage, Reply } from './Models'
 import Color from './Color'
@@ -19,6 +20,7 @@ export interface QuickRepliesProps {
   color?: string
   sendText?: string
   quickReplyStyle?: StyleProp<ViewStyle>
+  quickReplyTextStyle?: StyleProp<TextStyle>
   onQuickReply?(reply: Reply[]): void
   renderQuickReplySend?(): ReactNode
 }
@@ -41,6 +43,7 @@ class QuickReplies extends Component<QuickRepliesProps, QuickRepliesState> {
     sendText: 'Send',
     renderQuickReplySend: undefined,
     quickReplyStyle: undefined,
+    quickReplyTextStyle: undefined,
   }
 
   static propTypes = {
@@ -50,6 +53,7 @@ class QuickReplies extends Component<QuickRepliesProps, QuickRepliesState> {
     sendText: PropTypes.string,
     renderQuickReplySend: PropTypes.func,
     quickReplyStyle: StylePropType,
+    quickReplyTextStyle: StylePropType,
   }
 
   constructor(props: QuickRepliesProps) {
@@ -140,7 +144,8 @@ class QuickReplies extends Component<QuickRepliesProps, QuickRepliesState> {
   }
 
   render() {
-    const { currentMessage, color, quickReplyStyle } = this.props
+    const { currentMessage, color, quickReplyStyle, quickReplyTextStyle } =
+      this.props
     const { replies } = this.state
 
     if (!this.shouldComponentDisplay()) {
@@ -162,6 +167,7 @@ class QuickReplies extends Component<QuickRepliesProps, QuickRepliesState> {
                 style={[
                   styles.quickReply,
                   quickReplyStyle,
+                  quickReplyTextStyle,
                   { borderColor: color },
                   selected && { backgroundColor: color },
                 ]}

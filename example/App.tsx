@@ -2,14 +2,14 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { AppLoading, Asset, Linking } from 'expo'
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, Platform } from 'react-native'
-import { Bubble, EasyChat, SystemMessage, IMessage, Send } from './src'
+import { Bubble, EasyChat, SystemMessage, IMessage, Send } from '../src'
 
-import AccessoryBar from './example-expo/AccessoryBar'
-import CustomActions from './example-expo/CustomActions'
-import CustomView from './example-expo/CustomView'
-import NavBar from './example-expo/NavBar'
-import messagesData from './example-expo/data/messages'
-import earlierMessages from './example-expo/data/earlierMessages'
+import AccessoryBar from '../example-expo/AccessoryBar'
+import CustomActions from '../example-expo/CustomActions'
+import CustomView from '../example-expo/CustomView'
+import NavBar from '../example-expo/NavBar'
+import messagesData from '../example-expo/data/messages'
+import earlierMessages from '../example-expo/data/earlierMessages'
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
@@ -257,6 +257,9 @@ export default class App extends Component {
           renderCustomView={this.renderCustomView}
           renderSend={this.renderSend}
           quickReplyStyle={{ borderRadius: 2 }}
+          quickReplyTextStyle={{
+            fontWeight: '200',
+          }}
           renderQuickReplySend={this.renderQuickReplySend}
           inverted={Platform.OS !== 'web'}
           timeTextStyle={{ left: { color: 'red' }, right: { color: 'yellow' } }}

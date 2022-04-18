@@ -111,7 +111,7 @@ This documentation is a work in progress. You can check the full detailed docs
 
 <!-- References -->
 
-[app]: ./App.tsx
+[app]: ./example/App.tsx
 [example-slack-message]: ./example-slack-message
 [jsx-transform]: https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html
 [license]: ./LICENSE
