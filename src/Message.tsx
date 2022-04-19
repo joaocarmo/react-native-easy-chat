@@ -8,7 +8,7 @@ import Bubble from './Bubble'
 import SystemMessage from './SystemMessage'
 import Day from './Day'
 
-import { StylePropType, isSameUser } from './utils'
+import { StylePropType, isSameUser } from './utils/utils'
 import { IMessage, User, LeftRightStyle } from './Models'
 
 export interface MessageProps<TMessage extends IMessage> {

@@ -4,7 +4,7 @@ import { Platform, StyleSheet, TextInput } from 'react-native'
 import type { LayoutChangeEvent, TextInputProps } from 'react-native'
 import { MIN_COMPOSER_HEIGHT, DEFAULT_PLACEHOLDER } from './Constant'
 import Color from './Color'
-import { StylePropType } from './utils'
+import { StylePropType } from './utils/utils'
 
 export interface ComposerProps {
   composerHeight?: number

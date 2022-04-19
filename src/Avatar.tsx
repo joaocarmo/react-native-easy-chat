@@ -9,7 +9,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import EasyAvatar from './EasyAvatar'
-import { StylePropType, isSameUser, isSameDay } from './utils'
+import { StylePropType, isSameUser, isSameDay } from './utils/utils'
 import { Omit, IMessage, User, LeftRightStyle } from './Models'
 
 export interface AvatarProps<TMessage extends IMessage> {

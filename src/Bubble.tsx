@@ -22,7 +22,7 @@ import MessageAudio from './MessageAudio'
 import Time from './Time'
 import Color from './Color'
 
-import { StylePropType, isSameUser, isSameDay } from './utils'
+import { StylePropType, isSameUser, isSameDay } from './utils/utils'
 import {
   User,
   IMessage,

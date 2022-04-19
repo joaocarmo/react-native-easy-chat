@@ -1,5 +1,5 @@
-import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import {
   Image,
   StyleSheet,
@@ -10,69 +10,9 @@ import {
   ImageStyle,
 } from 'react-native'
 // TODO: support web
-import Lightbox from 'react-native-lightbox-v2'
+import Lightbox, { LightboxProps } from 'react-native-lightbox-v2'
 import { IMessage } from './Models'
-import { StylePropType } from './utils'
-
-export interface MessageImageProps<TMessage extends IMessage> {
-  currentMessage?: TMessage
-  containerStyle?: StyleProp<ViewStyle>
-  imageStyle?: StyleProp<ImageStyle>
-  imageProps?: Partial<ImageProps>
-  lightboxProps?: object
-}
-
-class MessageImage<TMessage extends IMessage = IMessage> extends PureComponent<
-  MessageImageProps<TMessage>
-> {
-  static defaultProps = {
-    currentMessage: {
-      image: null,
-    },
-    containerStyle: {},
-    imageStyle: {},
-    imageProps: {},
-    lightboxProps: {},
-  }
-
-  static propTypes = {
-    currentMessage: PropTypes.object,
-    containerStyle: StylePropType,
-    imageStyle: StylePropType,
-    imageProps: PropTypes.object,
-    lightboxProps: PropTypes.object,
-  }
-
-  render() {
-    const {
-      containerStyle,
-      lightboxProps,
-      imageProps,
-      imageStyle,
-      currentMessage,
-    } = this.props
-    if (currentMessage) {
-      return (
-        <View style={[styles.container, containerStyle]}>
-          <Lightbox
-            activeProps={{
-              style: styles.imageActive,
-            }}
-            {...lightboxProps}
-          >
-            <Image
-              {...imageProps}
-              style={[styles.image, imageStyle]}
-              source={{ uri: currentMessage.image }}
-            />
-          </Lightbox>
-        </View>
-      )
-    }
-
-    return null
-  }
-}
+import { StylePropType } from './utils/utils'
 
 const styles = StyleSheet.create({
   container: {},
@@ -88,5 +28,60 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
 })
+
+export interface MessageImageProps<TMessage extends IMessage> {
+  currentMessage?: TMessage
+  containerStyle?: StyleProp<ViewStyle>
+  imageStyle?: StyleProp<ImageStyle>
+  imageProps?: Partial<ImageProps>
+  lightboxProps?: LightboxProps
+}
+
+const MessageImage = <TMessage extends IMessage = IMessage>({
+  containerStyle,
+  lightboxProps = {},
+  imageProps = {},
+  imageStyle,
+  currentMessage,
+}: MessageImageProps<TMessage>) => {
+  if (currentMessage == null) {
+    return null
+  }
+
+  return (
+    <View style={[styles.container, containerStyle]}>
+      <Lightbox
+        activeProps={{
+          style: styles.imageActive,
+        }}
+        {...lightboxProps}
+      >
+        <Image
+          {...imageProps}
+          style={[styles.image, imageStyle]}
+          source={{ uri: currentMessage.image }}
+        />
+      </Lightbox>
+    </View>
+  )
+}
+
+MessageImage.propTypes = {
+  currentMessage: PropTypes.object,
+  containerStyle: StylePropType,
+  imageStyle: StylePropType,
+  imageProps: PropTypes.object,
+  lightboxProps: PropTypes.object,
+}
+
+MessageImage.defaultProps = {
+  currentMessage: {
+    image: null,
+  },
+  containerStyle: {},
+  imageStyle: {},
+  imageProps: {},
+  lightboxProps: {},
+}
 
 export default MessageImage

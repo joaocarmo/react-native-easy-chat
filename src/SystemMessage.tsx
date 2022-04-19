@@ -10,7 +10,7 @@ import {
 import PropTypes from 'prop-types'
 import Color from './Color'
 import { IMessage } from './Models'
-import { StylePropType } from './utils'
+import { StylePropType } from './utils/utils'
 
 export interface SystemMessageProps<TMessage extends IMessage> {
   currentMessage?: TMessage

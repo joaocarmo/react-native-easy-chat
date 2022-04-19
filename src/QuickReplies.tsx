@@ -12,7 +12,8 @@ import {
 } from 'react-native'
 import { IMessage, Reply } from './Models'
 import Color from './Color'
-import { warning, StylePropType } from './utils'
+import { StylePropType } from './utils/utils'
+import { warning } from './utils/logging'
 
 export interface QuickRepliesProps {
   nextMessage?: IMessage

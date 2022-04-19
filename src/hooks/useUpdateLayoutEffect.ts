@@ -1,6 +1,6 @@
 import { useLayoutEffect, useMemo, useRef } from 'react'
 import type { EffectCallback, DependencyList } from 'react'
-import { error } from '../utils'
+import { error } from '../utils/logging'
 
 /**
  * Accepts a function that contains imperative, possibly effectful code.

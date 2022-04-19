@@ -12,7 +12,7 @@ import {
   TextStyle,
 } from 'react-native'
 import Color from './Color'
-import { StylePropType } from './utils'
+import { StylePropType } from './utils/utils'
 
 export interface LoadEarlierProps {
   isLoadingEarlier?: boolean

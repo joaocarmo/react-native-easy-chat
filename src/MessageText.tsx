@@ -14,7 +14,8 @@ import ParsedText from 'react-native-parsed-text'
 import Communications from 'react-native-communications'
 import type { ParseShape } from 'react-native-parsed-text'
 import { LeftRightStyle, IMessage } from './Models'
-import { error, StylePropType } from './utils'
+import { StylePropType } from './utils/utils'
+import { error } from './utils/logging'
 import { MESSAGE_DEFAULT_OPTION_TITLES } from './Constant'
 
 const WWW_URL_PATTERN = /^www\./i

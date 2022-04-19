@@ -11,7 +11,7 @@ import {
   TextStyle,
 } from 'react-native'
 import Color from './Color'
-import { StylePropType } from './utils'
+import { StylePropType } from './utils/utils'
 import { ACTIONS_DEFAULT_ICON_TEXT } from './Constant'
 
 export interface ActionsProps {

@@ -15,7 +15,7 @@ import Composer from './Composer'
 import Send from './Send'
 import Actions from './Actions'
 import Color from './Color'
-import { StylePropType } from './utils'
+import { StylePropType } from './utils/utils'
 
 type ColorValue = any
 

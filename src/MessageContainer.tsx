@@ -21,7 +21,8 @@ import LoadEarlier from './LoadEarlier'
 import Message from './Message'
 import Color from './Color'
 import { User, IMessage, Reply } from './Models'
-import { warning, StylePropType } from './utils'
+import { StylePropType } from './utils/utils'
+import { warning } from './utils/logging'
 import TypingIndicator from './TypingIndicator'
 
 export interface MessageContainerProps<TMessage extends IMessage> {

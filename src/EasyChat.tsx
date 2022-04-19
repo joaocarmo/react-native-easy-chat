@@ -24,7 +24,7 @@ import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import type { ParseShape } from 'react-native-parsed-text'
 
-import * as utils from './utils'
+import * as utils from './utils/utils'
 import Actions from './Actions'
 import Avatar from './Avatar'
 import Bubble from './Bubble'

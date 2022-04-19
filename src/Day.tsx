@@ -13,7 +13,7 @@ import dayjs from 'dayjs'
 
 import Color from './Color'
 
-import { StylePropType, isSameDay } from './utils'
+import { StylePropType, isSameDay } from './utils/utils'
 import { DATE_FORMAT } from './Constant'
 import { IMessage } from './Models'
 

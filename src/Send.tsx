@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import Color from './Color'
 import { IMessage } from './Models'
-import { StylePropType } from './utils'
+import { StylePropType } from './utils/utils'
 
 export interface SendProps<TMessage extends IMessage> {
   text?: string

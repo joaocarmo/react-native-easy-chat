@@ -13,7 +13,7 @@ import {
 import type { GestureResponderEvent } from 'react-native'
 import Color from './Color'
 import { User } from './Models'
-import { StylePropType } from './utils'
+import { StylePropType } from './utils/utils'
 
 const {
   carrot,
