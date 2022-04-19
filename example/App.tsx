@@ -1,15 +1,23 @@
-import { MaterialIcons } from '@expo/vector-icons'
-import { AppLoading, Asset, Linking } from 'expo'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+import * as Linking from 'expo-linking'
+import AppLoading from 'expo-app-loading'
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, Platform } from 'react-native'
-import { Bubble, EasyChat, SystemMessage, IMessage, Send } from '../src'
+import {
+  Bubble,
+  EasyChat,
+  SystemMessage,
+  IMessage,
+  Send,
+  SendProps,
+} from 'react-native-easy-chat'
 
-import AccessoryBar from '../example-expo/AccessoryBar'
-import CustomActions from '../example-expo/CustomActions'
-import CustomView from '../example-expo/CustomView'
-import NavBar from '../example-expo/NavBar'
-import messagesData from '../example-expo/data/messages'
-import earlierMessages from '../example-expo/data/earlierMessages'
+import AccessoryBar from './example-expo/AccessoryBar'
+import CustomActions from './example-expo/CustomActions'
+import CustomView from './example-expo/CustomView'
+import messagesData from './example-expo/data/messages'
+import earlierMessages from './example-expo/data/earlierMessages'
+import { NavBar } from './components/navbar'
 
 const styles = StyleSheet.create({
   container: { flex: 1 },

@@ -19,7 +19,7 @@ import {
   ActionSheetOptions,
 } from '@expo/react-native-action-sheet'
 import uuid from 'uuid'
-import { getBottomSpace } from 'react-native-iphone-x-helper'
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import type { ParseShape } from 'react-native-parsed-text'
@@ -62,7 +62,7 @@ import QuickReplies from './QuickReplies'
 dayjs.extend(localizedFormat)
 
 const safeAreaSupport = (bottomOffset?: number) => {
-  return bottomOffset != null ? bottomOffset : getBottomSpace()
+  return bottomOffset != null ? bottomOffset : 1
 }
 
 export interface EasyChatProps<TMessage extends IMessage = IMessage> {
@@ -241,6 +241,8 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     actionSheet: PropTypes.func,
     getLocale: PropTypes.func,
   }
+
+  static contextType = SafeAreaInsetsContext
 
   static defaultProps = {
     actionSheet: null,

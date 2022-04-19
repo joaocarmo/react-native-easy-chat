@@ -69,6 +69,7 @@ class MessageImage<TMessage extends IMessage = IMessage> extends PureComponent<
         </View>
       )
     }
+
     return null
   }
 }
