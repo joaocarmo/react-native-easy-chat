@@ -1,7 +1,8 @@
 import { Component } from 'react'
 import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, ViewStyle, LayoutChangeEvent } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+import type { ViewStyle, LayoutChangeEvent } from 'react-native'
 import Avatar from './Avatar'
 import type { AvatarProps } from './Avatar'
 import Bubble from './Bubble'
@@ -10,10 +11,10 @@ import type { SystemMessageProps } from './SystemMessage'
 import Day from './Day'
 import type { DayProps } from './Day'
 import { StylePropType, isSameUser } from './utils/utils'
-import { IMessage, User, LeftRightStyle } from './Models'
+import type { IMessage, User, LeftRightStyle } from './Models'
 
 export interface MessageProps<TMessage extends IMessage> {
-  key: any
+  key: string | number
   showUserAvatar?: boolean
   position: 'left' | 'right'
   currentMessage?: TMessage

@@ -1,16 +1,9 @@
-import {
-  Linking,
-  StyleSheet,
-  View,
-  TextProps,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-} from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
+import type { TextProps, StyleProp, ViewStyle, TextStyle } from 'react-native'
 import ParsedTextAny from 'react-native-parsed-text'
 import Communications from 'react-native-communications'
 import type { ParseShape } from 'react-native-parsed-text'
-import { LeftRightStyle, IMessage } from './Models'
+import type { LeftRightStyle, IMessage } from './Models'
 import { useChatContext } from './EasyChatContext'
 import { error } from './utils/logging'
 import {

@@ -1,13 +1,6 @@
 import type { ReactNode } from 'react'
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-} from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import type { StyleProp, ViewStyle, TextStyle } from 'react-native'
 import { useCallbackOne } from 'use-memo-one'
 import Color from './Color'
 import { useChatContext } from './EasyChatContext'
@@ -36,6 +29,7 @@ const Actions = ({
   const onActionsPress = useCallbackOne(() => {
     const optionKeys = Object.keys(options)
     const cancelButtonIndex = optionKeys.indexOf('Cancel')
+
     actionSheet().showActionSheetWithOptions(
       {
         options: optionKeys,
@@ -55,6 +49,7 @@ const Actions = ({
     if (icon) {
       return icon()
     }
+
     return (
       <View style={[styles.wrapper, wrapperStyle]}>
         <Text style={[styles.iconText, iconTextStyle]}>

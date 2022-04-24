@@ -6,13 +6,16 @@ import {
   Platform,
   StyleSheet,
   View,
-  StyleProp,
-  ViewStyle,
   FlatList,
-  TextStyle,
   KeyboardAvoidingView,
 } from 'react-native'
-import type { LayoutChangeEvent, KeyboardEvent } from 'react-native'
+import type {
+  KeyboardEvent,
+  LayoutChangeEvent,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+} from 'react-native'
 import {
   ActionSheetProvider,
   ActionSheetOptions,

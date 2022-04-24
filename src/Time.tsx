@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import type { ViewStyle, TextStyle } from 'react-native'
 import dayjs from 'dayjs'
 import Color from './Color'
 import { TIME_FORMAT, TIME_DEFAULT_POSITION } from './Constant'
-import { LeftRightStyle, IMessage } from './Models'
+import type { LeftRightStyle, IMessage } from './Models'
 import { useChatContext } from './EasyChatContext'
 
 const containerDefaultStyle = {

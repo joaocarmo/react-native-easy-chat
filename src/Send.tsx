@@ -1,9 +1,6 @@
 import type { ReactNode } from 'react'
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import type {
   StyleProp,
   ViewStyle,
   TextStyle,
@@ -11,7 +8,7 @@ import {
 } from 'react-native'
 import { useCallbackOne, useMemoOne } from 'use-memo-one'
 import Color from './Color'
-import { IMessage } from './Models'
+import type { IMessage } from './Models'
 
 export interface SendProps<TMessage extends IMessage> {
   text?: string

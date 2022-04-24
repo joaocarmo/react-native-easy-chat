@@ -1,15 +1,8 @@
 import { Component } from 'react'
 import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Text,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-} from 'react-native'
+import { Text, StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
+import type { StyleProp, ViewStyle, TextStyle } from 'react-native'
 import * as Clipboard from 'expo-clipboard'
 import QuickReplies from './QuickReplies'
 import type { QuickRepliesProps } from './QuickReplies'

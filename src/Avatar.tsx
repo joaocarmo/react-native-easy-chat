@@ -1,11 +1,6 @@
 import type { ReactNode } from 'react'
-import {
-  StyleSheet,
-  View,
-  ImageStyle,
-  TextStyle,
-  ViewStyle,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import type { ImageStyle, TextStyle, ViewStyle } from 'react-native'
 import EasyAvatar from './EasyAvatar'
 import { isSameUser, isSameDay } from './utils/utils'
 import type { Omit, IMessage, User, LeftRightStyle } from './Models'

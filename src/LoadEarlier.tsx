@@ -6,10 +6,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
 } from 'react-native'
+import type { StyleProp, ViewStyle, TextStyle } from 'react-native'
 import Color from './Color'
 
 export interface LoadEarlierProps {

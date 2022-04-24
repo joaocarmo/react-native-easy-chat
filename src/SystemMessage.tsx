@@ -1,13 +1,7 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-  StyleProp,
-  TextStyle,
-} from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import type { ViewStyle, StyleProp, TextStyle } from 'react-native'
 import Color from './Color'
-import { IMessage } from './Models'
+import type { IMessage } from './Models'
 
 export interface SystemMessageProps<TMessage extends IMessage> {
   currentMessage?: TMessage

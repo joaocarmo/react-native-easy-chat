@@ -1,18 +1,14 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  StyleProp,
+import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import type {
+  GestureResponderEvent,
   ImageStyle,
+  StyleProp,
   TextStyle,
 } from 'react-native'
-import type { GestureResponderEvent } from 'react-native'
 import Color from './Color'
-import { User } from './Models'
+import type { User } from './Models'
 import { StylePropType } from './utils/utils'
 
 const {

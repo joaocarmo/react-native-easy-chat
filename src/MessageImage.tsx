@@ -1,19 +1,9 @@
-import PropTypes from 'prop-types'
-import React from 'react'
-import {
-  Image,
-  StyleSheet,
-  View,
-  ImageProps,
-  ViewStyle,
-  StyleProp,
-  ImageStyle,
-} from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
+import type { ImageProps, ViewStyle, StyleProp, ImageStyle } from 'react-native'
 // TODO: support web
 import Lightbox from 'react-native-lightbox-v2'
 import type { LightboxProps } from 'react-native-lightbox-v2'
 import { IMessage } from './Models'
-import { StylePropType } from './utils/utils'
 
 const styles = StyleSheet.create({
   container: {},
@@ -65,14 +55,6 @@ const MessageImage = <TMessage extends IMessage = IMessage>({
       </Lightbox>
     </View>
   )
-}
-
-MessageImage.propTypes = {
-  currentMessage: PropTypes.object,
-  containerStyle: StylePropType,
-  imageStyle: StylePropType,
-  imageProps: PropTypes.object,
-  lightboxProps: PropTypes.object,
 }
 
 MessageImage.defaultProps = {

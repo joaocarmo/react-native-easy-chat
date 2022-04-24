@@ -1,16 +1,10 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-} from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import type { StyleProp, ViewStyle, TextStyle } from 'react-native'
 import dayjs from 'dayjs'
 import Color from './Color'
 import { isSameDay } from './utils/utils'
 import { DATE_FORMAT } from './Constant'
-import { IMessage } from './Models'
+import type { IMessage } from './Models'
 import { useChatContext } from './EasyChatContext'
 
 export interface DayProps<TMessage extends IMessage> {

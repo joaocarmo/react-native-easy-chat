@@ -1,16 +1,9 @@
 import { useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import {
-  Text,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-} from 'react-native'
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
+import type { StyleProp, ViewStyle, TextStyle } from 'react-native'
 import { useCallbackOne } from 'use-memo-one'
-import { IMessage, Reply } from './Models'
+import type { IMessage, Reply } from './Models'
 import Color from './Color'
 import { warning } from './utils/logging'
 
