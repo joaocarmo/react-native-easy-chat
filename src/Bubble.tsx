@@ -10,7 +10,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native'
-import Clipboard from '@react-native-clipboard/clipboard'
+import * as Clipboard from 'expo-clipboard'
 import QuickReplies from './QuickReplies'
 import type { QuickRepliesProps } from './QuickReplies'
 import MessageText from './MessageText'

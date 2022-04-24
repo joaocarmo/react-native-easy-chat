@@ -10,7 +10,7 @@ import {
   ViewPropTypes,
   Platform,
 } from 'react-native'
-import Clipboard from '@react-native-clipboard/clipboard'
+import * as Clipboard from 'expo-clipboard'
 import { MessageText, MessageImage, Time, utils } from 'react-native-easy-chat'
 
 const { isSameUser, isSameDay } = utils
