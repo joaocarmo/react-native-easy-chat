@@ -227,7 +227,7 @@ export default class App extends Component {
 
   renderQuickReplySend = () => <Text>{' custom send =>'}</Text>
 
-  renderSend = (props: Send['props']) => (
+  renderSend = (props: SendProps<IMessage>) => (
     <Send {...props} containerStyle={{ justifyContent: 'center' }}>
       <MaterialIcons size={30} color={'tomato'} name={'send'} />
     </Send>

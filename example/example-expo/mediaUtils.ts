@@ -32,7 +32,7 @@ export default async function getPermissionAsync(
 export async function getLocationAsync(
   onSend: (locations: { location: Location.LocationObjectCoords }[]) => void,
 ) {
-  if (await getPermissionAsync(Permissions.LOCATION)) {
+  if (await Location.requestForegroundPermissionsAsync()) {
     const location = await Location.getCurrentPositionAsync({})
     if (location) {
       onSend([{ location: location.coords }])
@@ -43,7 +43,7 @@ export async function getLocationAsync(
 export async function pickImageAsync(
   onSend: (images: { image: string }[]) => void,
 ) {
-  if (await getPermissionAsync(Permissions.CAMERA_ROLL)) {
+  if (await ImagePicker.requestMediaLibraryPermissionsAsync()) {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
@@ -59,7 +59,7 @@ export async function pickImageAsync(
 export async function takePictureAsync(
   onSend: (images: { image: string }[]) => void,
 ) {
-  if (await getPermissionAsync(Permissions.CAMERA)) {
+  if (await ImagePicker.requestCameraPermissionsAsync()) {
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [4, 3],

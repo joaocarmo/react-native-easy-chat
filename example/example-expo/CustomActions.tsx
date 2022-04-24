@@ -40,7 +40,6 @@ export default class CustomActions extends React.Component {
           case 2:
             getLocationAsync(onSend)
             return
-          default:
         }
       },
     )

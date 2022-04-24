@@ -8,7 +8,6 @@ import {
   View,
   StyleProp,
   ViewStyle,
-  SafeAreaView,
   FlatList,
   TextStyle,
   KeyboardAvoidingView,
@@ -19,12 +18,11 @@ import {
   ActionSheetOptions,
 } from '@expo/react-native-action-sheet'
 import uuid from 'uuid'
-import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import type { ParseShape } from 'react-native-parsed-text'
 import type { LightboxProps } from 'react-native-lightbox-v2'
-
 import * as utils from './utils/utils'
 import Actions from './Actions'
 import type { ActionsProps } from './Actions'
@@ -54,6 +52,7 @@ import type { TimeProps } from './Time'
 import type { QuickRepliesProps } from './QuickReplies'
 import EasyAvatar from './EasyAvatar'
 import { EasyChatContext } from './EasyChatContext'
+import type { IEasyChatContext } from './EasyChatContext'
 
 import {
   DATE_FORMAT,
@@ -254,8 +253,6 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     actionSheet: PropTypes.func,
     getLocale: PropTypes.func,
   }
-
-  static contextType = SafeAreaInsetsContext
 
   static defaultProps = {
     actionSheet: null,
@@ -459,7 +456,7 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
 
   invertibleScrollViewProps: any = undefined
 
-  _actionSheetRef: any = undefined
+  _actionSheetRef: RefObject<ActionSheetProvider> = createRef()
 
   _messageContainerRef?: RefObject<FlatList<IMessage>> = createRef()
 
@@ -493,7 +490,8 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     const { actionSheet } = this.props
 
     return {
-      actionSheet: actionSheet || (() => this._actionSheetRef.getContext()),
+      actionSheet:
+        actionSheet || (() => this._actionSheetRef.current?.getContext()),
       getLocale: this.getLocale,
     }
   }
@@ -1033,7 +1031,7 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
       const contextValue = {
         actionSheet,
         getLocale,
-      }
+      } as IEasyChatContext
 
       return (
         <EasyChatContext.Provider value={contextValue}>
