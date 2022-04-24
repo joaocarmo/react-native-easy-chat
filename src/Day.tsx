@@ -1,5 +1,3 @@
-import { PureComponent } from 'react'
-import PropTypes from 'prop-types'
 import {
   StyleSheet,
   Text,
@@ -7,88 +5,59 @@ import {
   StyleProp,
   ViewStyle,
   TextStyle,
-  TextProps,
 } from 'react-native'
 import dayjs from 'dayjs'
-
 import Color from './Color'
-
-import { StylePropType, isSameDay } from './utils/utils'
+import { isSameDay } from './utils/utils'
 import { DATE_FORMAT } from './Constant'
 import { IMessage } from './Models'
+import { useChatContext } from './EasyChatContext'
 
 export interface DayProps<TMessage extends IMessage> {
   currentMessage?: TMessage
-  nextMessage?: TMessage
   previousMessage?: TMessage
   containerStyle?: StyleProp<ViewStyle>
   wrapperStyle?: StyleProp<ViewStyle>
   textStyle?: StyleProp<TextStyle>
-  textProps?: TextProps
   dateFormat?: string
-  inverted?: boolean
 }
 
-class Day<TMessage extends IMessage = IMessage> extends PureComponent<
-  DayProps<TMessage>
-> {
-  static contextTypes = {
-    getLocale: PropTypes.func,
-  }
+const Day = <TMessage extends IMessage = IMessage>({
+  dateFormat = DATE_FORMAT,
+  currentMessage,
+  previousMessage,
+  containerStyle,
+  wrapperStyle,
+  textStyle,
+}: DayProps<TMessage>) => {
+  const { getLocale } = useChatContext()
 
-  static defaultProps = {
-    currentMessage: {
-      createdAt: null,
-    },
-    previousMessage: {},
-    nextMessage: {},
-    inverted: false,
-    containerStyle: {},
-    wrapperStyle: {},
-    textStyle: {},
-    textProps: {},
-    dateFormat: DATE_FORMAT,
-  }
-
-  static propTypes = {
-    currentMessage: PropTypes.object,
-    previousMessage: PropTypes.object,
-    nextMessage: PropTypes.object,
-    inverted: PropTypes.bool,
-    containerStyle: StylePropType,
-    wrapperStyle: StylePropType,
-    textStyle: StylePropType,
-    textProps: PropTypes.object,
-    dateFormat: PropTypes.string,
-  }
-
-  render() {
-    const { getLocale } = this.context
-    const {
-      dateFormat,
-      currentMessage,
-      previousMessage,
-      containerStyle,
-      wrapperStyle,
-      textStyle,
-      textProps,
-    } = this.props
-
-    if (currentMessage && !isSameDay(currentMessage, previousMessage)) {
-      return (
-        <View style={[styles.container, containerStyle]}>
-          <View style={wrapperStyle}>
-            <Text style={[styles.text, textStyle]} {...textProps}>
-              {dayjs(currentMessage.createdAt)
-                .locale(getLocale())
-                .format(dateFormat)}
-            </Text>
-          </View>
-        </View>
-      )
-    }
+  if (currentMessage == null || isSameDay(currentMessage, previousMessage)) {
     return null
   }
+
+  return (
+    <View style={[styles.container, containerStyle]}>
+      <View style={wrapperStyle}>
+        <Text style={[styles.text, textStyle]}>
+          {dayjs(currentMessage.createdAt)
+            .locale(getLocale())
+            .format(dateFormat)}
+        </Text>
+      </View>
+    </View>
+  )
+}
+
+Day.defaultProps = {
+  currentMessage: {
+    createdAt: null,
+  },
+  previousMessage: {},
+  containerStyle: {},
+  wrapperStyle: {},
+  textStyle: {},
+  dateFormat: DATE_FORMAT,
 }
 
 const styles = StyleSheet.create({

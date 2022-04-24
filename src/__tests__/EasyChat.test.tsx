@@ -1,27 +1,15 @@
-import 'react-native'
-import React from 'react'
 import renderer from 'react-test-renderer'
-
 import { EasyChat } from '../EasyChat'
+import { DEFAULT_TEST_MESSAGE2 } from './__fixtures__/data'
 
-const messages = [
-  {
-    _id: 1,
-    text: 'Hello developer',
-    createdAt: new Date(),
-    user: {
-      _id: 2,
-      name: 'React Native',
-    },
-  },
-]
+const messages = [DEFAULT_TEST_MESSAGE2]
 
 it('should render <EasyChat/> and compare with snapshot', () => {
   const tree = renderer
     .create(
       <EasyChat
         messages={messages}
-        onSend={() => {}}
+        onSend={() => null}
         user={{
           _id: 1,
         }}

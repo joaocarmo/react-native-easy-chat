@@ -15,6 +15,9 @@ module.exports = {
   env: {
     'jest/globals': true,
   },
+  globals: {
+    JSX: true,
+  },
   rules: {
     semi: ['error', 'never'],
     'import/extensions': [

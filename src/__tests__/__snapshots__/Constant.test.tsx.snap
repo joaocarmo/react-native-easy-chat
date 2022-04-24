@@ -5,6 +5,7 @@ Object {
   "ACTIONS_DEFAULT_ICON_TEXT": "+",
   "AUDIO_NOT_IMPLEMENTED_MESSAGE": "Audio is not implemented by EasyChat.",
   "AUDIO_NOT_IMPLEMENTED_TITLE": "You need to provide your own implementation by using renderMessageAudio prop.",
+  "AVATAR_DEFAULT_POSITION": "left",
   "BUBBLE_DEFAULT_OPTION_TITLES": Array [
     "Copy Text",
     "Cancel",
@@ -23,6 +24,8 @@ Object {
     "Cancel",
   ],
   "MIN_COMPOSER_HEIGHT": 33,
+  "TEXT_DEFAULT_POSITION": "left",
+  "TIME_DEFAULT_POSITION": "left",
   "TIME_FORMAT": "LT",
   "VIDEO_NOT_IMPLEMENTED_MESSAGE": "You need to provide your own implementation by using renderMessageVideo prop.",
   "VIDEO_NOT_IMPLEMENTED_TITLE": "Video is not implemented by EasyChat.",

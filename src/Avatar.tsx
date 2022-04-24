@@ -1,6 +1,4 @@
-import { Component } from 'react'
 import type { ReactNode } from 'react'
-import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
@@ -9,14 +7,15 @@ import {
   ViewStyle,
 } from 'react-native'
 import EasyAvatar from './EasyAvatar'
-import { StylePropType, isSameUser, isSameDay } from './utils/utils'
-import { Omit, IMessage, User, LeftRightStyle } from './Models'
+import { isSameUser, isSameDay } from './utils/utils'
+import type { Omit, IMessage, User, LeftRightStyle } from './Models'
+import { AVATAR_DEFAULT_POSITION } from './Constant'
 
 export interface AvatarProps<TMessage extends IMessage> {
   currentMessage?: TMessage
   previousMessage?: TMessage
   nextMessage?: TMessage
-  position: 'left' | 'right'
+  position?: 'left' | 'right'
   renderAvatarOnTop?: boolean
   showAvatarForEveryMessage?: boolean
   imageStyle?: LeftRightStyle<ImageStyle>
@@ -27,137 +26,109 @@ export interface AvatarProps<TMessage extends IMessage> {
   onLongPressAvatar?(user: User): void
 }
 
-class Avatar<TMessage extends IMessage = IMessage> extends Component<
-  AvatarProps<TMessage>
-> {
-  static defaultProps = {
-    renderAvatarOnTop: false,
-    showAvatarForEveryMessage: false,
-    position: 'left',
-    currentMessage: {
-      user: null,
-    },
-    previousMessage: {},
-    nextMessage: {},
-    textStyle: undefined,
-    renderAvatar: undefined,
-    containerStyle: {},
-    imageStyle: {},
-    onPressAvatar: () => null,
-    onLongPressAvatar: () => null,
-  }
+const Avatar = <TMessage extends IMessage = IMessage>(
+  props: AvatarProps<TMessage>,
+) => {
+  const {
+    containerStyle,
+    currentMessage,
+    imageStyle,
+    nextMessage,
+    onLongPressAvatar,
+    onPressAvatar,
+    position: positionProp,
+    previousMessage,
+    renderAvatar,
+    renderAvatarOnTop,
+    showAvatarForEveryMessage,
+  } = props
+  const messageToCompare = renderAvatarOnTop ? previousMessage : nextMessage
+  const computedStyle = renderAvatarOnTop ? 'onTop' : 'onBottom'
+  const position = positionProp || AVATAR_DEFAULT_POSITION
 
-  static propTypes = {
-    renderAvatarOnTop: PropTypes.bool,
-    showAvatarForEveryMessage: PropTypes.bool,
-    position: PropTypes.oneOf(['left', 'right']),
-    currentMessage: PropTypes.object,
-    previousMessage: PropTypes.object,
-    nextMessage: PropTypes.object,
-    onPressAvatar: PropTypes.func,
-    onLongPressAvatar: PropTypes.func,
-    renderAvatar: PropTypes.func,
-    containerStyle: PropTypes.shape({
-      left: StylePropType,
-      right: StylePropType,
-    }),
-    imageStyle: PropTypes.shape({
-      left: StylePropType,
-      right: StylePropType,
-    }),
-  }
-
-  renderAvatar() {
-    const { renderAvatar, ...avatarProps } = this.props
-
-    if (typeof renderAvatar === 'function') {
-      return renderAvatar(avatarProps)
-    }
-
-    const {
-      currentMessage,
-      imageStyle,
-      onLongPressAvatar,
-      onPressAvatar,
-      position,
-      textStyle,
-    } = avatarProps
-    const avatarStyle = [
-      styles[position].image,
-      imageStyle?.[position],
-    ] as ImageStyle
-
-    if (currentMessage) {
-      return (
-        <EasyAvatar
-          avatarStyle={avatarStyle}
-          textStyle={textStyle || {}}
-          user={currentMessage.user}
-          onPress={() => onPressAvatar?.(currentMessage.user)}
-          onLongPress={() => onLongPressAvatar?.(currentMessage.user)}
-        />
-      )
-    }
+  if (renderAvatar === null) {
     return null
   }
 
-  render() {
-    const {
-      renderAvatarOnTop,
-      showAvatarForEveryMessage,
-      containerStyle,
-      position,
-      currentMessage,
-      renderAvatar,
-      previousMessage,
-      nextMessage,
-      imageStyle,
-    } = this.props
-    const messageToCompare = renderAvatarOnTop ? previousMessage : nextMessage
-    const computedStyle = renderAvatarOnTop ? 'onTop' : 'onBottom'
-
-    if (renderAvatar === null) {
-      return null
-    }
-
-    if (
-      !showAvatarForEveryMessage &&
-      currentMessage &&
-      messageToCompare &&
-      isSameUser(currentMessage, messageToCompare) &&
-      isSameDay(currentMessage, messageToCompare)
-    ) {
-      return (
-        <View
-          style={[
-            styles[position].container,
-            containerStyle && containerStyle[position],
-          ]}
-        >
-          <EasyAvatar
-            avatarStyle={
-              [
-                styles[position].image,
-                imageStyle && imageStyle[position],
-              ] as ImageStyle
-            }
-          />
-        </View>
-      )
-    }
-
+  if (
+    !showAvatarForEveryMessage &&
+    currentMessage &&
+    messageToCompare &&
+    isSameUser(currentMessage, messageToCompare) &&
+    isSameDay(currentMessage, messageToCompare)
+  ) {
     return (
       <View
         style={[
           styles[position].container,
-          styles[position][computedStyle],
           containerStyle && containerStyle[position],
         ]}
       >
-        {this.renderAvatar()}
+        <EasyAvatar
+          avatarStyle={
+            [
+              styles[position].image,
+              imageStyle && imageStyle[position],
+            ] as ImageStyle
+          }
+        />
       </View>
     )
   }
+
+  const renderAvatarComponent = () => {
+    if (renderAvatar) {
+      const { ...avatarProps } = props
+      return typeof renderAvatar === 'function' && renderAvatar(avatarProps)
+    }
+
+    if (currentMessage) {
+      return (
+        <EasyAvatar
+          avatarStyle={
+            [
+              styles[position].image,
+              imageStyle && imageStyle[position],
+            ] as ImageStyle
+          }
+          user={currentMessage.user}
+          onPress={() => onPressAvatar?.(currentMessage!.user)}
+          onLongPress={() => onLongPressAvatar?.(currentMessage!.user)}
+        />
+      )
+    }
+
+    return null
+  }
+
+  return (
+    <View
+      style={[
+        styles[position].container,
+        styles[position][computedStyle],
+        containerStyle && containerStyle[position],
+      ]}
+    >
+      {renderAvatarComponent()}
+    </View>
+  )
+}
+
+Avatar.defaultProps = {
+  renderAvatarOnTop: false,
+  showAvatarForEveryMessage: false,
+  position: AVATAR_DEFAULT_POSITION,
+  currentMessage: {
+    user: null,
+  },
+  previousMessage: {},
+  nextMessage: {},
+  textStyle: undefined,
+  renderAvatar: undefined,
+  containerStyle: {},
+  imageStyle: {},
+  onPressAvatar: () => null,
+  onLongPressAvatar: () => null,
 }
 
 const styles = {

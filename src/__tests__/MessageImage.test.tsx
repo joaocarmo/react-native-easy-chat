@@ -1,16 +1,6 @@
-import 'react-native'
-import React from 'react'
 import renderer from 'react-test-renderer'
-
 import { MessageImage } from '../EasyChat'
-import { IMessage } from '../Models'
-
-export const DEFAULT_TEST_MESSAGE: IMessage = {
-  _id: 'test',
-  text: 'test',
-  user: { _id: 'test' },
-  createdAt: new Date(2022, 3, 17),
-}
+import { DEFAULT_TEST_MESSAGE } from './__fixtures__/data'
 
 describe('MessageImage', () => {
   it('should not render <MessageImage /> and compare with snapshot', () => {

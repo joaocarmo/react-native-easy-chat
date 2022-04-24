@@ -6,7 +6,7 @@ import {
   AUDIO_NOT_IMPLEMENTED_TITLE,
 } from './Constant'
 
-const MessageAudio: FC = () => (
+const MessageAudio: FC<unknown> = () => (
   <View style={styles.viewStyle}>
     <Text style={styles.textStyle}>{AUDIO_NOT_IMPLEMENTED_MESSAGE}</Text>
     <Text style={styles.textStyle}>{AUDIO_NOT_IMPLEMENTED_TITLE}</Text>

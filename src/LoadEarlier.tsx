@@ -1,5 +1,4 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
+import type { ReactElement } from 'react'
 import {
   ActivityIndicator,
   Platform,
@@ -12,7 +11,6 @@ import {
   TextStyle,
 } from 'react-native'
 import Color from './Color'
-import { StylePropType } from './utils/utils'
 
 export interface LoadEarlierProps {
   isLoadingEarlier?: boolean
@@ -26,82 +24,53 @@ export interface LoadEarlierProps {
   onLoadEarlier?(): void
 }
 
-class LoadEarlier extends Component<LoadEarlierProps> {
-  static defaultProps = {
-    onLoadEarlier: () => null,
-    isLoadingEarlier: false,
-    label: 'Load earlier messages',
-    containerStyle: {},
-    wrapperStyle: {},
-    textStyle: {},
-    activityIndicatorStyle: {},
-    activityIndicatorColor: 'white',
-    activityIndicatorSize: 'small',
-  }
-
-  static propTypes = {
-    onLoadEarlier: PropTypes.func,
-    isLoadingEarlier: PropTypes.bool,
-    label: PropTypes.string,
-    containerStyle: StylePropType,
-    wrapperStyle: StylePropType,
-    textStyle: StylePropType,
-    activityIndicatorStyle: StylePropType,
-    activityIndicatorColor: PropTypes.string,
-    activityIndicatorSize: PropTypes.string,
-  }
-
-  renderLoading() {
-    const {
-      activityIndicatorColor,
-      activityIndicatorSize,
-      activityIndicatorStyle,
-      isLoadingEarlier,
-      label,
-      textStyle,
-    } = this.props
-
-    if (isLoadingEarlier === false) {
-      return <Text style={[styles.text, textStyle]}>{label}</Text>
-    }
-
-    return (
-      <View>
-        <Text style={[styles.text, textStyle, styles.transparent]}>
-          {label}
-        </Text>
-        <ActivityIndicator
-          color={activityIndicatorColor}
-          size={activityIndicatorSize}
-          style={[styles.activityIndicator, activityIndicatorStyle]}
-        />
-      </View>
-    )
-  }
-
-  render() {
-    const { containerStyle, isLoadingEarlier, onLoadEarlier, wrapperStyle } =
-      this.props
-
-    return (
-      <TouchableOpacity
-        style={[styles.container, containerStyle]}
-        onPress={() => onLoadEarlier?.()}
-        disabled={isLoadingEarlier === true}
-        accessibilityTraits="button"
-      >
-        <View style={[styles.wrapper, wrapperStyle]}>
-          {this.renderLoading()}
+const LoadEarlier = ({
+  isLoadingEarlier = false,
+  onLoadEarlier = () => {},
+  label = 'Load earlier messages',
+  containerStyle,
+  wrapperStyle,
+  textStyle,
+  activityIndicatorColor = 'white',
+  activityIndicatorSize = 'small',
+  activityIndicatorStyle,
+}: LoadEarlierProps): ReactElement => (
+  <TouchableOpacity
+    style={[styles.container, containerStyle]}
+    onPress={onLoadEarlier}
+    disabled={isLoadingEarlier}
+    accessibilityRole="button"
+  >
+    <View style={[styles.wrapper, wrapperStyle]}>
+      {isLoadingEarlier ? (
+        <View>
+          <Text style={[styles.text, textStyle, { opacity: 0 }]}>{label}</Text>
+          <ActivityIndicator
+            color={activityIndicatorColor!}
+            size={activityIndicatorSize!}
+            style={[styles.activityIndicator, activityIndicatorStyle]}
+          />
         </View>
-      </TouchableOpacity>
-    )
-  }
+      ) : (
+        <Text style={[styles.text, textStyle]}>{label}</Text>
+      )}
+    </View>
+  </TouchableOpacity>
+)
+
+LoadEarlier.defaultProps = {
+  onLoadEarlier: () => null,
+  isLoadingEarlier: false,
+  label: 'Load earlier messages',
+  containerStyle: {},
+  wrapperStyle: {},
+  textStyle: {},
+  activityIndicatorStyle: {},
+  activityIndicatorColor: 'white',
+  activityIndicatorSize: 'small',
 }
 
 const styles = StyleSheet.create({
-  transparent: {
-    opacity: 0,
-  },
   container: {
     alignItems: 'center',
     marginTop: 5,

@@ -1,6 +1,4 @@
-import { Component } from 'react'
 import type { ReactNode } from 'react'
-import PropTypes from 'prop-types'
 import {
   StyleSheet,
   Text,
@@ -11,9 +9,9 @@ import {
   TextStyle,
   TouchableOpacityProps,
 } from 'react-native'
+import { useCallbackOne, useMemoOne } from 'use-memo-one'
 import Color from './Color'
 import { IMessage } from './Models'
-import { StylePropType } from './utils/utils'
 
 export interface SendProps<TMessage extends IMessage> {
   text?: string
@@ -30,71 +28,60 @@ export interface SendProps<TMessage extends IMessage> {
   ): void
 }
 
-class Send<TMessage extends IMessage = IMessage> extends Component<
-  SendProps<TMessage>
-> {
-  static defaultProps = {
-    text: '',
-    onSend: () => null,
-    label: 'Send',
-    containerStyle: {},
-    textStyle: {},
-    children: null,
-    alwaysShowSend: false,
-    disabled: false,
-    sendButtonProps: null,
-  }
-
-  static propTypes = {
-    text: PropTypes.string,
-    onSend: PropTypes.func,
-    label: PropTypes.string,
-    containerStyle: StylePropType,
-    textStyle: StylePropType,
-    children: PropTypes.element,
-    alwaysShowSend: PropTypes.bool,
-    disabled: PropTypes.bool,
-    sendButtonProps: PropTypes.object,
-  }
-
-  handleOnPress = () => {
-    const { text, onSend } = this.props
+const Send = <TMessage extends IMessage = IMessage>({
+  text,
+  containerStyle,
+  children,
+  textStyle,
+  label,
+  alwaysShowSend,
+  disabled,
+  sendButtonProps,
+  onSend,
+}: SendProps<TMessage>) => {
+  const handleOnPress = useCallbackOne(() => {
     if (text && onSend) {
       onSend({ text: text.trim() } as Partial<TMessage>, true)
     }
+  }, [text, onSend])
+
+  const showSend = useMemoOne(
+    () => alwaysShowSend || (text && text.trim().length > 0),
+    [alwaysShowSend, text],
+  )
+
+  if (!showSend) {
+    return null
   }
 
-  render() {
-    const {
-      text,
-      containerStyle,
-      children,
-      textStyle,
-      label,
-      alwaysShowSend,
-      disabled,
-      sendButtonProps,
-    } = this.props
-    if (alwaysShowSend || (text && text.trim().length > 0)) {
-      return (
-        <TouchableOpacity
-          testID="send"
-          accessible
-          accessibilityLabel="send"
-          style={[styles.container, containerStyle]}
-          onPress={this.handleOnPress}
-          accessibilityTraits="button"
-          disabled={disabled}
-          {...sendButtonProps}
-        >
-          <View>
-            {children || <Text style={[styles.text, textStyle]}>{label}</Text>}
-          </View>
-        </TouchableOpacity>
-      )
-    }
-    return <View />
-  }
+  return (
+    <TouchableOpacity
+      testID="send"
+      accessible
+      accessibilityLabel="send"
+      style={[styles.container, containerStyle]}
+      onPress={handleOnPress}
+      accessibilityRole="button"
+      disabled={disabled}
+      {...sendButtonProps}
+    >
+      <View>
+        {children || <Text style={[styles.text, textStyle]}>{label}</Text>}
+      </View>
+    </TouchableOpacity>
+  )
+}
+
+Send.defaultProps = {
+  text: '',
+  onSend: () => null,
+  label: 'Send',
+  containerStyle: undefined,
+  textStyle: undefined,
+  children: null,
+  alwaysShowSend: false,
+  disabled: false,
+  sendButtonProps: null,
 }
 
 const styles = StyleSheet.create({

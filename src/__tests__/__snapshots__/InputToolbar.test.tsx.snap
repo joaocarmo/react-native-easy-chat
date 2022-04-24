@@ -115,7 +115,6 @@ exports[`should render <InputToolbar /> and compare with snapshot 1`] = `
       underlineColorAndroid="transparent"
       value=""
     />
-    <View />
   </View>
 </View>
 `;
