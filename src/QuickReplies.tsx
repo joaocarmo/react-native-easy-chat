@@ -51,7 +51,7 @@ const QuickReplies = ({
   const shouldComponentDisplay = useMemo(() => {
     const hasReplies = !!currentMessage && !!currentMessage!.quickReplies
     const hasNext = !!nextMessage && !!nextMessage!._id
-    const keepIt = currentMessage!.quickReplies!.keepIt
+    const { keepIt } = currentMessage!.quickReplies!
 
     if (hasReplies && !hasNext) {
       return true
@@ -68,6 +68,7 @@ const QuickReplies = ({
     (reply: Reply) => () => {
       if (currentMessage) {
         const { type } = currentMessage.quickReplies!
+
         switch (type) {
           case 'radio': {
             handleSend([reply])()
@@ -118,11 +119,12 @@ const QuickReplies = ({
                 { borderColor: color },
                 selected && { backgroundColor: color },
               ]}
+              // eslint-disable-next-line react/no-array-index-key
               key={`${reply.value}-${index}`}
             >
               <Text
                 numberOfLines={10}
-                ellipsizeMode={'tail'}
+                ellipsizeMode="tail"
                 style={[
                   styles.quickReplyText,
                   { color: selected ? Color.white : color },

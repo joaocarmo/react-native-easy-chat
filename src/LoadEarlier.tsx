@@ -25,14 +25,14 @@ export interface LoadEarlierProps {
 }
 
 const LoadEarlier = ({
-  isLoadingEarlier = false,
-  onLoadEarlier = () => {},
-  label = 'Load earlier messages',
+  isLoadingEarlier,
+  onLoadEarlier,
+  label,
   containerStyle,
   wrapperStyle,
   textStyle,
-  activityIndicatorColor = 'white',
-  activityIndicatorSize = 'small',
+  activityIndicatorColor,
+  activityIndicatorSize,
   activityIndicatorStyle,
 }: LoadEarlierProps): ReactElement => (
   <TouchableOpacity
@@ -44,7 +44,9 @@ const LoadEarlier = ({
     <View style={[styles.wrapper, wrapperStyle]}>
       {isLoadingEarlier ? (
         <View>
-          <Text style={[styles.text, textStyle, { opacity: 0 }]}>{label}</Text>
+          <Text style={[styles.text, textStyle, styles.noOpacity]}>
+            {label}
+          </Text>
           <ActivityIndicator
             color={activityIndicatorColor!}
             size={activityIndicatorSize!}
@@ -71,6 +73,9 @@ LoadEarlier.defaultProps = {
 }
 
 const styles = StyleSheet.create({
+  noOpacity: {
+    opacity: 0,
+  },
   container: {
     alignItems: 'center',
     marginTop: 5,

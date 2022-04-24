@@ -1017,22 +1017,24 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
 
   render() {
     const { isInitialized } = this.state
+    const { actionSheet: actionSheetProp } = this.props
 
     if (isInitialized === true) {
       const { wrapInSafeArea } = this.props
       const Wrapper = wrapInSafeArea ? SafeAreaView : View
       const actionSheet =
-        this.props.actionSheet ||
-        (() => this._actionSheetRef.current?.getContext()!)
+        typeof actionSheetProp === 'function'
+          ? actionSheetProp
+          : () => this._actionSheetRef.current?.getContext()
       const { getLocale } = this
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
+      const contextValue = {
+        actionSheet,
+        getLocale,
+      }
 
       return (
-        <EasyChatContext.Provider
-          value={{
-            actionSheet,
-            getLocale,
-          }}
-        >
+        <EasyChatContext.Provider value={contextValue}>
           <Wrapper style={styles.safeArea}>
             <ActionSheetProvider ref={this._actionSheetRef}>
               <View style={styles.container} onLayout={this.onMainViewLayout}>
