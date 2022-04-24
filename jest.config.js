@@ -1,8 +1,8 @@
-const esModules = ['@react-native', 'react-native'].join('|')
+const esModules = [].join('|')
 
 module.exports = {
   coveragePathIgnorePatterns: ['./src/__tests__/'],
-  preset: 'react-native',
+  preset: 'jest-expo',
   moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
   modulePathIgnorePatterns: ['<rootDir>/example'],
   setupFiles: ['./jest.setup.js'],

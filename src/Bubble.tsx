@@ -3,7 +3,6 @@ import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
 import {
   Text,
-  Clipboard,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
@@ -11,6 +10,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native'
+import Clipboard from '@react-native-clipboard/clipboard'
 import QuickReplies from './QuickReplies'
 import type { QuickRepliesProps } from './QuickReplies'
 import MessageText from './MessageText'

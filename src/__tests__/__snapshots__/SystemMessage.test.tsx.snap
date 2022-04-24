@@ -38,5 +38,3 @@ exports[`SystemMessage should render <SystemMessage /> and compare with snapshot
   </View>
 </View>
 `;
-
-exports[`should render <SystemMessage /> and compare with snapshot 1`] = `null`;

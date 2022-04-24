@@ -91,5 +91,3 @@ exports[`Send should render <Send /> where there is input and compare with snaps
   </View>
 </View>
 `;
-
-exports[`should render <Send /> and compare with snapshot 1`] = `null`;

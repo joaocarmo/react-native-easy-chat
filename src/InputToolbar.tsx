@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import type { ComponentProps, ReactNode } from 'react'
 import { StyleSheet, View, Keyboard } from 'react-native'
 import type {
@@ -38,18 +38,23 @@ const InputToolbar = <TMessage extends IMessage = IMessage>(
   props: InputToolbarProps<TMessage>,
 ) => {
   const [position, setPosition] = useState('absolute')
+
+  const keyboardWillShowListener = useRef<any>(null)
+  const keyboardWillHideListener = useRef<any>(null)
+
   useEffect(() => {
-    const keyboardWillShowListener = Keyboard.addListener(
+    keyboardWillShowListener.current = Keyboard.addListener?.(
       'keyboardWillShow',
       () => setPosition('relative'),
     )
-    const keyboardWillHideListener = Keyboard.addListener(
+    keyboardWillHideListener.current = Keyboard.addListener?.(
       'keyboardWillHide',
       () => setPosition('absolute'),
     )
+
     return () => {
-      keyboardWillShowListener?.remove()
-      keyboardWillHideListener?.remove()
+      keyboardWillShowListener.current?.remove()
+      keyboardWillHideListener.current?.remove()
     }
   }, [])
 

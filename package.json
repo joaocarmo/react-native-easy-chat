@@ -46,6 +46,7 @@
   },
   "peerDependencies": {
     "@expo/react-native-action-sheet": "*",
+    "@react-native-clipboard/clipboard": "*",
     "dayjs": "*",
     "react": "*",
     "react-native": "*",
@@ -57,6 +58,7 @@
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.13.0",
+    "@react-native-clipboard/clipboard": "^1.8.5",
     "dayjs": "^1.8.26",
     "prop-types": "^15.8.1",
     "react-native-communications": "^2.2.1",
@@ -84,6 +86,7 @@
     "eslint": "^8.13.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^26.1.4",
     "eslint-plugin-jsx-a11y": "^6.5.1",
@@ -91,6 +94,7 @@
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.4.0",
     "husky": ">=6",
+    "jest": "^27.5.1",
     "jest-expo": "^44.0.1",
     "lint-staged": ">=12.3.8",
     "metro-react-native-babel-preset": "^0.70.1",

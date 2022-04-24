@@ -32,5 +32,3 @@ exports[`Time should render <Time /> and compare with snapshot 1`] = `
   </Text>
 </View>
 `;
-
-exports[`should render <Time /> and compare with snapshot 1`] = `null`;
