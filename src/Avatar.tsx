@@ -109,7 +109,7 @@ const Avatar = <TMessage extends IMessage = IMessage>(
         containerStyle && containerStyle[position],
       ]}
     >
-      {renderAvatarComponent()}
+      <>{renderAvatarComponent()}</>
     </View>
   )
 }

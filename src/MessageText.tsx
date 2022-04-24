@@ -7,7 +7,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native'
-import ParsedText from 'react-native-parsed-text'
+import ParsedTextAny from 'react-native-parsed-text'
 import Communications from 'react-native-communications'
 import type { ParseShape } from 'react-native-parsed-text'
 import { LeftRightStyle, IMessage } from './Models'
@@ -17,6 +17,8 @@ import {
   MESSAGE_DEFAULT_OPTION_TITLES,
   TEXT_DEFAULT_POSITION,
 } from './Constant'
+
+const ParsedText = ParsedTextAny as any
 
 const WWW_URL_PATTERN = /^www\./i
 
@@ -114,6 +116,7 @@ const MessageText = <TMessage extends IMessage = IMessage>({
     styles[position].link,
     linkStyleProp && linkStyleProp[position],
   ]
+
   return (
     <View
       style={[

@@ -100,6 +100,13 @@ const QuickReplies = ({
     )
   }
 
+  const renderQuickReply =
+    typeof renderQuickReplySend === 'function' ? (
+      <>{renderQuickReplySend()}</>
+    ) : (
+      <Text style={styles.sendLinkText}>{sendText}</Text>
+    )
+
   if (!shouldComponentDisplay) {
     return null
   }
@@ -142,9 +149,7 @@ const QuickReplies = ({
           style={[styles.quickReply, styles.sendLink]}
           onPress={handleSend(replies)}
         >
-          {renderQuickReplySend?.() || (
-            <Text style={styles.sendLinkText}>{sendText}</Text>
-          )}
+          {renderQuickReply}
         </TouchableOpacity>
       )}
     </View>

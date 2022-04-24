@@ -74,7 +74,7 @@
     "@react-native-community/eslint-config": "^3.0.1",
     "@types/jest": "^27.4.1",
     "@types/react": "^17.0.39",
-    "@types/react-native": "^0.60.22",
+    "@types/react-native": "^0.63.4",
     "@types/react-native-communications": "^2.2.1",
     "@types/react-test-renderer": "^17.0.1",
     "@types/uuid": "3.4.9",

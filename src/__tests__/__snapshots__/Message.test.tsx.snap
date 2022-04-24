@@ -256,7 +256,6 @@ exports[`Message component should render <Message /> with Avatar 1`] = `
       }
     >
       <View
-        accessibilityTraits="image"
         style={
           Array [
             Object {
@@ -482,7 +481,6 @@ exports[`Message component should render null if user has no Avatar 1`] = `
       }
     >
       <View
-        accessibilityTraits="image"
         style={
           Array [
             Object {

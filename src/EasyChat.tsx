@@ -947,14 +947,16 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
 
     const fragment = (
       <View style={viewStyle}>
-        <MessageContainer<TMessage>
-          {...messagesContainerProps}
-          invertibleScrollViewProps={this.invertibleScrollViewProps}
-          messages={this.getMessages()}
-          forwardRef={this._messageContainerRef}
-          isTyping={isTyping}
-        />
-        {this.renderChatFooter()}
+        <>
+          <MessageContainer<TMessage>
+            {...messagesContainerProps}
+            invertibleScrollViewProps={this.invertibleScrollViewProps}
+            messages={this.getMessages()}
+            forwardRef={this._messageContainerRef}
+            isTyping={isTyping}
+          />
+          {this.renderChatFooter()}
+        </>
       </View>
     )
 
@@ -1038,8 +1040,10 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
           <Wrapper style={styles.safeArea}>
             <ActionSheetProvider ref={this._actionSheetRef}>
               <View style={styles.container} onLayout={this.onMainViewLayout}>
-                {this.renderMessages()}
-                {this.renderInputToolbar()}
+                <>
+                  {this.renderMessages()}
+                  {this.renderInputToolbar()}
+                </>
               </View>
             </ActionSheetProvider>
           </Wrapper>
@@ -1048,7 +1052,7 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     }
     return (
       <View style={styles.container} onLayout={this.onInitialLayoutViewLayout}>
-        {this.renderLoading()}
+        <>{this.renderLoading()}</>
       </View>
     )
   }

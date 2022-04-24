@@ -50,6 +50,13 @@ const Send = <TMessage extends IMessage = IMessage>({
     [alwaysShowSend, text],
   )
 
+  const renderSend = children ? (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    <>{children}</>
+  ) : (
+    <Text style={[styles.text, textStyle]}>{label}</Text>
+  )
+
   if (!showSend) {
     return null
   }
@@ -65,9 +72,7 @@ const Send = <TMessage extends IMessage = IMessage>({
       disabled={disabled}
       {...sendButtonProps}
     >
-      <View>
-        {children || <Text style={[styles.text, textStyle]}>{label}</Text>}
-      </View>
+      <View>{renderSend}</View>
     </TouchableOpacity>
   )
 }

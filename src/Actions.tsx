@@ -69,7 +69,7 @@ const Actions = ({
       style={[styles.container, containerStyle]}
       onPress={onPressActionButton || onActionsPress}
     >
-      {renderIcon()}
+      <>{renderIcon()}</>
     </TouchableOpacity>
   )
 }

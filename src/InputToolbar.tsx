@@ -7,10 +7,11 @@ import type {
   TextStyle,
   ViewStyle,
 } from 'react-native'
+import Actions from './Actions'
+import type { ActionsProps } from './Actions'
 import Composer from './Composer'
 import type { ComposerProps } from './Composer'
 import Send from './Send'
-import Actions from './Actions'
 import Color from './Color'
 import type { IMessage } from './Models'
 
@@ -26,8 +27,8 @@ export interface InputToolbarProps<TMessage extends IMessage> {
   placeholderTextColor?: ColorValue
   primaryStyle?: StyleProp<ViewStyle>
   renderAccessory?(props: InputToolbarProps<TMessage>): ReactNode
-  renderActions?(props: Actions['props']): ReactNode
-  renderComposer?(props: Composer['props']): ReactNode
+  renderActions?(props: ActionsProps): ReactNode
+  renderComposer?(props: ComposerProps): ReactNode
   renderSend?(props: ComponentProps<SendType>): ReactNode
   textInputStyle?: TextInputProps['style']
   textStyle?: StyleProp<TextStyle>
@@ -66,14 +67,16 @@ const InputToolbar = <TMessage extends IMessage = IMessage>(
   return (
     <View style={[styles.container, { position }, containerStyle] as ViewStyle}>
       <View style={[styles.primary, primaryStyle]}>
-        {renderActions?.(rest) ||
-          (onPressActionButton && <Actions {...rest} />)}
-        {renderComposer?.(props as ComposerProps) || <Composer {...props} />}
-        {renderSend?.(props) || <Send {...props} />}
+        <>
+          {renderActions?.(rest) ||
+            (onPressActionButton && <Actions {...rest} />)}
+          {renderComposer?.(props as ComposerProps) || <Composer {...props} />}
+          {renderSend?.(props) || <Send {...props} />}
+        </>
       </View>
       {renderAccessory && (
         <View style={[styles.accessory, accessoryStyle]}>
-          {renderAccessory(props)}
+          <>{renderAccessory(props)}</>
         </View>
       )}
     </View>

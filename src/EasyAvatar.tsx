@@ -135,7 +135,6 @@ class EasyAvatar extends Component<EasyAvatarProps> {
       return (
         <View
           style={[styles.avatarStyle, styles.avatarTransparent, avatarStyle]}
-          accessibilityTraits="image"
         />
       )
     }
@@ -146,7 +145,6 @@ class EasyAvatar extends Component<EasyAvatarProps> {
           disabled={!onPress}
           onPress={onPress}
           onLongPress={onLongPress}
-          accessibilityTraits="image"
         >
           {this.renderAvatar()}
         </TouchableOpacity>
@@ -165,7 +163,6 @@ class EasyAvatar extends Component<EasyAvatarProps> {
           { backgroundColor: this.avatarColor },
           avatarStyle,
         ]}
-        accessibilityTraits="image"
       >
         {this.renderInitials()}
       </TouchableOpacity>
