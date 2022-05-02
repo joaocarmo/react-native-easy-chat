@@ -187,8 +187,10 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   renderBubble?(props: Bubble<TMessage>['props']): ReactNode
   /* Custom system message */
   renderSystemMessage?(props: SystemMessageProps<TMessage>): ReactNode
+  /* Callback when a message bubble is pressed; default is to do nothing */
+  onPress?(context: any, message: TMessage): void
   /* Callback when a message bubble is long-pressed; default is to show an ActionSheet with "Copy Text" (see example using showActionSheetWithOptions()) */
-  onLongPress?(context: any, message: any): void
+  onLongPress?(context: any, message: TMessage): void
   /* Reverses display order of messages; default is true */
   /* Custom message container */
   renderMessage?(message: Message<TMessage>['props']): ReactNode
@@ -294,6 +296,7 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     minInputToolbarHeight: DEFAULT_INPUT_TOOLBAR_HEIGHT,
     onInputTextChanged: null,
     onLoadEarlier: () => null,
+    onPress: null,
     onLongPress: null,
     onLongPressAvatar: null,
     onPressActionButton: null,
