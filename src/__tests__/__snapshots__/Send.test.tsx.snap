@@ -4,7 +4,13 @@ exports[`Send should always render <Send /> and compare with snapshot 1`] = `
 <View
   accessibilityLabel="send"
   accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
   accessible={true}
+  collapsable={false}
   focusable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}
@@ -51,7 +57,13 @@ exports[`Send should render <Send /> where there is input and compare with snaps
 <View
   accessibilityLabel="send"
   accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
   accessible={true}
+  collapsable={false}
   focusable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}

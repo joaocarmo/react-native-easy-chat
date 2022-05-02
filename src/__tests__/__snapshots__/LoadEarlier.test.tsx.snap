@@ -3,7 +3,13 @@
 exports[`should render <LoadEarlier /> and compare with snapshot 1`] = `
 <View
   accessibilityRole="button"
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
   accessible={true}
+  collapsable={false}
   focusable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}

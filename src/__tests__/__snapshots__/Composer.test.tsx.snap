@@ -4,7 +4,6 @@ exports[`should render <Composer /> and compare with snapshot 1`] = `
 <TextInput
   accessibilityLabel="Type a message..."
   accessible={true}
-  allowFontScaling={true}
   autoFocus={false}
   editable={true}
   enablesReturnKeyAutomatically={true}
@@ -14,7 +13,6 @@ exports[`should render <Composer /> and compare with snapshot 1`] = `
   onLayout={[Function]}
   placeholder="Type a message..."
   placeholderTextColor="#b2b2b2"
-  rejectResponderTermination={true}
   style={
     Array [
       Object {

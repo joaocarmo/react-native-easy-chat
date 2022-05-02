@@ -7,7 +7,7 @@ import { DATE_FORMAT } from './Constant'
 import type { IMessage } from './Models'
 import { useChatContext } from './EasyChatContext'
 
-export interface DayProps<TMessage extends IMessage> {
+export interface DayProps<TMessage extends IMessage = IMessage> {
   currentMessage?: TMessage
   previousMessage?: TMessage
   containerStyle?: StyleProp<ViewStyle>
