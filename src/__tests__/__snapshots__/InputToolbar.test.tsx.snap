@@ -32,8 +32,8 @@ exports[`should render <InputToolbar /> and compare with snapshot 1`] = `
   >
     <View
       accessible={true}
+      collapsable={false}
       focusable={true}
-      isTVSelectable={true}
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}
@@ -85,7 +85,6 @@ exports[`should render <InputToolbar /> and compare with snapshot 1`] = `
     <TextInput
       accessibilityLabel="Type a message..."
       accessible={true}
-      allowFontScaling={true}
       autoFocus={false}
       editable={true}
       enablesReturnKeyAutomatically={true}
@@ -95,7 +94,6 @@ exports[`should render <InputToolbar /> and compare with snapshot 1`] = `
       onLayout={[Function]}
       placeholder="Type a message..."
       placeholderTextColor="#b2b2b2"
-      rejectResponderTermination={true}
       style={
         Array [
           Object {
@@ -116,7 +114,6 @@ exports[`should render <InputToolbar /> and compare with snapshot 1`] = `
       underlineColorAndroid="transparent"
       value=""
     />
-    <View />
   </View>
 </View>
 `;

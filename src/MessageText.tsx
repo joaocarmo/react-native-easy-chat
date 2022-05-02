@@ -1,21 +1,17 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
-import {
-  Linking,
-  StyleSheet,
-  View,
-  TextProps,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-} from 'react-native'
-
-import ParsedText from 'react-native-parsed-text'
+import { Linking, StyleSheet, View } from 'react-native'
+import type { TextProps, StyleProp, ViewStyle, TextStyle } from 'react-native'
+import ParsedTextAny from 'react-native-parsed-text'
 import Communications from 'react-native-communications'
 import type { ParseShape } from 'react-native-parsed-text'
-import { LeftRightStyle, IMessage } from './Models'
-import { error, StylePropType } from './utils'
-import { MESSAGE_DEFAULT_OPTION_TITLES } from './Constant'
+import type { LeftRightStyle, IMessage } from './Models'
+import { useChatContext } from './EasyChatContext'
+import { error } from './utils/logging'
+import {
+  MESSAGE_DEFAULT_OPTION_TITLES,
+  TEXT_DEFAULT_POSITION,
+} from './Constant'
+
+const ParsedText = ParsedTextAny as any
 
 const WWW_URL_PATTERN = /^www\./i
 
@@ -29,7 +25,7 @@ const textDefaultStyle = {
 }
 
 export interface MessageTextProps<TMessage extends IMessage> {
-  position: 'left' | 'right'
+  position?: 'left' | 'right'
   optionTitles?: string[]
   currentMessage?: TMessage
   containerStyle?: LeftRightStyle<ViewStyle>
@@ -43,63 +39,35 @@ export interface MessageTextProps<TMessage extends IMessage> {
 const onEmailPress = (email: string) =>
   Communications.email([email], null, null, null, null)
 
-class MessageText<TMessage extends IMessage = IMessage> extends Component<
-  MessageTextProps<TMessage>
-> {
-  static contextTypes = {
-    actionSheet: PropTypes.func,
-  }
+const MessageText = <TMessage extends IMessage = IMessage>({
+  currentMessage,
+  optionTitles,
+  position: positionProp,
+  containerStyle,
+  textStyle,
+  linkStyle: linkStyleProp,
+  customTextStyle,
+  parsePatterns = () => [],
+  textProps,
+}: MessageTextProps<TMessage>) => {
+  const { actionSheet } = useChatContext()
 
-  static defaultProps = {
-    position: 'left',
-    optionTitles: MESSAGE_DEFAULT_OPTION_TITLES,
-    currentMessage: {
-      text: '',
-    },
-    containerStyle: {},
-    textStyle: {},
-    linkStyle: {},
-    customTextStyle: {},
-    textProps: {},
-    parsePatterns: () => [],
-  }
+  const position = positionProp || TEXT_DEFAULT_POSITION
 
-  static propTypes = {
-    position: PropTypes.oneOf(['left', 'right']),
-    optionTitles: PropTypes.arrayOf(PropTypes.string),
-    currentMessage: PropTypes.object,
-    containerStyle: PropTypes.shape({
-      left: StylePropType,
-      right: StylePropType,
-    }),
-    textStyle: PropTypes.shape({
-      left: StylePropType,
-      right: StylePropType,
-    }),
-    linkStyle: PropTypes.shape({
-      left: StylePropType,
-      right: StylePropType,
-    }),
-    parsePatterns: PropTypes.func,
-    textProps: PropTypes.object,
-    customTextStyle: StylePropType,
-  }
+  // TODO: React.memo
+  // const shouldComponentUpdate = (nextProps: MessageTextProps<TMessage>) => {
+  //   return (
+  //     !!currentMessage &&
+  //     !!nextProps.currentMessage &&
+  //     currentMessage.text !== nextProps.currentMessage.text
+  //   )
+  // }
 
-  shouldComponentUpdate(nextProps: MessageTextProps<TMessage>) {
-    const { currentMessage } = this.props
-
-    return (
-      !!currentMessage &&
-      !!nextProps.currentMessage &&
-      currentMessage.text !== nextProps.currentMessage.text
-    )
-  }
-
-  onUrlPress = (url: string) => {
+  const onUrlPress = (url: string) => {
     // When someone sends a message that includes a website address beginning with "www." (omitting the scheme),
     // react-native-parsed-text recognizes it as a valid url, but Linking fails to open due to the missing scheme.
     if (WWW_URL_PATTERN.test(url)) {
-      this.onUrlPress(`http://${url}`)
+      onUrlPress(`https://${url}`)
     } else {
       Linking.canOpenURL(url).then((supported) => {
         if (!supported) {
@@ -111,16 +79,12 @@ class MessageText<TMessage extends IMessage = IMessage> extends Component<
     }
   }
 
-  onPhonePress = (phone: string) => {
-    const { actionSheet } = this.context
-    const { optionTitles } = this.props
-
+  const onPhonePress = (phone: string) => {
     const options =
       optionTitles && optionTitles.length > 0
         ? optionTitles.slice(0, 3)
         : MESSAGE_DEFAULT_OPTION_TITLES
     const cancelButtonIndex = options.length - 1
-
     actionSheet().showActionSheetWithOptions(
       {
         options,
@@ -141,60 +105,50 @@ class MessageText<TMessage extends IMessage = IMessage> extends Component<
     )
   }
 
-  render() {
-    const {
-      containerStyle,
-      currentMessage,
-      customTextStyle,
-      linkStyle,
-      parsePatterns,
-      position,
-      textProps,
-      textStyle,
-    } = this.props
+  const linkStyle = [
+    styles[position].link,
+    linkStyleProp && linkStyleProp[position],
+  ]
 
-    const enhancedlinkStyle = [
-      styles[position].link,
-      linkStyle && linkStyle[position],
-    ] as TextStyle
-
-    const parsedPatterns =
-      typeof parsePatterns === 'function'
-        ? parsePatterns(enhancedlinkStyle)
-        : []
-
-    const message = currentMessage?.text || ''
-
-    return (
-      <View
+  return (
+    <View
+      style={[
+        styles[position].container,
+        containerStyle && containerStyle[position],
+      ]}
+    >
+      <ParsedText
         style={[
-          styles[position].container,
-          containerStyle && containerStyle[position],
+          styles[position].text,
+          textStyle && textStyle[position],
+          customTextStyle,
         ]}
+        parse={[
+          ...parsePatterns!(linkStyle as TextStyle),
+          { type: 'url', style: linkStyle, onPress: onUrlPress },
+          { type: 'phone', style: linkStyle, onPress: onPhonePress },
+          { type: 'email', style: linkStyle, onPress: onEmailPress },
+        ]}
+        childrenProps={{ ...textProps }}
       >
-        <ParsedText
-          style={[
-            styles[position].text,
-            textStyle && textStyle[position],
-            customTextStyle,
-          ]}
-          parse={[
-            ...parsedPatterns,
-            { type: 'url', style: enhancedlinkStyle, onPress: this.onUrlPress },
-            {
-              type: 'phone',
-              style: enhancedlinkStyle,
-              onPress: this.onPhonePress,
-            },
-            { type: 'email', style: enhancedlinkStyle, onPress: onEmailPress },
-          ]}
-          childrenProps={{ ...textProps }}
-        >
-          {message}
-        </ParsedText>
-      </View>
-    )
-  }
+        {currentMessage!.text}
+      </ParsedText>
+    </View>
+  )
+}
+
+MessageText.defaultProps = {
+  position: 'left',
+  optionTitles: MESSAGE_DEFAULT_OPTION_TITLES,
+  currentMessage: {
+    text: '',
+  },
+  containerStyle: {},
+  textStyle: {},
+  linkStyle: {},
+  customTextStyle: {},
+  textProps: {},
+  parsePatterns: () => [],
 }
 
 const styles = {

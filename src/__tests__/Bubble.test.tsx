@@ -1,21 +1,13 @@
-import 'react-native'
-import React from 'react'
-import createComponentWithContext from './context'
-
+import renderer from 'react-test-renderer'
 import { Bubble } from '../EasyChat'
+import { DEFAULT_TEST_MESSAGE, DEFAULT_TEST_USER } from './__fixtures__/data'
 
 it('should render <Bubble /> and compare with snapshot', () => {
-  const tree = createComponentWithContext(
-    <Bubble
-      user={{ _id: 1 }}
-      currentMessage={{
-        _id: 1,
-        text: 'test',
-        createdAt: 1554744013721,
-        user: { _id: 1 },
-      }}
-    />,
-  ).toJSON()
+  const tree = renderer
+    .create(
+      <Bubble user={DEFAULT_TEST_USER} currentMessage={DEFAULT_TEST_MESSAGE} />,
+    )
+    .toJSON()
 
   expect(tree).toMatchSnapshot()
 })

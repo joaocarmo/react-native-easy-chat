@@ -1,17 +1,9 @@
-import { Component } from 'react'
 import type { ReactNode } from 'react'
-import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-} from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import type { StyleProp, ViewStyle, TextStyle } from 'react-native'
+import { useCallbackOne } from 'use-memo-one'
 import Color from './Color'
-import { StylePropType } from './utils'
+import { useChatContext } from './EasyChatContext'
 import { ACTIONS_DEFAULT_ICON_TEXT } from './Constant'
 
 export interface ActionsProps {
@@ -24,36 +16,20 @@ export interface ActionsProps {
   onPressActionButton?(): void
 }
 
-class Actions extends Component<ActionsProps> {
-  static defaultProps: ActionsProps = {
-    options: {},
-    optionTintColor: Color.optionTintColor,
-    icon: undefined,
-    onPressActionButton: undefined,
-    containerStyle: {},
-    iconTextStyle: {},
-    wrapperStyle: {},
-  }
-
-  static propTypes = {
-    options: PropTypes.object,
-    optionTintColor: PropTypes.string,
-    icon: PropTypes.func,
-    onPressActionButton: PropTypes.func,
-    wrapperStyle: StylePropType,
-    containerStyle: StylePropType,
-  }
-
-  static contextTypes = {
-    actionSheet: PropTypes.func,
-  }
-
-  onActionsPress = () => {
-    const { actionSheet } = this.context
-    const { options, optionTintColor } = this.props
-
-    const optionKeys = Object.keys(options ?? {})
+const Actions = ({
+  options = {},
+  optionTintColor = Color.optionTintColor,
+  icon,
+  wrapperStyle,
+  iconTextStyle,
+  onPressActionButton,
+  containerStyle,
+}: ActionsProps) => {
+  const { actionSheet } = useChatContext()
+  const onActionsPress = useCallbackOne(() => {
+    const optionKeys = Object.keys(options)
     const cancelButtonIndex = optionKeys.indexOf('Cancel')
+
     actionSheet().showActionSheetWithOptions(
       {
         options: optionKeys,
@@ -63,16 +39,14 @@ class Actions extends Component<ActionsProps> {
       (buttonIndex: number) => {
         const key = optionKeys[buttonIndex]
         if (key) {
-          options?.[key](this.props)
+          options[key]()
         }
       },
     )
-  }
+  }, [])
 
-  renderIcon() {
-    const { icon, iconTextStyle, wrapperStyle } = this.props
-
-    if (typeof icon === 'function') {
+  const renderIcon = useCallbackOne(() => {
+    if (icon) {
       return icon()
     }
 
@@ -83,20 +57,26 @@ class Actions extends Component<ActionsProps> {
         </Text>
       </View>
     )
-  }
+  }, [])
 
-  render() {
-    const { containerStyle, onPressActionButton } = this.props
+  return (
+    <TouchableOpacity
+      style={[styles.container, containerStyle]}
+      onPress={onPressActionButton || onActionsPress}
+    >
+      <>{renderIcon()}</>
+    </TouchableOpacity>
+  )
+}
 
-    return (
-      <TouchableOpacity
-        style={[styles.container, containerStyle]}
-        onPress={onPressActionButton || this.onActionsPress}
-      >
-        {this.renderIcon()}
-      </TouchableOpacity>
-    )
-  }
+Actions.defaultProps = {
+  options: {},
+  optionTintColor: Color.optionTintColor,
+  icon: undefined,
+  onPressActionButton: undefined,
+  containerStyle: {},
+  iconTextStyle: {},
+  wrapperStyle: {},
 }
 
 const styles = StyleSheet.create({

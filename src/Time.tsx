@@ -1,12 +1,10 @@
-import { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import type { ViewStyle, TextStyle } from 'react-native'
 import dayjs from 'dayjs'
-
 import Color from './Color'
-import { TIME_FORMAT } from './Constant'
-import { LeftRightStyle, IMessage } from './Models'
-import { StylePropType } from './utils'
+import { TIME_FORMAT, TIME_DEFAULT_POSITION } from './Constant'
+import type { LeftRightStyle, IMessage } from './Models'
+import { useChatContext } from './EasyChatContext'
 
 const containerDefaultStyle = {
   marginLeft: 10,
@@ -21,79 +19,53 @@ const textStyle = {
 }
 
 export interface TimeProps<TMessage extends IMessage> {
-  position: 'left' | 'right'
-  currentMessage?: TMessage
+  position?: 'left' | 'right'
+  currentMessage: TMessage
   containerStyle?: LeftRightStyle<ViewStyle>
   timeTextStyle?: LeftRightStyle<TextStyle>
   timeFormat?: string
 }
 
-class Time<TMessage extends IMessage = IMessage> extends PureComponent<
-  TimeProps<TMessage>
-> {
-  static contextTypes = {
-    getLocale: PropTypes.func,
-  }
+const Time = <TMessage extends IMessage = IMessage>({
+  position: positionProp,
+  containerStyle,
+  currentMessage,
+  timeFormat,
+  timeTextStyle,
+}: TimeProps<TMessage>) => {
+  const { getLocale } = useChatContext()
+  const position = positionProp || TIME_DEFAULT_POSITION
 
-  static defaultProps = {
-    position: 'left',
-    currentMessage: {
-      createdAt: null,
-    },
-    containerStyle: {},
-    timeFormat: TIME_FORMAT,
-    timeTextStyle: {},
-  }
-
-  static propTypes = {
-    position: PropTypes.oneOf(['left', 'right']),
-    currentMessage: PropTypes.object,
-    containerStyle: PropTypes.shape({
-      left: StylePropType,
-      right: StylePropType,
-    }),
-    timeFormat: PropTypes.string,
-    timeTextStyle: PropTypes.shape({
-      left: StylePropType,
-      right: StylePropType,
-    }),
-  }
-
-  render() {
-    const { getLocale } = this.context
-    const {
-      position,
-      containerStyle,
-      currentMessage,
-      timeFormat,
-      timeTextStyle,
-    } = this.props
-
-    if (currentMessage) {
-      return (
-        <View
-          style={[
-            styles[position].container,
-            containerStyle && containerStyle[position],
-          ]}
-        >
-          <Text
-            style={
-              [
-                styles[position].text,
-                timeTextStyle && timeTextStyle[position],
-              ] as TextStyle
-            }
-          >
-            {dayjs(currentMessage.createdAt)
-              .locale(getLocale())
-              .format(timeFormat)}
-          </Text>
-        </View>
-      )
-    }
+  if (currentMessage == null) {
     return null
   }
+
+  return (
+    <View
+      style={[
+        styles[position].container,
+        containerStyle && containerStyle[position],
+      ]}
+    >
+      <Text
+        style={
+          [
+            styles[position].text,
+            timeTextStyle && timeTextStyle[position],
+          ] as TextStyle
+        }
+      >
+        {dayjs(currentMessage.createdAt).locale(getLocale()).format(timeFormat)}
+      </Text>
+    </View>
+  )
+}
+
+Time.defaultProps = {
+  position: TIME_DEFAULT_POSITION,
+  containerStyle: undefined,
+  timeFormat: TIME_FORMAT,
+  timeTextStyle: undefined,
 }
 
 const styles = {

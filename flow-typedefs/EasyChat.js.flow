@@ -97,6 +97,8 @@ export type EasyChatProps<TMessage: IMessage = IMessage> = $ReadOnly<{|
   renderBubble?: (BubbleProps<TMessage>) => React.Node,
   renderSystemMessage?: (SystemMessageProps<TMessage>) => React.Node,
   onLongPress?: (context: any, message: any) => void,
+  onPress?: (context: any, message: TMessage) => void,
+  onLongPress?: (context: any, message: TMessage) => void,
   renderMessage?: (MessageProps<TMessage>) => React.Node,
   renderMessageText?: (MessageTextProps<TMessage>) => React.Node,
   renderMessageImage?: (MessageImageProps<TMessage>) => React.Node,

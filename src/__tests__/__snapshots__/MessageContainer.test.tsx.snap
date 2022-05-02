@@ -20,7 +20,6 @@ exports[`should render <MessageContainer /> and compare with snapshot 1`] = `
       }
     }
     data={Array []}
-    disableVirtualization={false}
     enableEmptySections={true}
     extraData={
       Array [
@@ -30,17 +29,14 @@ exports[`should render <MessageContainer /> and compare with snapshot 1`] = `
     }
     getItem={[Function]}
     getItemCount={[Function]}
-    horizontal={false}
-    initialNumToRender={10}
     invertStickyHeaders={true}
     inverted={true}
     keyExtractor={[Function]}
-    maxToRenderPerBatch={10}
-    numColumns={1}
     onContentSizeChange={[Function]}
     onEndReached={[Function]}
     onEndReachedThreshold={0.1}
     onLayout={[Function]}
+    onMomentumScrollBegin={[Function]}
     onMomentumScrollEnd={[Function]}
     onScroll={[Function]}
     onScrollBeginDrag={[Function]}
@@ -63,9 +59,7 @@ exports[`should render <MessageContainer /> and compare with snapshot 1`] = `
         },
       ]
     }
-    updateCellsBatchingPeriod={50}
     viewabilityConfigCallbackPairs={Array []}
-    windowSize={21}
   >
     <View>
       <View
@@ -81,6 +75,7 @@ exports[`should render <MessageContainer /> and compare with snapshot 1`] = `
         }
       >
         <View
+          collapsable={false}
           style={
             Object {
               "backgroundColor": "#f0f0f0",

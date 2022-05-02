@@ -1,4 +1,4 @@
-import { isSameDay, isSameUser } from '../utils'
+import { isSameDay, isSameUser } from '../utils/utils'
 
 it('should test if same day', () => {
   const now = new Date()

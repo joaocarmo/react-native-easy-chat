@@ -4,14 +4,13 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import {
   Text,
-  Clipboard,
   StyleSheet,
   TouchableOpacity,
   View,
   ViewPropTypes,
   Platform,
 } from 'react-native'
-
+import * as Clipboard from 'expo-clipboard'
 import { MessageText, MessageImage, Time, utils } from 'react-native-easy-chat'
 
 const { isSameUser, isSameDay } = utils

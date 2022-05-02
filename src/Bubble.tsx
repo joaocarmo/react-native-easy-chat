@@ -1,28 +1,23 @@
 import { Component } from 'react'
 import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Text,
-  Clipboard,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
-} from 'react-native'
-
+import { Text, StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
+import type { StyleProp, ViewStyle, TextStyle } from 'react-native'
+import * as Clipboard from 'expo-clipboard'
+import { EasyChatContext } from './EasyChatContext'
 import QuickReplies from './QuickReplies'
-
+import type { QuickRepliesProps } from './QuickReplies'
 import MessageText from './MessageText'
+import type { MessageTextProps } from './MessageText'
 import MessageImage from './MessageImage'
+import type { MessageImageProps } from './MessageImage'
 import MessageVideo from './MessageVideo'
 import MessageAudio from './MessageAudio'
-
 import Time from './Time'
+import type { TimeProps } from './Time'
 import Color from './Color'
 
-import { StylePropType, isSameUser, isSameDay } from './utils'
+import { StylePropType, isSameUser, isSameDay } from './utils/utils'
 import {
   User,
   IMessage,
@@ -44,7 +39,7 @@ export type RenderMessageImageProps<TMessage extends IMessage> = Omit<
   BubbleProps<TMessage>,
   'containerStyle' | 'wrapperStyle'
 > &
-  MessageImage['props']
+  MessageImageProps<TMessage>
 
 export type RenderMessageVideoProps<TMessage extends IMessage> = Omit<
   BubbleProps<TMessage>,
@@ -62,7 +57,7 @@ export type RenderMessageTextProps<TMessage extends IMessage> = Omit<
   BubbleProps<TMessage>,
   'containerStyle' | 'wrapperStyle'
 > &
-  MessageText['props']
+  MessageTextProps<TMessage>
 
 export interface BubbleProps<TMessage extends IMessage> {
   user?: User
@@ -84,6 +79,7 @@ export interface BubbleProps<TMessage extends IMessage> {
   containerToPreviousStyle?: LeftRightStyle<ViewStyle>
   usernameStyle?: TextStyle
   quickReplyStyle?: StyleProp<ViewStyle>
+  quickReplyTextStyle?: StyleProp<TextStyle>
   onPress?(context?: any, message?: any): void
   onLongPress?(context?: any, message?: any): void
   onQuickReply?(replies: Reply[]): void
@@ -92,24 +88,23 @@ export interface BubbleProps<TMessage extends IMessage> {
   renderMessageAudio?(props: RenderMessageAudioProps<TMessage>): ReactNode
   renderMessageText?(props: RenderMessageTextProps<TMessage>): ReactNode
   renderCustomView?(bubbleProps: BubbleProps<TMessage>): ReactNode
-  renderTime?(timeProps: Time['props']): ReactNode
+  renderTime?(timeProps: TimeProps<TMessage>): ReactNode
   renderTicks?(currentMessage: TMessage): ReactNode
   renderUsername?(): ReactNode
   renderQuickReplySend?(): ReactNode
-  renderQuickReplies?(quickReplies: QuickReplies['props']): ReactNode
+  renderQuickReplies?(quickReplies: QuickRepliesProps): ReactNode
 }
 
 class Bubble<TMessage extends IMessage = IMessage> extends Component<
   BubbleProps<TMessage>
 > {
-  static contextTypes = {
-    actionSheet: PropTypes.func,
-  }
+  static contextType = EasyChatContext
 
   static defaultProps = {
     inverted: false,
     textStyle: undefined,
     quickReplyStyle: undefined,
+    quickReplyTextStyle: undefined,
     renderQuickReplySend: undefined,
     isCustomViewBottom: false,
     renderUsernameOnMessage: false,
@@ -280,6 +275,7 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
       nextMessage,
       renderQuickReplySend,
       quickReplyStyle,
+      quickReplyTextStyle,
     } = this.props
 
     if (currentMessage && currentMessage.quickReplies) {
@@ -293,7 +289,7 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
       } = this.props
 
       if (typeof renderQuickReplies === 'function') {
-        return renderQuickReplies(quickReplyProps)
+        return renderQuickReplies({ currentMessage, ...quickReplyProps })
       }
 
       return (
@@ -304,6 +300,7 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
             nextMessage,
             renderQuickReplySend,
             quickReplyStyle,
+            quickReplyTextStyle,
           }}
         />
       )
@@ -466,10 +463,10 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
       } = this.props
 
       if (typeof renderTime === 'function') {
-        return renderTime(timeProps)
+        return renderTime({ currentMessage, ...timeProps })
       }
 
-      return <Time {...timeProps} />
+      return <Time currentMessage={currentMessage} {...timeProps} />
     }
 
     return null
@@ -516,19 +513,23 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
 
     return isCustomViewBottom ? (
       <View>
-        {this.renderMessageImage()}
-        {this.renderMessageVideo()}
-        {this.renderMessageAudio()}
-        {this.renderMessageText()}
-        {this.renderCustomView()}
+        <>
+          {this.renderMessageImage()}
+          {this.renderMessageVideo()}
+          {this.renderMessageAudio()}
+          {this.renderMessageText()}
+          {this.renderCustomView()}
+        </>
       </View>
     ) : (
       <View>
-        {this.renderCustomView()}
-        {this.renderMessageImage()}
-        {this.renderMessageVideo()}
-        {this.renderMessageAudio()}
-        {this.renderMessageText()}
+        <>
+          {this.renderCustomView()}
+          {this.renderMessageImage()}
+          {this.renderMessageVideo()}
+          {this.renderMessageAudio()}
+          {this.renderMessageText()}
+        </>
       </View>
     )
   }
@@ -549,36 +550,39 @@ class Bubble<TMessage extends IMessage = IMessage> extends Component<
           containerStyle && containerStyle[position],
         ]}
       >
-        <View
-          style={[
-            styles[position].wrapper,
-            this.styledBubbleToNext(),
-            this.styledBubbleToPrevious(),
-            wrapperStyle && wrapperStyle[position],
-          ]}
-        >
-          <TouchableWithoutFeedback
-            onPress={this.onPress}
-            onLongPress={this.onLongPress}
-            accessibilityTraits="text"
-            {...touchableProps}
+        <>
+          <View
+            style={[
+              styles[position].wrapper,
+              this.styledBubbleToNext(),
+              this.styledBubbleToPrevious(),
+              wrapperStyle && wrapperStyle[position],
+            ]}
           >
-            <View>
-              {this.renderBubbleContent()}
-              <View
-                style={[
-                  styles[position].bottom,
-                  bottomContainerStyle && bottomContainerStyle[position],
-                ]}
-              >
-                {this.renderUsername()}
-                {this.renderTime()}
-                {this.renderTicks()}
+            <TouchableWithoutFeedback
+              onPress={this.onPress}
+              onLongPress={this.onLongPress}
+              {...touchableProps}
+            >
+              <View>
+                {this.renderBubbleContent()}
+                <View
+                  style={[
+                    styles[position].bottom,
+                    bottomContainerStyle && bottomContainerStyle[position],
+                  ]}
+                >
+                  <>
+                    {this.renderUsername()}
+                    {this.renderTime()}
+                    {this.renderTicks()}
+                  </>
+                </View>
               </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-        {this.renderQuickReplies()}
+            </TouchableWithoutFeedback>
+          </View>
+          {this.renderQuickReplies()}
+        </>
       </View>
     )
   }

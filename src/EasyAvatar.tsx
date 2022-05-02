@@ -1,19 +1,15 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  StyleProp,
+import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import type {
+  GestureResponderEvent,
   ImageStyle,
+  StyleProp,
   TextStyle,
 } from 'react-native'
-import type { GestureResponderEvent } from 'react-native'
 import Color from './Color'
-import { User } from './Models'
-import { StylePropType } from './utils'
+import type { User } from './Models'
+import { StylePropType } from './utils/utils'
 
 const {
   carrot,
@@ -135,7 +131,6 @@ class EasyAvatar extends Component<EasyAvatarProps> {
       return (
         <View
           style={[styles.avatarStyle, styles.avatarTransparent, avatarStyle]}
-          accessibilityTraits="image"
         />
       )
     }
@@ -146,7 +141,6 @@ class EasyAvatar extends Component<EasyAvatarProps> {
           disabled={!onPress}
           onPress={onPress}
           onLongPress={onLongPress}
-          accessibilityTraits="image"
         >
           {this.renderAvatar()}
         </TouchableOpacity>
@@ -165,7 +159,6 @@ class EasyAvatar extends Component<EasyAvatarProps> {
           { backgroundColor: this.avatarColor },
           avatarStyle,
         ]}
-        accessibilityTraits="image"
       >
         {this.renderInitials()}
       </TouchableOpacity>

@@ -11,6 +11,7 @@
 .eslintrc.js
 .prettierignore
 .prettierrc.json
+example/
 example-expo/
 example-easy-chat/
 example-slack-message/
@@ -21,7 +22,6 @@ src/
 tests/
 web-build/
 app.json
-App.tsx
 babel.config.js
 jest.config.js
 jest.setup.js

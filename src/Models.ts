@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
+import type { LightboxProps } from 'react-native-lightbox-v2'
 
 export { ActionsProps } from './Actions'
 export { AvatarProps } from './Avatar'
@@ -30,7 +30,9 @@ export interface LeftRightStyle<T> {
   left?: StyleProp<T>
   right?: StyleProp<T>
 }
-type renderFunction = (args: unknown) => ReactNode
+
+type renderFunction = (...args: any[]) => JSX.Element
+
 export interface User {
   _id: string | number
   name?: string
@@ -71,8 +73,7 @@ export interface MessageVideoProps<TMessage extends IMessage> {
   containerStyle?: StyleProp<ViewStyle>
   videoStyle?: StyleProp<ViewStyle>
   videoProps?: object
-  // TODO: should be LightBox properties
-  lightboxProps?: object
+  lightboxProps?: LightboxProps
 }
 
 export interface MessageAudioProps<TMessage extends IMessage> {

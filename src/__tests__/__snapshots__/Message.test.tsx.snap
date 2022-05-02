@@ -33,7 +33,7 @@ exports[`Message component should render <Message /> and compare with snapshot 1
           ]
         }
       >
-        Apr 8, 2019
+        Apr 17, 2022
       </Text>
     </View>
   </View>
@@ -180,7 +180,7 @@ exports[`Message component should render <Message /> and compare with snapshot 1
                   ]
                 }
               >
-                7:20 PM
+                12:00 AM
               </Text>
             </View>
           </View>
@@ -222,7 +222,7 @@ exports[`Message component should render <Message /> with Avatar 1`] = `
           ]
         }
       >
-        Apr 8, 2019
+        Apr 17, 2022
       </Text>
     </View>
   </View>
@@ -256,7 +256,6 @@ exports[`Message component should render <Message /> with Avatar 1`] = `
       }
     >
       <View
-        accessibilityTraits="image"
         style={
           Array [
             Object {
@@ -406,7 +405,7 @@ exports[`Message component should render <Message /> with Avatar 1`] = `
                   ]
                 }
               >
-                7:20 PM
+                12:00 AM
               </Text>
             </View>
           </View>
@@ -448,7 +447,7 @@ exports[`Message component should render null if user has no Avatar 1`] = `
           ]
         }
       >
-        Apr 8, 2019
+        Apr 17, 2022
       </Text>
     </View>
   </View>
@@ -470,6 +469,42 @@ exports[`Message component should render null if user has no Avatar 1`] = `
       ]
     }
   >
+    <View
+      style={
+        Array [
+          Object {
+            "marginRight": 8,
+          },
+          Object {},
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "borderRadius": 20,
+              "height": 40,
+              "justifyContent": "center",
+              "width": 40,
+            },
+            Object {
+              "backgroundColor": "transparent",
+            },
+            Array [
+              Object {
+                "borderRadius": 18,
+                "height": 36,
+                "width": 36,
+              },
+              undefined,
+            ],
+          ]
+        }
+      />
+    </View>
     <View
       style={
         Array [
@@ -595,7 +630,7 @@ exports[`Message component should render null if user has no Avatar 1`] = `
                   ]
                 }
               >
-                7:20 PM
+                12:00 AM
               </Text>
             </View>
           </View>

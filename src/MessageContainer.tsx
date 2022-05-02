@@ -16,12 +16,13 @@ import {
   ViewStyle,
   Platform,
 } from 'react-native'
-
 import LoadEarlier from './LoadEarlier'
+import type { LoadEarlierProps } from './LoadEarlier'
 import Message from './Message'
 import Color from './Color'
 import { User, IMessage, Reply } from './Models'
-import { warning, StylePropType } from './utils'
+import { StylePropType } from './utils/utils'
+import { warning } from './utils/logging'
 import TypingIndicator from './TypingIndicator'
 
 export interface MessageContainerProps<TMessage extends IMessage> {
@@ -41,7 +42,7 @@ export interface MessageContainerProps<TMessage extends IMessage> {
   renderChatEmpty?(): ReactNode
   renderFooter?(props: MessageContainerProps<TMessage>): ReactNode
   renderMessage?(props: Message['props']): ReactNode
-  renderLoadEarlier?(props: LoadEarlier['props']): ReactNode
+  renderLoadEarlier?(props: LoadEarlierProps): ReactNode
   scrollToBottomComponent?(): ReactNode
   onLoadEarlier?(): void
   onQuickReply?(replies: Reply[]): void
@@ -276,13 +277,15 @@ class MessageContainer<
   }
 
   renderChatEmpty = () => {
-    const { inverted, renderChatEmpty } = this.props
+    const { inverted, renderChatEmpty: renderChatEmptyProp } = this.props
 
-    if (typeof renderChatEmpty === 'function') {
+    if (typeof renderChatEmptyProp === 'function') {
       return inverted ? (
-        renderChatEmpty()
+        renderChatEmptyProp()
       ) : (
-        <View style={styles.emptyChatContainer}>{renderChatEmpty()}</View>
+        <View style={styles.emptyChatContainer}>
+          <>{renderChatEmptyProp()}</>
+        </View>
       )
     }
 
@@ -290,7 +293,9 @@ class MessageContainer<
   }
 
   renderHeaderWrapper = () => (
-    <View style={styles.headerWrapper}>{this.renderLoadEarlier()}</View>
+    <View style={styles.headerWrapper}>
+      <>{this.renderLoadEarlier()}</>
+    </View>
   )
 
   renderScrollBottomComponent() {
@@ -314,7 +319,7 @@ class MessageContainer<
           onPress={() => this.scrollToBottom()}
           hitSlop={{ top: 5, left: 5, right: 5, bottom: 5 }}
         >
-          {this.renderScrollBottomComponent()}
+          <>{this.renderScrollBottomComponent()}</>
         </TouchableOpacity>
       </View>
     )

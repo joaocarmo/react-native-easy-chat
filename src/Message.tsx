@@ -1,18 +1,20 @@
 import { Component } from 'react'
 import type { ReactNode } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, ViewStyle, LayoutChangeEvent } from 'react-native'
-
+import { View, StyleSheet } from 'react-native'
+import type { ViewStyle, LayoutChangeEvent } from 'react-native'
 import Avatar from './Avatar'
+import type { AvatarProps } from './Avatar'
 import Bubble from './Bubble'
 import SystemMessage from './SystemMessage'
+import type { SystemMessageProps } from './SystemMessage'
 import Day from './Day'
-
-import { StylePropType, isSameUser } from './utils'
-import { IMessage, User, LeftRightStyle } from './Models'
+import type { DayProps } from './Day'
+import { StylePropType, isSameUser } from './utils/utils'
+import type { IMessage, User, LeftRightStyle } from './Models'
 
 export interface MessageProps<TMessage extends IMessage> {
-  key: any
+  key: string | number
   showUserAvatar?: boolean
   position: 'left' | 'right'
   currentMessage?: TMessage
@@ -22,9 +24,9 @@ export interface MessageProps<TMessage extends IMessage> {
   inverted?: boolean
   containerStyle?: LeftRightStyle<ViewStyle>
   renderBubble?(props: Bubble['props']): ReactNode
-  renderDay?(props: Day['props']): ReactNode
-  renderSystemMessage?(props: SystemMessage['props']): ReactNode
-  renderAvatar?(props: Avatar['props']): ReactNode
+  renderDay?(props: DayProps<TMessage>): ReactNode
+  renderSystemMessage?(props: SystemMessageProps<TMessage>): ReactNode
+  renderAvatar?(props: AvatarProps<TMessage>): ReactNode
   shouldUpdateMessage?(
     props: MessageProps<IMessage>,
     nextProps: MessageProps<IMessage>,
@@ -184,23 +186,27 @@ class Message<TMessage extends IMessage = IMessage> extends Component<
 
       return (
         <View onLayout={onMessageLayout}>
-          {this.renderDay()}
-          {currentMessage.system ? (
-            this.renderSystemMessage()
-          ) : (
-            <View
-              style={[
-                styles[position].container,
-                sameUserStyle,
-                invertedStyle,
-                containerStyle && containerStyle[position],
-              ]}
-            >
-              {position === 'left' ? this.renderAvatar() : null}
-              {this.renderBubble()}
-              {position === 'right' ? this.renderAvatar() : null}
-            </View>
-          )}
+          <>
+            {this.renderDay()}
+            {currentMessage.system ? (
+              this.renderSystemMessage()
+            ) : (
+              <View
+                style={[
+                  styles[position].container,
+                  sameUserStyle,
+                  invertedStyle,
+                  containerStyle && containerStyle[position],
+                ]}
+              >
+                <>
+                  {position === 'left' ? this.renderAvatar() : null}
+                  {this.renderBubble()}
+                  {position === 'right' ? this.renderAvatar() : null}
+                </>
+              </View>
+            )}
+          </>
         </View>
       )
     }

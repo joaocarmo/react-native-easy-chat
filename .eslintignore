@@ -9,6 +9,7 @@ lib
 
 # examples
 example-*
+example/
 
 # expo
 App.tsx

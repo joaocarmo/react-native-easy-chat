@@ -6,40 +6,56 @@ import {
   Platform,
   StyleSheet,
   View,
-  StyleProp,
-  ViewStyle,
-  SafeAreaView,
   FlatList,
-  TextStyle,
   KeyboardAvoidingView,
 } from 'react-native'
-import type { LayoutChangeEvent, KeyboardEvent } from 'react-native'
+import type {
+  KeyboardEvent,
+  LayoutChangeEvent,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+} from 'react-native'
 import {
   ActionSheetProvider,
   ActionSheetOptions,
 } from '@expo/react-native-action-sheet'
-import uuid from 'uuid'
-import { getBottomSpace } from 'react-native-iphone-x-helper'
+import { v4 as uuid } from 'uuid'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import type { ParseShape } from 'react-native-parsed-text'
-
-import * as utils from './utils'
+import type { LightboxProps } from 'react-native-lightbox-v2'
+import * as utils from './utils/utils'
 import Actions from './Actions'
+import type { ActionsProps } from './Actions'
 import Avatar from './Avatar'
+import type { AvatarProps } from './Avatar'
 import Bubble from './Bubble'
 import SystemMessage from './SystemMessage'
+import type { SystemMessageProps } from './SystemMessage'
 import MessageImage from './MessageImage'
+import type { MessageImageProps } from './MessageImage'
 import MessageText from './MessageText'
+import type { MessageTextProps } from './MessageText'
 import Composer from './Composer'
+import type { ComposerProps } from './Composer'
 import Day from './Day'
+import type { DayProps } from './Day'
 import InputToolbar from './InputToolbar'
+import type { InputToolbarProps } from './InputToolbar'
 import LoadEarlier from './LoadEarlier'
+import type { LoadEarlierProps } from './LoadEarlier'
 import Message from './Message'
 import MessageContainer from './MessageContainer'
 import Send from './Send'
+import type { SendProps } from './Send'
 import Time from './Time'
+import type { TimeProps } from './Time'
+import type { QuickRepliesProps } from './QuickReplies'
 import EasyAvatar from './EasyAvatar'
+import { EasyChatContext } from './EasyChatContext'
+import type { IEasyChatContext } from './EasyChatContext'
 
 import {
   DATE_FORMAT,
@@ -49,7 +65,7 @@ import {
   MIN_COMPOSER_HEIGHT,
   TIME_FORMAT,
 } from './Constant'
-import {
+import type {
   IMessage,
   User,
   Reply,
@@ -57,12 +73,11 @@ import {
   MessageVideoProps,
   MessageAudioProps,
 } from './Models'
-import QuickReplies from './QuickReplies'
 
 dayjs.extend(localizedFormat)
 
 const safeAreaSupport = (bottomOffset?: number) => {
-  return bottomOffset != null ? bottomOffset : getBottomSpace()
+  return bottomOffset != null ? bottomOffset : 1
 }
 
 export interface EasyChatProps<TMessage extends IMessage = IMessage> {
@@ -111,7 +126,7 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   /* Extra props to be passed to the <Image> component created by the default renderMessageImage */
   imageProps?: Message<TMessage>['props']
   /* Extra props to be passed to the MessageImage's Lightbox */
-  lightboxProps?: any
+  lightboxProps?: LightboxProps
   /* Distance of the chat from the bottom of the screen (e.g. useful if you display a tab bar) */
   bottomOffset?: number
   /* Minimum height of the input toolbar; default is 44 */
@@ -139,6 +154,7 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   options?: Record<string, any>
   optionTintColor?: string
   quickReplyStyle?: StyleProp<ViewStyle>
+  quickReplyTextStyle?: StyleProp<TextStyle>
   /* optional prop used to place customView below text, image and video views; default is false */
   isCustomViewBottom?: boolean
   /* infinite scroll up when reach the top of messages container, automatically call onLoadEarlier function if exist */
@@ -164,22 +180,24 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   /*  Render a loading view when initializing */
   renderLoading?(): ReactNode
   /* Custom "Load earlier messages" button */
-  renderLoadEarlier?(props: LoadEarlier['props']): ReactNode
+  renderLoadEarlier?(props: LoadEarlierProps): ReactNode
   /* Custom message avatar; set to null to not render any avatar for the message */
-  renderAvatar?(props: Avatar<TMessage>['props']): ReactNode | null
+  renderAvatar?(props: AvatarProps<TMessage>): ReactNode | null
   /* Custom message bubble */
   renderBubble?(props: Bubble<TMessage>['props']): ReactNode
   /* Custom system message */
-  renderSystemMessage?(props: SystemMessage<TMessage>['props']): ReactNode
+  renderSystemMessage?(props: SystemMessageProps<TMessage>): ReactNode
+  /* Callback when a message bubble is pressed; default is to do nothing */
+  onPress?(context: any, message: TMessage): void
   /* Callback when a message bubble is long-pressed; default is to show an ActionSheet with "Copy Text" (see example using showActionSheetWithOptions()) */
-  onLongPress?(context: any, message: any): void
+  onLongPress?(context: any, message: TMessage): void
   /* Reverses display order of messages; default is true */
   /* Custom message container */
   renderMessage?(message: Message<TMessage>['props']): ReactNode
   /* Custom message text */
-  renderMessageText?(messageText: MessageText<TMessage>['props']): ReactNode
+  renderMessageText?(messageText: MessageTextProps<TMessage>): ReactNode
   /* Custom message image */
-  renderMessageImage?(props: MessageImage<TMessage>['props']): ReactNode
+  renderMessageImage?(props: MessageImageProps<TMessage>): ReactNode
   /* Custom message video */
   renderMessageVideo?(props: MessageVideoProps<TMessage>): ReactNode
   /* Custom message video */
@@ -187,9 +205,9 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   /* Custom view inside the bubble */
   renderCustomView?(props: Bubble<TMessage>['props']): ReactNode
   /* Custom day above a message */
-  renderDay?(props: Day<TMessage>['props']): ReactNode
+  renderDay?(props: DayProps<TMessage>): ReactNode
   /* Custom time inside a message */
-  renderTime?(props: Time<TMessage>['props']): ReactNode
+  renderTime?(props: TimeProps<TMessage>): ReactNode
   /* Custom footer component on the ListView, e.g. 'User is typing...' */
   renderFooter?(): ReactNode
   /* Custom component to render in the ListView when messages are empty */
@@ -197,15 +215,15 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   /* Custom component to render below the MessageContainer (separate from the ListView) */
   renderChatFooter?(): ReactNode
   /* Custom message composer container */
-  renderInputToolbar?(props: InputToolbar['props']): ReactNode
+  renderInputToolbar?(props: InputToolbarProps<TMessage>): ReactNode
   /*  Custom text input message composer */
-  renderComposer?(props: Composer['props']): ReactNode
+  renderComposer?(props: ComposerProps): ReactNode
   /* Custom action button on the left of the message composer */
-  renderActions?(props: Actions['props']): ReactNode
+  renderActions?(props: ActionsProps): ReactNode
   /* Custom send button; you can pass children to the original Send component quite easily, for example to use a custom icon (example) */
-  renderSend?(props: Send['props']): ReactNode
+  renderSend?(props: SendProps<TMessage>): ReactNode
   /* Custom second line of actions below the message composer */
-  renderAccessory?(props: InputToolbar['props']): ReactNode
+  renderAccessory?(props: InputToolbarProps<TMessage>): ReactNode
   /* Callback when the Action button is pressed (if set, the default actionSheet will not be used) */
   onPressActionButton?(): void
   /* Callback when the input text changes */
@@ -213,7 +231,7 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   /* Custom parse patterns for react-native-parsed-text used to linking message content (like URLs and phone numbers) */
   parsePatterns?(linkStyle: TextStyle): ParseShape[]
   onQuickReply?(replies: Reply[]): void
-  renderQuickReplies?(quickReplies: QuickReplies['props']): ReactNode
+  renderQuickReplies?(quickReplies: QuickRepliesProps): ReactNode
   renderQuickReplySend?(): ReactNode
   /* Scroll to bottom custom component */
   scrollToBottomComponent?(): ReactNode
@@ -271,13 +289,14 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     locale: null,
     maxComposerHeight: MAX_COMPOSER_HEIGHT,
     maxInputLength: null,
-    messageIdGenerator: () => uuid.v4(),
+    messageIdGenerator: () => uuid(),
     messages: [],
     messagesContainerStyle: undefined,
     minComposerHeight: MIN_COMPOSER_HEIGHT,
     minInputToolbarHeight: DEFAULT_INPUT_TOOLBAR_HEIGHT,
     onInputTextChanged: null,
     onLoadEarlier: () => null,
+    onPress: null,
     onLongPress: null,
     onLongPressAvatar: null,
     onPressActionButton: null,
@@ -289,6 +308,7 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     parsePatterns: undefined,
     placeholder: DEFAULT_PLACEHOLDER,
     quickReplyStyle: undefined,
+    quickReplyTextStyle: undefined,
     renderAccessory: null,
     renderActions: null,
     renderAvatar: undefined,
@@ -442,7 +462,7 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
 
   invertibleScrollViewProps: any = undefined
 
-  _actionSheetRef: any = undefined
+  _actionSheetRef: RefObject<ActionSheetProvider> = createRef()
 
   _messageContainerRef?: RefObject<FlatList<IMessage>> = createRef()
 
@@ -476,7 +496,8 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     const { actionSheet } = this.props
 
     return {
-      actionSheet: actionSheet || (() => this._actionSheetRef.getContext()),
+      actionSheet:
+        actionSheet || (() => this._actionSheetRef.current?.getContext()),
       getLocale: this.getLocale,
     }
   }
@@ -930,14 +951,16 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
 
     const fragment = (
       <View style={viewStyle}>
-        <MessageContainer<TMessage>
-          {...messagesContainerProps}
-          invertibleScrollViewProps={this.invertibleScrollViewProps}
-          messages={this.getMessages()}
-          forwardRef={this._messageContainerRef}
-          isTyping={isTyping}
-        />
-        {this.renderChatFooter()}
+        <>
+          <MessageContainer<TMessage>
+            {...messagesContainerProps}
+            invertibleScrollViewProps={this.invertibleScrollViewProps}
+            messages={this.getMessages()}
+            forwardRef={this._messageContainerRef}
+            isTyping={isTyping}
+          />
+          {this.renderChatFooter()}
+        </>
       </View>
     )
 
@@ -1000,27 +1023,40 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
 
   render() {
     const { isInitialized } = this.state
+    const { actionSheet: actionSheetProp } = this.props
 
     if (isInitialized === true) {
       const { wrapInSafeArea } = this.props
       const Wrapper = wrapInSafeArea ? SafeAreaView : View
+      const actionSheet =
+        typeof actionSheetProp === 'function'
+          ? actionSheetProp
+          : () => this._actionSheetRef.current?.getContext()
+      const { getLocale } = this
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
+      const contextValue = {
+        actionSheet,
+        getLocale,
+      } as IEasyChatContext
 
       return (
-        <Wrapper style={styles.safeArea}>
-          <ActionSheetProvider
-            ref={(component: any) => (this._actionSheetRef = component)}
-          >
-            <View style={styles.container} onLayout={this.onMainViewLayout}>
-              {this.renderMessages()}
-              {this.renderInputToolbar()}
-            </View>
-          </ActionSheetProvider>
-        </Wrapper>
+        <EasyChatContext.Provider value={contextValue}>
+          <Wrapper style={styles.safeArea}>
+            <ActionSheetProvider ref={this._actionSheetRef}>
+              <View style={styles.container} onLayout={this.onMainViewLayout}>
+                <>
+                  {this.renderMessages()}
+                  {this.renderInputToolbar()}
+                </>
+              </View>
+            </ActionSheetProvider>
+          </Wrapper>
+        </EasyChatContext.Provider>
       )
     }
     return (
       <View style={styles.container} onLayout={this.onInitialLayoutViewLayout}>
-        {this.renderLoading()}
+        <>{this.renderLoading()}</>
       </View>
     )
   }

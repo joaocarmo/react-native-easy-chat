@@ -1,16 +1,7 @@
-import { PureComponent } from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-  StyleProp,
-  TextStyle,
-} from 'react-native'
-import PropTypes from 'prop-types'
+import { StyleSheet, Text, View } from 'react-native'
+import type { ViewStyle, StyleProp, TextStyle } from 'react-native'
 import Color from './Color'
-import { IMessage } from './Models'
-import { StylePropType } from './utils'
+import type { IMessage } from './Models'
 
 export interface SystemMessageProps<TMessage extends IMessage> {
   currentMessage?: TMessage
@@ -19,39 +10,32 @@ export interface SystemMessageProps<TMessage extends IMessage> {
   textStyle?: StyleProp<TextStyle>
 }
 
-class SystemMessage<TMessage extends IMessage = IMessage> extends PureComponent<
-  SystemMessageProps<TMessage>
-> {
-  static defaultProps = {
-    currentMessage: {
-      system: false,
-    },
-    containerStyle: {},
-    wrapperStyle: {},
-    textStyle: {},
-  }
-
-  static propTypes = {
-    currentMessage: PropTypes.object,
-    containerStyle: StylePropType,
-    wrapperStyle: StylePropType,
-    textStyle: StylePropType,
-  }
-
-  render() {
-    const { currentMessage, containerStyle, wrapperStyle, textStyle } =
-      this.props
-    if (currentMessage) {
-      return (
-        <View style={[styles.container, containerStyle]}>
-          <View style={wrapperStyle}>
-            <Text style={[styles.text, textStyle]}>{currentMessage.text}</Text>
-          </View>
-        </View>
-      )
-    }
+const SystemMessage = <TMessage extends IMessage = IMessage>({
+  currentMessage,
+  containerStyle,
+  wrapperStyle,
+  textStyle,
+}: SystemMessageProps<TMessage>) => {
+  if (currentMessage == null || currentMessage.system === false) {
     return null
   }
+
+  return (
+    <View style={[styles.container, containerStyle]}>
+      <View style={wrapperStyle}>
+        <Text style={[styles.text, textStyle]}>{currentMessage.text}</Text>
+      </View>
+    </View>
+  )
+}
+
+SystemMessage.defaultProps = {
+  currentMessage: {
+    system: false,
+  },
+  containerStyle: {},
+  wrapperStyle: {},
+  textStyle: {},
 }
 
 const styles = StyleSheet.create({
