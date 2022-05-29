@@ -1,7 +1,6 @@
 import { Linking, StyleSheet, View } from 'react-native'
 import type { TextProps, StyleProp, ViewStyle, TextStyle } from 'react-native'
 import ParsedTextAny from 'react-native-parsed-text'
-import Communications from 'react-native-communications'
 import type { ParseShape } from 'react-native-parsed-text'
 import type { LeftRightStyle, IMessage } from './Models'
 import { useChatContext } from './EasyChatContext'
@@ -37,7 +36,9 @@ export interface MessageTextProps<TMessage extends IMessage> {
 }
 
 const onEmailPress = (email: string) =>
-  Communications.email([email], null, null, null, null)
+  Linking.openURL(`mailto:${email}`).catch((e) =>
+    error(e, 'No handler for mailto'),
+  )
 
 const MessageText = <TMessage extends IMessage = IMessage>({
   currentMessage,
@@ -64,17 +65,14 @@ const MessageText = <TMessage extends IMessage = IMessage>({
   // }
 
   const onUrlPress = (url: string) => {
-    // When someone sends a message that includes a website address beginning with "www." (omitting the scheme),
-    // react-native-parsed-text recognizes it as a valid url, but Linking fails to open due to the missing scheme.
+    // When someone sends a message that includes a website address beginning
+    // with "www."(omitting the scheme), react-native-parsed-text recognizes it
+    // as a valid url, but Linking fails to open due to the missing scheme.
     if (WWW_URL_PATTERN.test(url)) {
       onUrlPress(`https://${url}`)
     } else {
-      Linking.canOpenURL(url).then((supported) => {
-        if (!supported) {
-          error('No handler for URL:', url)
-        } else {
-          Linking.openURL(url)
-        }
+      Linking.openURL(url).catch((e) => {
+        error(e, 'No handler for URL:', url)
       })
     }
   }
@@ -93,10 +91,14 @@ const MessageText = <TMessage extends IMessage = IMessage>({
       (buttonIndex: number) => {
         switch (buttonIndex) {
           case 0:
-            Communications.phonecall(phone, true)
+            Linking.openURL(`tel:${phone}`).catch((e) => {
+              error(e, 'No handler for telephone')
+            })
             break
           case 1:
-            Communications.text(phone)
+            Linking.openURL(`sms:${phone}`).catch((e) => {
+              error(e, 'No handler for text')
+            })
             break
           default:
             break

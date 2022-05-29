@@ -12,3 +12,5 @@ Exponent-*.app
 npm-debug.log
 TODO.md
 yarn-error.log
+
+*.tgz
