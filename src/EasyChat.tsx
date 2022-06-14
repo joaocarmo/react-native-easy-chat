@@ -20,7 +20,6 @@ import {
   ActionSheetProvider,
   ActionSheetOptions,
 } from '@expo/react-native-action-sheet'
-import { v4 as uuid } from 'uuid'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
@@ -289,7 +288,7 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     locale: null,
     maxComposerHeight: MAX_COMPOSER_HEIGHT,
     maxInputLength: null,
-    messageIdGenerator: () => uuid(),
+    messageIdGenerator: utils.messageIdGenerator,
     messages: [],
     messagesContainerStyle: undefined,
     minComposerHeight: MIN_COMPOSER_HEIGHT,
