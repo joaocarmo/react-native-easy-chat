@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
+import { v4 as uuid } from 'uuid'
 import type { IMessage } from '../Models'
 
 export const StylePropType = PropTypes.oneOfType([
@@ -37,3 +38,5 @@ export const isSameUser = (
     currentMessage.user &&
     diffMessage.user._id === currentMessage.user._id
   )
+
+export const messageIdGenerator = uuid

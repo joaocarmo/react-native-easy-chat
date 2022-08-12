@@ -20,7 +20,6 @@ import {
   ActionSheetProvider,
   ActionSheetOptions,
 } from '@expo/react-native-action-sheet'
-import { v4 as uuid } from 'uuid'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
@@ -231,7 +230,7 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   /* Custom parse patterns for react-native-parsed-text used to linking message content (like URLs and phone numbers) */
   parsePatterns?(linkStyle: TextStyle): ParseShape[]
   onQuickReply?(replies: Reply[]): void
-  renderQuickReplies?(quickReplies: QuickRepliesProps): ReactNode
+  renderQuickReplies?(quickReplies: QuickRepliesProps<TMessage>): ReactNode
   renderQuickReplySend?(): ReactNode
   /* Scroll to bottom custom component */
   scrollToBottomComponent?(): ReactNode
@@ -289,7 +288,7 @@ class EasyChat<TMessage extends IMessage = IMessage> extends Component<
     locale: null,
     maxComposerHeight: MAX_COMPOSER_HEIGHT,
     maxInputLength: null,
-    messageIdGenerator: () => uuid(),
+    messageIdGenerator: utils.messageIdGenerator,
     messages: [],
     messagesContainerStyle: undefined,
     minComposerHeight: MIN_COMPOSER_HEIGHT,

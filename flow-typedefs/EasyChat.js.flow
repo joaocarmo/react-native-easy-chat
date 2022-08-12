@@ -118,7 +118,7 @@ export type EasyChatProps<TMessage: IMessage = IMessage> = $ReadOnly<{|
   onInputTextChanged?: (text: string) => void,
   parsePatterns?: () => React.Node,
   onQuickReply?: (Array<Reply>) => void,
-  renderQuickReplies?: (QuickRepliesProps) => React.Node,
+  renderQuickReplies?: (QuickRepliesProps<TMessage>) => React.Node,
   renderQuickReplySend?: () => React.Node,
   shouldUpdateMessage?: (
     props: MessageProps<TMessage>,
