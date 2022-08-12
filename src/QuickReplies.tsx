@@ -7,9 +7,9 @@ import type { IMessage, Reply } from './Models'
 import Color from './Color'
 import { warning } from './utils/logging'
 
-export interface QuickRepliesProps {
-  nextMessage?: IMessage
-  currentMessage: IMessage
+export interface QuickRepliesProps<TMessage extends IMessage = IMessage> {
+  nextMessage?: TMessage
+  currentMessage?: TMessage
   color?: string
   sendText?: string
   quickReplyStyle?: StyleProp<ViewStyle>
@@ -37,7 +37,7 @@ const QuickReplies = ({
   onQuickReply,
   sendText = 'Send',
   renderQuickReplySend,
-}: QuickRepliesProps) => {
+}: QuickRepliesProps<IMessage>) => {
   const { type } = currentMessage!.quickReplies!
   const [replies, setReplies] = useState<Reply[]>([])
 
@@ -151,6 +151,7 @@ const QuickReplies = ({
 
 QuickReplies.defaultProps = {
   nextMessage: undefined,
+  currentMessage: undefined,
   onQuickReply: () => null,
   color: Color.peterRiver,
   sendText: 'Send',

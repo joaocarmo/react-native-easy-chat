@@ -230,7 +230,7 @@ export interface EasyChatProps<TMessage extends IMessage = IMessage> {
   /* Custom parse patterns for react-native-parsed-text used to linking message content (like URLs and phone numbers) */
   parsePatterns?(linkStyle: TextStyle): ParseShape[]
   onQuickReply?(replies: Reply[]): void
-  renderQuickReplies?(quickReplies: QuickRepliesProps): ReactNode
+  renderQuickReplies?(quickReplies: QuickRepliesProps<TMessage>): ReactNode
   renderQuickReplySend?(): ReactNode
   /* Scroll to bottom custom component */
   scrollToBottomComponent?(): ReactNode
